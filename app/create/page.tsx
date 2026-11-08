@@ -479,16 +479,31 @@ export default function CreateMangaStudioPage() {
                 </button>
               </div>
             ) : (
-              <div className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center">
+              <div className={`p-6 rounded-xl border text-center space-y-4 ${
+                generatedResult.status === 'ready'
+                  ? 'bg-emerald-500/10 border-emerald-500/30'
+                  : generatedResult.status === 'partially_ready'
+                  ? 'bg-amber-500/10 border-amber-500/30'
+                  : 'bg-manga-violet/10 border-manga-violet/30'
+              }`}>
+                <div className={`w-12 h-12 rounded-full mx-auto flex items-center justify-center ${
+                  generatedResult.status === 'ready'
+                    ? 'bg-emerald-500/20 text-emerald-400'
+                    : 'bg-manga-violet/20 text-manga-accent'
+                }`}>
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="font-heading font-bold text-lg text-text-primary">
-                    Chapter 01 Rendered & Ready for Reading!
+                    {generatedResult.status === 'ready'
+                      ? 'Chapter 01 Rendered & Ready for Reading!'
+                      : generatedResult.status === 'partially_ready'
+                      ? 'Chapter 01 Partially Rendered'
+                      : 'Chapter 01 Script & Storyboard Synthesized!'}
                   </h3>
                   <p className="text-xs text-text-secondary mt-1">
-                    {generatedResult.panels?.length || 3} manhwa panels rendered with decoupled speech balloons & concept markers.
+                    {generatedResult.completedPanels || 0} of {generatedResult.totalPanels || 3} panel artworks rendered.
+                    {generatedResult.status !== 'ready' && ' Script, dialogue balloons, and pedagogical anchors are ready for reading with in-reader retry.'}
                   </p>
                 </div>
                 <Link

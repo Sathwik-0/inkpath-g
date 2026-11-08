@@ -288,93 +288,218 @@ Format strictly as JSON:
   }
 }
 
-/**
- * Step 7: Generate Visual Asset for a Panel
- * Attempts Gemini image diffusion model if available with active billing,
- * or intelligently maps to authentic studio manhwa production assets matching the scene.
- */
-export async function runPanelImageGeneration(opts: {
-  apiKey: string;
-  scenePrompt: string;
-  characters: CharacterItem[];
-  genre: string;
+import { getServiceSupabase } from '@/lib/supabase/server';
+import { GenerationAuditRecord, CharacterReferenceAsset } from './types';
+
+export interface PanelGenerationOutput {
+  panelId: string;
+  chapterId: string;
   panelIndex: number;
-}): Promise<{ imageUrl: string; generatedViaAi: boolean }> {
-  const { apiKey, scenePrompt, characters, genre, panelIndex } = opts;
+  status: 'completed' | 'failed';
+  imageUrl: string | null;
+  storagePath: string | null;
+  audit: GenerationAuditRecord;
+}
 
-  // Build manhwa art prompt for Gemini
-  const characterDesc = characters.map(c => `${c.name} (${c.visualAttributes.hair}, ${c.visualAttributes.eyes}, wearing ${c.visualAttributes.outfit})`).join(' and ');
-  const fullPrompt = `Korean manhwa webtoon style, full color digital painting. Genre: ${genre}. Scene: ${scenePrompt}. Featuring: ${characterDesc}. Dramatic cinematic lighting, clean manhwa linework, vivid color grading, dynamic angle, no speech bubbles or text in image.`;
+/**
+ * Saves a validated generated panel image into Supabase Storage or private local storage.
+ */
+async function saveGeneratedPanelImage(opts: {
+  mangaId: string;
+  chapterId: string;
+  panelId: string;
+  imageBase64: string;
+  mimeType: string;
+}): Promise<{ publicUrl: string; storagePath: string }> {
+  const { mangaId, chapterId, panelId, imageBase64, mimeType } = opts;
+  const ext = mimeType.includes('png') ? 'png' : 'jpg';
+  const fileName = `${mangaId}/${chapterId}/${panelId}.${ext}`;
+  const buffer = Buffer.from(imageBase64, 'base64');
 
-  // Try Gemini Imagen if active with billing
+  // Try Supabase Storage first
   try {
-    const imageResult = await generateImageWithGemini({
-      apiKey,
-      prompt: fullPrompt,
-      aspectRatio: '9:16',
+    const supabase = getServiceSupabase();
+    const { data, error } = await supabase.storage.from('panels').upload(fileName, buffer, {
+      contentType: mimeType,
+      upsert: true,
     });
 
-    if (imageResult && imageResult.imageBase64) {
+    if (!error && data) {
+      const { data: pubData } = supabase.storage.from('panels').getPublicUrl(fileName);
       return {
-        imageUrl: `data:${imageResult.mimeType};base64,${imageResult.imageBase64}`,
-        generatedViaAi: true,
+        publicUrl: pubData.publicUrl,
+        storagePath: fileName,
       };
     }
   } catch (err: any) {
-    console.warn('Gemini image generation call bypassed:', err.message);
+    console.warn('Supabase storage upload bypassed:', err.message);
   }
 
-  // Authentic Korean Manhwa Webtoon Studio Asset Palette (Curated & Tailored by Scene Semantics)
-  const promptLower = (scenePrompt || '').toLowerCase();
-  
-  if (promptLower.includes('establishing') || promptLower.includes('panoramic') || promptLower.includes('city') || promptLower.includes('campus') || panelIndex === 1) {
-    const establishingAssets = [
-      '/assets/manhwa/establishing-neo-seoul.jpg',
-      '/assets/manhwa/holographic-academy.jpg',
-      '/assets/scenes/neo-seoul.png'
-    ];
-    return {
-      imageUrl: establishingAssets[(panelIndex - 1) % establishingAssets.length],
-      generatedViaAi: true,
-    };
-  }
-
-  if (promptLower.includes('action') || promptLower.includes('attack') || promptLower.includes('strike') || promptLower.includes('blast') || promptLower.includes('collapse') || promptLower.includes('barrier')) {
-    const combatAssets = [
-      '/assets/manhwa/action-quantum-core.jpg',
-      '/assets/manhwa/energy-blade-clash.jpg',
-      '/assets/manhwa/chapter-panel-2.jpg',
-      '/assets/panels/action-panel-1.png'
-    ];
-    return {
-      imageUrl: combatAssets[(panelIndex - 1) % combatAssets.length],
-      generatedViaAi: true,
-    };
-  }
-
-  if (promptLower.includes('close') || promptLower.includes('face') || promptLower.includes('scanner') || promptLower.includes('dialogue') || promptLower.includes('portrait')) {
-    const portraitAssets = [
-      '/assets/manhwa/jin-woo-close-up.jpg',
-      '/assets/manhwa/elena-han-portrait.jpg',
-      '/assets/manhwa/chapter-panel-3.jpg'
-    ];
-    return {
-      imageUrl: portraitAssets[(panelIndex - 1) % portraitAssets.length],
-      generatedViaAi: true,
-    };
-  }
-
-  // Aftermath / Corridor / Revelation
-  const atmosphericAssets = [
-    '/assets/manhwa/corridor-aftermath.jpg',
-    '/assets/manhwa/chapter-panel-4.jpg',
-    '/assets/manhwa/studio-panel-1.jpg',
-    '/assets/manhwa/studio-panel-2.jpg',
-    '/assets/manhwa/chapter-panel-1.jpg'
-  ];
+  // Fallback to local persistent storage: public/storage/panels/...
+  const localDir = path.join(process.cwd(), 'public', 'storage', 'panels', mangaId, chapterId);
+  fs.mkdirSync(localDir, { recursive: true });
+  const localFilePath = path.join(localDir, `${panelId}.${ext}`);
+  fs.writeFileSync(localFilePath, buffer);
 
   return {
-    imageUrl: atmosphericAssets[(panelIndex - 1) % atmosphericAssets.length],
-    generatedViaAi: true,
+    publicUrl: `/storage/panels/${mangaId}/${chapterId}/${panelId}.${ext}`,
+    storagePath: `local://panels/${mangaId}/${chapterId}/${panelId}.${ext}`,
+  };
+}
+
+/**
+ * Step 7: Generate Visual Asset for a Panel Independently
+ * - Calls Gemini image generation API for the specific panel scene prompt.
+ * - Uses character references strictly as visual conditioning (never published as panel).
+ * - Honest failure handling: if Gemini fails or quota is 0, records failure diagnostics with imageUrl: null.
+ * - Never returns pre-existing assets or external ad-supported fallbacks.
+ */
+export async function runPanelImageGeneration(opts: {
+  mangaId: string;
+  chapterId: string;
+  panelId: string;
+  panelIndex: number;
+  generationJobId: string;
+  scenePrompt: string;
+  characters: CharacterItem[];
+  characterReferences?: CharacterReferenceAsset[];
+  genre: string;
+  apiKey: string;
+  retryCount?: number;
+}): Promise<PanelGenerationOutput> {
+  const {
+    mangaId,
+    chapterId,
+    panelId,
+    panelIndex,
+    generationJobId,
+    scenePrompt,
+    characters,
+    characterReferences = [],
+    genre,
+    apiKey,
+    retryCount = 0,
+  } = opts;
+
+  const timestamp = new Date().toISOString();
+
+  // 1. Build prompt conditioning using character descriptions
+  const characterDesc = characters
+    .map(c => `${c.name} (${c.visualAttributes.hair}, ${c.visualAttributes.eyes}, wearing ${c.visualAttributes.outfit})`)
+    .join(' and ');
+
+  const fullPrompt = `Korean manhwa webtoon style, full color digital painting. Genre: ${genre}. Scene: ${scenePrompt}. Featuring characters: ${characterDesc || 'original character'}. Dramatic cinematic lighting, clean manhwa linework, dynamic perspective, no speech bubbles or text inside image.`;
+
+  // 2. Prepare reference image conditioning if present (never published as panel)
+  const referenceImagesForModel = characterReferences
+    .filter(ref => ref.base64)
+    .map(ref => ({
+      base64: ref.base64!,
+      mimeType: ref.mimeType || 'image/jpeg',
+      description: `Reference for character ${ref.characterName}`,
+    }));
+
+  const referenceAssetIds = characterReferences.map(r => r.id);
+
+  // 3. Call genuine Gemini image diffusion model
+  const imageResult = await generateImageWithGemini({
+    apiKey,
+    prompt: fullPrompt,
+    aspectRatio: '9:16',
+    referenceImages: referenceImagesForModel,
+  });
+
+  // 4. Honest failure handling: never disguise failures with stock images
+  if (!imageResult.success || !imageResult.imageBase64) {
+    return {
+      panelId,
+      chapterId,
+      panelIndex,
+      status: 'failed',
+      imageUrl: null,
+      storagePath: null,
+      audit: {
+        projectId: mangaId,
+        chapterId,
+        panelId,
+        generationJobId,
+        provider: 'gemini',
+        modelId: imageResult.modelUsed || 'gemini-2.5-flash-image',
+        promptVersion: 'v1.0',
+        referenceAssetIds,
+        generationStatus: 'failed',
+        retryCount,
+        storagePath: null,
+        errorCode: imageResult.errorCode || 'GENERATION_FAILED',
+        errorMessage: imageResult.errorMessage || 'Gemini image generation failed.',
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      },
+    };
+  }
+
+  // 5. Validate returned image data
+  const buffer = Buffer.from(imageResult.imageBase64, 'base64');
+  if (buffer.length < 1000) {
+    return {
+      panelId,
+      chapterId,
+      panelIndex,
+      status: 'failed',
+      imageUrl: null,
+      storagePath: null,
+      audit: {
+        projectId: mangaId,
+        chapterId,
+        panelId,
+        generationJobId,
+        provider: 'gemini',
+        modelId: imageResult.modelUsed,
+        promptVersion: 'v1.0',
+        referenceAssetIds,
+        generationStatus: 'failed',
+        retryCount,
+        storagePath: null,
+        errorCode: 'CORRUPTED_IMAGE_DATA',
+        errorMessage: 'Returned image buffer is empty or corrupted (< 1000 bytes).',
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      },
+    };
+  }
+
+  // 6. Save image to private storage and associate with exact chapter and panel
+  const stored = await saveGeneratedPanelImage({
+    mangaId,
+    chapterId,
+    panelId,
+    imageBase64: imageResult.imageBase64,
+    mimeType: imageResult.mimeType || 'image/png',
+  });
+
+  return {
+    panelId,
+    chapterId,
+    panelIndex,
+    status: 'completed',
+    imageUrl: stored.publicUrl,
+    storagePath: stored.storagePath,
+    audit: {
+      projectId: mangaId,
+      chapterId,
+      panelId,
+      generationJobId,
+      provider: 'gemini',
+      modelId: imageResult.modelUsed,
+      promptVersion: 'v1.0',
+      referenceAssetIds,
+      generationStatus: 'completed',
+      retryCount,
+      storagePath: stored.storagePath,
+      errorCode: null,
+      errorMessage: null,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    },
   };
 }

@@ -153,7 +153,7 @@ export const DEMO_PANELS: DemoPanel[] = [
     panelId: 'pnl-03',
     panelIndex: 3,
     aspectRatio: '9:16',
-    renderedImageUrl: '/assets/characters/elena-han.png',
+    renderedImageUrl: '/assets/panels/action-panel-1.png',
     scenePrompt: 'Dr. Elena Han monitoring holographic readouts, her optic scanner projecting differential equations.',
     balloons: [
       {

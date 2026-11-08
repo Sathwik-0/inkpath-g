@@ -24,27 +24,34 @@ export default function ReaderPage() {
         if (stored) {
           const parsed = JSON.parse(stored);
           
-          // Purge any stale pollinations or placeholder URLs from old generation sessions
-          const manhwaFallbackList = [
-            '/assets/manhwa/establishing-neo-seoul.jpg',
-            '/assets/manhwa/action-quantum-core.jpg',
-            '/assets/manhwa/jin-woo-close-up.jpg',
-            '/assets/manhwa/energy-blade-clash.jpg',
-            '/assets/manhwa/corridor-aftermath.jpg',
-            '/assets/manhwa/boss-quantum-abyss.jpg',
-            '/assets/manhwa/elena-han-portrait.jpg',
-            '/assets/manhwa/holographic-academy.jpg',
-          ];
-
+          // Audit and purge any fake, pollinations, or placeholder URLs
           if (parsed && Array.isArray(parsed.panels)) {
             parsed.panels = parsed.panels.map((p: any, idx: number) => {
               const raw = p.imageUrl || p.renderedImageUrl || '';
-              if (!raw || raw.includes('pollinations') || raw.includes('placeholder')) {
-                const cleanUrl = manhwaFallbackList[idx % manhwaFallbackList.length];
+              const isInvalid = !raw || raw.includes('pollinations') || raw.includes('placeholder') || raw.startsWith('/assets/manhwa/');
+              if (isInvalid && p.status !== 'generating') {
                 return {
                   ...p,
-                  imageUrl: cleanUrl,
-                  renderedImageUrl: cleanUrl,
+                  status: 'failed',
+                  imageUrl: null,
+                  renderedImageUrl: null,
+                  audit: p.audit || {
+                    projectId: mangaId,
+                    chapterId,
+                    panelId: p.panelId || p.id || `pnl-${idx + 1}`,
+                    generationJobId: 'cache-audit-purged',
+                    provider: 'gemini',
+                    modelId: 'gemini-2.5-flash-image',
+                    promptVersion: 'v1.0',
+                    referenceAssetIds: [],
+                    generationStatus: 'failed',
+                    retryCount: 0,
+                    storagePath: null,
+                    errorCode: 'IMAGE_QUOTA_EXCEEDED',
+                    errorMessage: 'Google AI Studio Free Tier has a quota limit of 0 requests/day for image models (gemini-2.5-flash-image). Link Google Cloud Billing (Pay-As-You-Go) to generate original panel artwork.',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  },
                 };
               }
               return p;

@@ -15,7 +15,10 @@ import {
   Move,
   ArrowRight,
   CheckCircle2,
-  Lock
+  Lock,
+  AlertTriangle,
+  RotateCcw,
+  Settings
 } from 'lucide-react';
 import { DemoPanel } from '@/lib/mock-data/quantum-hunter';
 
@@ -28,28 +31,6 @@ export interface ConceptAnnotation {
   academicAnchor: string;
   xPercent: number;
   yPercent: number;
-}
-
-const MANHWA_STUDIO_FALLBACKS = [
-  '/assets/manhwa/establishing-neo-seoul.jpg',
-  '/assets/manhwa/action-quantum-core.jpg',
-  '/assets/manhwa/jin-woo-close-up.jpg',
-  '/assets/manhwa/energy-blade-clash.jpg',
-  '/assets/manhwa/corridor-aftermath.jpg',
-  '/assets/manhwa/boss-quantum-abyss.jpg',
-  '/assets/manhwa/elena-han-portrait.jpg',
-  '/assets/manhwa/holographic-academy.jpg',
-];
-
-function resolveManhwaPanelImage(panel: any, idx: number): string {
-  const raw = panel?.renderedImageUrl || panel?.imageUrl;
-  if (!raw || typeof raw !== 'string') {
-    return MANHWA_STUDIO_FALLBACKS[idx % MANHWA_STUDIO_FALLBACKS.length];
-  }
-  if (raw.includes('pollinations') || raw.includes('placeholder')) {
-    return MANHWA_STUDIO_FALLBACKS[idx % MANHWA_STUDIO_FALLBACKS.length];
-  }
-  return raw;
 }
 
 export function WebtoonReader({
@@ -71,6 +52,13 @@ export function WebtoonReader({
   panels?: any[];
   freeChaptersLeft?: number;
 }) {
+  const [activePanels, setActivePanels] = useState<any[]>(panels);
+  const [retryingPanelId, setRetryingPanelId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActivePanels(panels);
+  }, [panels]);
+
   const [readingMode, setReadingMode] = useState<'vertical' | 'paged'>('vertical');
   const [currentPagedIndex, setCurrentPagedIndex] = useState(0);
   const [activeConcept, setActiveConcept] = useState<ConceptAnnotation | null>(null);
@@ -91,6 +79,52 @@ export function WebtoonReader({
     });
   };
 
+  const handleRetryPanel = async (panelId: string, idx: number) => {
+    setRetryingPanelId(panelId);
+    try {
+      const res = await fetch('/api/manga/panels/regenerate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mangaId,
+          chapterId,
+          panelId,
+          panelIndex: idx + 1,
+          scenePrompt: activePanels[idx]?.scenePrompt || '',
+          retryCount: activePanels[idx]?.audit?.retryCount || 0,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.panel) {
+        setActivePanels(prev => {
+          const next = [...prev];
+          next[idx] = {
+            ...next[idx],
+            status: data.panel.status,
+            imageUrl: data.panel.imageUrl,
+            storagePath: data.panel.storagePath,
+            audit: data.panel.audit,
+          };
+          // Persist updated status to session cache
+          try {
+            const stored = localStorage.getItem(`inkpath_chapter_${chapterId}`);
+            if (stored) {
+              const parsed = JSON.parse(stored);
+              parsed.panels = next;
+              localStorage.setItem(`inkpath_chapter_${chapterId}`, JSON.stringify(parsed));
+            }
+          } catch (ignore) {}
+          return next;
+        });
+      }
+    } catch (err) {
+      console.error('Failed to retry panel:', err);
+    } finally {
+      setRetryingPanelId(null);
+    }
+  };
+
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -100,6 +134,11 @@ export function WebtoonReader({
       setIsFullscreen(false);
     }
   };
+
+  const totalPanelsCount = activePanels.length;
+  const completedCount = activePanels.filter(p => p.status === 'completed' && p.imageUrl).length;
+  const isFullyCompleted = totalPanelsCount > 0 && completedCount === totalPanelsCount;
+  const isPartiallyReady = completedCount > 0 && completedCount < totalPanelsCount;
 
   // Keyboard navigation for paged mode
   useEffect(() => {
@@ -131,7 +170,22 @@ export function WebtoonReader({
             <ChevronLeft className="w-4 h-4" />
           </Link>
           <div className="truncate max-w-[200px] sm:max-w-md">
-            <h1 className="text-xs font-semibold text-text-primary truncate">{title}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xs font-semibold text-text-primary truncate">{title}</h1>
+              {isFullyCompleted ? (
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold shrink-0">
+                  ● Complete ({completedCount} Panels)
+                </span>
+              ) : isPartiallyReady ? (
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold shrink-0">
+                  ● Partially Ready ({completedCount}/{totalPanelsCount})
+                </span>
+              ) : (
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30 font-bold shrink-0">
+                  ● Generation Required
+                </span>
+              )}
+            </div>
             <p className="text-[10px] text-manga-accent truncate">{chapterTitle}</p>
           </div>
         </div>
@@ -195,48 +249,124 @@ export function WebtoonReader({
       >
         {readingMode === 'vertical' ? (
           // Continuous Vertical Webtoon Stack
-          <div className="flex flex-col space-y-1">
-            {panels.map((panel: any, idx: number) => {
-              const panelImg = resolveManhwaPanelImage(panel, idx);
+          <div className="flex flex-col space-y-2">
+            {activePanels.map((panel: any, idx: number) => {
               const panelKey = panel.panelId || panel.id || `panel-${idx}`;
               const balloons: any[] = panel.balloons || [];
               const conceptMarkers: any[] = panel.conceptMarkers || [];
+              const isCompleted = panel.status === 'completed' && Boolean(panel.imageUrl);
+              const isGenerating = panel.status === 'generating' || retryingPanelId === (panel.panelId || panel.id);
 
               return (
                 <div 
                   key={panelKey} 
-                  className="relative w-full bg-black overflow-hidden group shadow-2xl"
+                  className="relative w-full bg-black overflow-hidden group shadow-2xl rounded-lg"
                 >
-                  {/* Panel Image Container */}
-                  <div className="relative w-full aspect-[9/14] bg-[#0E0E14]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={panelImg}
-                      alt={panel.scenePrompt || 'Manhwa panel'}
-                      className="w-full h-full object-cover select-none filter contrast-105"
-                      loading={idx <= 1 ? 'eager' : 'lazy'}
-                      onError={(e) => {
-                        const target = e.currentTarget as HTMLImageElement;
-                        const fallback = MANHWA_STUDIO_FALLBACKS[idx % MANHWA_STUDIO_FALLBACKS.length];
-                        if (target.src !== fallback) {
-                          target.src = fallback;
-                        }
-                      }}
-                    />
+                  {isCompleted ? (
+                    /* Genuine Generated Panel Image */
+                    <div className="relative w-full aspect-[9/14] bg-[#0E0E14]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={panel.imageUrl}
+                        alt={panel.scenePrompt || 'Generated manhwa panel'}
+                        className="w-full h-full object-cover select-none filter contrast-105"
+                        loading={idx <= 1 ? 'eager' : 'lazy'}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/50 pointer-events-none" />
+                      <div 
+                        onClick={() => {
+                          if (conceptMarkers.length > 0) {
+                            setActiveConcept(conceptMarkers[0]);
+                          }
+                        }}
+                        className="absolute inset-0 bg-transparent cursor-pointer group-hover:bg-purple-900/10 transition-colors"
+                      />
+                    </div>
+                  ) : isGenerating ? (
+                    /* Live Inking Generation State */
+                    <div className="relative w-full aspect-[9/14] bg-[#0E0E14] border border-manga-violet/40 rounded-lg p-6 flex flex-col items-center justify-center space-y-4">
+                      <RefreshCw className="w-8 h-8 text-manga-violet animate-spin" />
+                      <div className="text-center space-y-1">
+                        <span className="text-xs font-mono text-manga-accent font-bold uppercase">
+                          Inking Panel #{idx + 1}
+                        </span>
+                        <p className="text-[11px] text-text-muted">
+                          Generating original scene artwork via Gemini...
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Honest Manga Panel Skeleton & Diagnostic Card */
+                    <div className="relative w-full aspect-[9/14] bg-[#0E0E14] border-2 border-dashed border-red-500/30 rounded-lg p-6 flex flex-col justify-between overflow-hidden">
+                      <div className="absolute inset-0 bg-[radial-gradient(#8B5CF6_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
+                      
+                      {/* Panel header & prompt */}
+                      <div className="relative z-10 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30 font-bold">
+                            Panel {idx + 1} • {panel.audit?.errorCode || 'Artwork Generation Required'}
+                          </span>
+                          <span className="text-[10px] font-mono text-text-muted">
+                            ID: {(panel.panelId || panel.id || `p-${idx}`).slice(0, 8)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-text-secondary italic line-clamp-3">
+                          &ldquo;{panel.scenePrompt}&rdquo;
+                        </p>
+                      </div>
 
-                    {/* Dark Cinematic Vignette & Gradient Overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/50 pointer-events-none" />
-                    
-                    {/* Hover Drawer Tap Zone Overlay */}
-                    <div 
-                      onClick={() => {
-                        if (conceptMarkers.length > 0) {
-                          setActiveConcept(conceptMarkers[0]);
-                        }
-                      }}
-                      className="absolute inset-0 bg-transparent cursor-pointer group-hover:bg-purple-900/10 transition-colors"
-                    />
-                  </div>
+                      {/* Diagnostic Card & Honest Action */}
+                      <div className="relative z-10 my-auto p-4 rounded-xl bg-background-card/95 border border-manga-border space-y-3">
+                        <div className="flex items-start gap-2.5">
+                          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                          <div className="space-y-1">
+                            <h4 className="text-xs font-semibold text-text-primary">
+                              {panel.audit?.errorCode === 'IMAGE_QUOTA_EXCEEDED'
+                                ? 'Google AI Studio Quota Limit (Free Tier)'
+                                : 'Image Generation Unfulfilled'}
+                            </h4>
+                            <p className="text-[11px] text-text-muted leading-relaxed">
+                              {panel.audit?.errorMessage ||
+                                'Google AI Studio Free Tier has a quota limit of 0 requests/day for image models (gemini-2.5-flash-image). Link Google Cloud Billing (Pay-As-You-Go) to generate original panel artwork.'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Actions: Retry only this panel without regenerating completed panels */}
+                        <div className="pt-2 flex flex-wrap gap-2">
+                          <button
+                            onClick={() => handleRetryPanel(panel.panelId || panel.id, idx)}
+                            disabled={retryingPanelId === (panel.panelId || panel.id)}
+                            className="px-3 py-1.5 rounded-lg bg-manga-violet hover:bg-manga-violet/90 disabled:opacity-50 text-white font-mono text-xs font-semibold flex items-center gap-1.5 shadow-glow-violet transition-all"
+                          >
+                            {retryingPanelId === (panel.panelId || panel.id) ? (
+                              <>
+                                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                <span>Generating Panel...</span>
+                              </>
+                            ) : (
+                              <>
+                                <RotateCcw className="w-3.5 h-3.5" />
+                                <span>Retry Panel #{idx + 1}</span>
+                              </>
+                            )}
+                          </button>
+                          <Link
+                            href="/settings/providers"
+                            className="px-3 py-1.5 rounded-lg bg-background-elevated hover:bg-white/10 border border-manga-border text-text-secondary text-xs font-mono flex items-center gap-1"
+                          >
+                            <Settings className="w-3.5 h-3.5" />
+                            <span>Billing Settings</span>
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* Footer */}
+                      <div className="relative z-10 text-[10px] font-mono text-text-muted/60">
+                        Manga Engine • Decoupled Script & Balloons Active Above
+                      </div>
+                    </div>
+                  )}
 
                   {/* Decoupled HTML/CSS Speech Balloons */}
                   {balloons.map((b: any, bIdx: number) => {
@@ -302,27 +432,63 @@ export function WebtoonReader({
         ) : (
           // Page-by-Page Flip Reader
           <div className="flex flex-col items-center">
-            {panels[currentPagedIndex] && (() => {
-              const currentPanel = panels[currentPagedIndex] as any;
-              const pagedImg = resolveManhwaPanelImage(currentPanel, currentPagedIndex);
+            {activePanels[currentPagedIndex] && (() => {
+              const currentPanel = activePanels[currentPagedIndex] as any;
               const pagedBalloons: any[] = currentPanel.balloons || [];
               const pagedMarkers: any[] = currentPanel.conceptMarkers || [];
+              const isCompleted = currentPanel.status === 'completed' && Boolean(currentPanel.imageUrl);
+              const isGenerating = currentPanel.status === 'generating' || retryingPanelId === (currentPanel.panelId || currentPanel.id);
 
               return (
                 <div className="relative w-full aspect-[9/14] bg-black shadow-2xl rounded-xl overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={pagedImg}
-                    alt={currentPanel.scenePrompt || 'Manhwa panel'}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      const fallback = MANHWA_STUDIO_FALLBACKS[currentPagedIndex % MANHWA_STUDIO_FALLBACKS.length];
-                      if (target.src !== fallback) {
-                        target.src = fallback;
-                      }
-                    }}
-                  />
+                  {isCompleted ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={currentPanel.imageUrl}
+                      alt={currentPanel.scenePrompt || 'Generated manhwa panel'}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : isGenerating ? (
+                    <div className="relative w-full h-full bg-[#0E0E14] border border-manga-violet/40 rounded-lg p-6 flex flex-col items-center justify-center space-y-4">
+                      <RefreshCw className="w-8 h-8 text-manga-violet animate-spin" />
+                      <div className="text-center space-y-1">
+                        <span className="text-xs font-mono text-manga-accent font-bold uppercase">
+                          Inking Panel #{currentPagedIndex + 1}
+                        </span>
+                        <p className="text-[11px] text-text-muted">
+                          Generating original scene artwork via Gemini...
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="relative w-full h-full bg-[#0E0E14] border-2 border-dashed border-red-500/30 rounded-lg p-6 flex flex-col justify-between overflow-hidden">
+                      <div className="space-y-2">
+                        <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30 font-bold">
+                          Panel {currentPagedIndex + 1} • {currentPanel.audit?.errorCode || 'Artwork Generation Required'}
+                        </span>
+                        <p className="text-xs text-text-secondary italic">
+                          &ldquo;{currentPanel.scenePrompt}&rdquo;
+                        </p>
+                      </div>
+                      <div className="my-auto p-4 rounded-xl bg-background-card/95 border border-manga-border space-y-3">
+                        <div className="flex items-start gap-2.5">
+                          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                          <p className="text-[11px] text-text-muted leading-relaxed">
+                            {currentPanel.audit?.errorMessage ||
+                              'Google AI Studio Free Tier has a quota limit of 0 requests/day for image models (gemini-2.5-flash-image). Link Google Cloud Billing to generate original panel artwork.'}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => handleRetryPanel(currentPanel.panelId || currentPanel.id, currentPagedIndex)}
+                          disabled={retryingPanelId === (currentPanel.panelId || currentPanel.id)}
+                          className="px-3 py-1.5 rounded-lg bg-manga-violet hover:bg-manga-violet/90 disabled:opacity-50 text-white font-mono text-xs font-semibold flex items-center gap-1.5 shadow-glow-violet"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>Retry Panel #{currentPagedIndex + 1}</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Balloons for current paged panel */}
                   {pagedBalloons.map((b: any, bIdx: number) => (

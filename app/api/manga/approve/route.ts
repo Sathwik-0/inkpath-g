@@ -72,24 +72,66 @@ export async function POST(req: NextRequest) {
       }
     ];
 
-    // Step 2: Generate visual asset for each panel
+    // Step 2: Generate visual asset for each panel independently
+    const generationJobId = `job-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+    const tempChapterId = `ch-${Date.now().toString(36)}`;
+    const targetMangaId = mangaId || 'manga-preview';
+
     const enrichedPanels = await Promise.all(
       panelsData.map(async (panel: any, idx: number) => {
+        const panelId = panel.panelId || panel.id || `pnl-${Date.now().toString(36)}-${idx + 1}`;
         const visual = await runPanelImageGeneration({
-          apiKey,
+          mangaId: targetMangaId,
+          chapterId: tempChapterId,
+          panelId,
+          panelIndex: idx + 1,
+          generationJobId,
           scenePrompt: panel.scenePrompt,
           characters: characters || [],
           genre: approvedGenre || 'sci_fi',
-          panelIndex: idx + 1,
+          apiKey,
         });
 
+        // Derive concept marker if not already present
+        const panelMarkers = panel.conceptMarkers || (panel.conceptId && concepts?.[idx] ? [
+          {
+            id: `cm-${idx + 1}`,
+            conceptId: panel.conceptId,
+            term: concepts[idx]?.term || 'Core Theorem',
+            formulaLatex: concepts[idx]?.formulaLatex || '',
+            derivationSnippet: concepts[idx]?.derivationSnippet || '',
+            academicAnchor: concepts[idx]?.academicAnchor || 'Section 1.1',
+            xPercent: 80,
+            yPercent: 15,
+          }
+        ] : []);
+
         return {
-          ...panel,
+          panelId,
+          panelIndex: idx + 1,
+          aspectRatio: panel.aspectRatio || '9:16',
+          scenePrompt: panel.scenePrompt,
+          status: visual.status,
           imageUrl: visual.imageUrl,
-          generatedViaAi: visual.generatedViaAi,
+          storagePath: visual.storagePath,
+          balloons: panel.balloons || [],
+          conceptMarkers: panelMarkers,
+          audit: visual.audit,
         };
       })
     );
+
+    // Compute honest publication status
+    const completedCount = enrichedPanels.filter(p => p.status === 'completed' && p.imageUrl).length;
+    const failedCount = enrichedPanels.filter(p => p.status === 'failed').length;
+    
+    // Chapter publishing rule: A chapter is ONLY marked ready if all required panels were generated
+    const chapterStatus: 'ready' | 'partially_ready' | 'failed' =
+      completedCount === enrichedPanels.length
+        ? 'ready'
+        : completedCount > 0
+        ? 'partially_ready'
+        : 'failed';
 
     // Step 3: Generate Boss Battle Quiz
     const quiz = await generateQuizForChapter({
@@ -101,7 +143,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Step 4: Persist Chapter & Panels to Supabase
-    let chapterId = 'ch-' + Date.now().toString(36);
+    let chapterId = tempChapterId;
     try {
       const supabase = getServiceSupabase();
 
@@ -113,15 +155,15 @@ export async function POST(req: NextRequest) {
 
       const validMangaId = dbManga?.id || mangaId;
 
-      const { data: chapterRow, error: chErr } = await (supabase.from('chapters') as any)
+      const { data: chapterRow } = await (supabase.from('chapters') as any)
         .insert({
           manga_id: validMangaId,
           chapter_number: chapterNumber,
           title: approvedTitle || `Chapter ${chapterNumber}`,
           synopsis: `Academic manhwa breakthrough covering core concepts`,
           pedagogical_rigor: 'balanced',
-          status: 'ready',
-          progress_percentage: 100,
+          status: chapterStatus === 'ready' ? 'published' : 'draft',
+          progress_percentage: Math.round((completedCount / enrichedPanels.length) * 100),
           total_panels: enrichedPanels.length,
           estimated_read_time_mins: 4,
           primary_equation_latex: concepts?.[0]?.formulaLatex || null,
@@ -138,14 +180,16 @@ export async function POST(req: NextRequest) {
             .insert({
               chapter_id: chapterId,
               panel_index: p.panelIndex,
-              aspect_ratio: '9:16',
+              aspect_ratio: p.aspectRatio,
               image_url: p.imageUrl,
+              storage_path: p.storagePath,
               scene_prompt: p.scenePrompt,
+              render_provider: p.audit?.modelId || 'Gemini',
             })
             .select()
             .single();
 
-          if (panelRow && p.balloons) {
+          if (panelRow && p.balloons && p.balloons.length > 0) {
             const balloonRows = p.balloons.map((b: any) => ({
               panel_id: panelRow.id,
               speaker_name: b.speakerName,
@@ -165,9 +209,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       chapterId,
-      mangaId,
+      mangaId: targetMangaId,
       chapterNumber,
       title: approvedTitle,
+      status: chapterStatus,
+      totalPanels: enrichedPanels.length,
+      completedPanels: completedCount,
+      failedPanels: failedCount,
       panels: enrichedPanels,
       quiz,
     });

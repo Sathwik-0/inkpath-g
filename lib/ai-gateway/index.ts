@@ -158,50 +158,138 @@ export async function generateTextWithProvider(opts: GenerateTextOptions): Promi
   throw new Error(`Unsupported provider: ${provider}`);
 }
 
+export interface GeminiImageResult {
+  success: boolean;
+  modelUsed: string;
+  imageBase64?: string;
+  mimeType?: string;
+  errorCode?: 'IMAGE_QUOTA_EXCEEDED' | 'BILLING_REQUIRED' | 'INVALID_API_KEY' | 'SAFETY_BLOCKED' | 'MODEL_UNAVAILABLE' | 'GENERATION_FAILED';
+  errorMessage?: string;
+  statusCode?: number;
+}
+
 /**
- * Generate image using Gemini Nano Banana / Flash Image model.
- * Returns base64 image data or null if not available.
+ * Generate image using Gemini Image Diffusion models (gemini-2.5-flash-image / gemini-3.1-flash-image).
+ * Returns strict structured result with honest error codes if quota or billing blocks generation.
  */
 export async function generateImageWithGemini(opts: {
   apiKey: string;
   prompt: string;
   aspectRatio?: '9:16' | '1:1' | '16:9' | '3:4';
-}): Promise<{ imageBase64: string; mimeType: string } | null> {
-  const { apiKey, prompt } = opts;
-  const imageModels = ['gemini-3.1-flash-image', 'gemini-2.5-flash-image'];
+  referenceImages?: { base64: string; mimeType: string; description?: string }[];
+}): Promise<GeminiImageResult> {
+  const { apiKey, prompt, referenceImages = [] } = opts;
+  const imageModels = ['gemini-2.5-flash-image', 'gemini-3.1-flash-image'];
+
+  if (!apiKey) {
+    return {
+      success: false,
+      modelUsed: 'none',
+      errorCode: 'INVALID_API_KEY',
+      errorMessage: 'No Gemini API key was provided.',
+      statusCode: 401,
+    };
+  }
+
+  let lastError: GeminiImageResult = {
+    success: false,
+    modelUsed: imageModels[0],
+    errorCode: 'GENERATION_FAILED',
+    errorMessage: 'Image generation call failed.',
+    statusCode: 500,
+  };
 
   for (const model of imageModels) {
     try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseModalities: ['TEXT', 'IMAGE']
+      // Build multimodal parts: visual conditioning references first, then prompt text
+      const parts: any[] = [];
+
+      for (const ref of referenceImages) {
+        if (ref.base64) {
+          parts.push({
+            inlineData: {
+              mimeType: ref.mimeType || 'image/jpeg',
+              data: ref.base64,
+            },
+          });
+          if (ref.description) {
+            parts.push({
+              text: `[Character Conditioning Reference: ${ref.description}]`,
+            });
           }
-        })
-      });
+        }
+      }
+
+      parts.push({ text: prompt });
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts }],
+            generationConfig: {
+              responseModalities: ['TEXT', 'IMAGE'],
+            },
+          }),
+        }
+      );
+
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
+        const errorMsg = data?.error?.message || res.statusText || 'Unknown Gemini API error';
+        const isQuotaZero =
+          res.status === 429 ||
+          errorMsg.includes('limit: 0') ||
+          errorMsg.includes('Free Tier') ||
+          errorMsg.includes('quota');
+
+        lastError = {
+          success: false,
+          modelUsed: model,
+          statusCode: res.status,
+          errorCode: isQuotaZero ? 'IMAGE_QUOTA_EXCEEDED' : res.status === 400 || res.status === 403 ? 'INVALID_API_KEY' : 'GENERATION_FAILED',
+          errorMessage: isQuotaZero
+            ? 'Google AI Studio Free Tier enforces a quota limit of 0 requests/day for image diffusion models. Google Cloud Billing (Pay-As-You-Go) must be linked to your Google AI Studio project to generate original panel artwork.'
+            : errorMsg,
+        };
         continue;
       }
 
-      const data = await res.json();
       const candidate = data.candidates?.[0];
-      const parts = candidate?.content?.parts || [];
-      for (const part of parts) {
+      const resParts = candidate?.content?.parts || [];
+
+      for (const part of resParts) {
         if (part.inlineData && part.inlineData.data) {
           return {
+            success: true,
+            modelUsed: model,
+            statusCode: 200,
             imageBase64: part.inlineData.data,
-            mimeType: part.inlineData.mimeType || 'image/png'
+            mimeType: part.inlineData.mimeType || 'image/png',
           };
         }
       }
+
+      lastError = {
+        success: false,
+        modelUsed: model,
+        statusCode: 200,
+        errorCode: 'GENERATION_FAILED',
+        errorMessage: 'Model returned response without image data part.',
+      };
     } catch (err: any) {
-      console.warn(`Gemini image generation call failed for ${model}:`, err.message);
+      lastError = {
+        success: false,
+        modelUsed: model,
+        statusCode: 500,
+        errorCode: 'GENERATION_FAILED',
+        errorMessage: err.message || 'Network exception during Gemini image call.',
+      };
     }
   }
 
-  return null;
+  return lastError;
 }
