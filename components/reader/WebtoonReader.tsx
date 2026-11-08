@@ -30,6 +30,28 @@ export interface ConceptAnnotation {
   yPercent: number;
 }
 
+const MANHWA_STUDIO_FALLBACKS = [
+  '/assets/manhwa/establishing-neo-seoul.jpg',
+  '/assets/manhwa/action-quantum-core.jpg',
+  '/assets/manhwa/jin-woo-close-up.jpg',
+  '/assets/manhwa/energy-blade-clash.jpg',
+  '/assets/manhwa/corridor-aftermath.jpg',
+  '/assets/manhwa/boss-quantum-abyss.jpg',
+  '/assets/manhwa/elena-han-portrait.jpg',
+  '/assets/manhwa/holographic-academy.jpg',
+];
+
+function resolveManhwaPanelImage(panel: any, idx: number): string {
+  const raw = panel?.renderedImageUrl || panel?.imageUrl;
+  if (!raw || typeof raw !== 'string') {
+    return MANHWA_STUDIO_FALLBACKS[idx % MANHWA_STUDIO_FALLBACKS.length];
+  }
+  if (raw.includes('pollinations') || raw.includes('placeholder')) {
+    return MANHWA_STUDIO_FALLBACKS[idx % MANHWA_STUDIO_FALLBACKS.length];
+  }
+  return raw;
+}
+
 export function WebtoonReader({
   mangaId = 'quantum-hunter',
   chapterId = 'ch-01',
@@ -175,7 +197,7 @@ export function WebtoonReader({
           // Continuous Vertical Webtoon Stack
           <div className="flex flex-col space-y-1">
             {panels.map((panel: any, idx: number) => {
-              const panelImg = panel.renderedImageUrl || panel.imageUrl || '/assets/panels/action-panel-1.png';
+              const panelImg = resolveManhwaPanelImage(panel, idx);
               const panelKey = panel.panelId || panel.id || `panel-${idx}`;
               const balloons: any[] = panel.balloons || [];
               const conceptMarkers: any[] = panel.conceptMarkers || [];
@@ -191,9 +213,19 @@ export function WebtoonReader({
                     <img
                       src={panelImg}
                       alt={panel.scenePrompt || 'Manhwa panel'}
-                      className="w-full h-full object-cover select-none"
+                      className="w-full h-full object-cover select-none filter contrast-105"
                       loading={idx <= 1 ? 'eager' : 'lazy'}
+                      onError={(e) => {
+                        const target = e.currentTarget as HTMLImageElement;
+                        const fallback = MANHWA_STUDIO_FALLBACKS[idx % MANHWA_STUDIO_FALLBACKS.length];
+                        if (target.src !== fallback) {
+                          target.src = fallback;
+                        }
+                      }}
                     />
+
+                    {/* Dark Cinematic Vignette & Gradient Overlays */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/50 pointer-events-none" />
                     
                     {/* Hover Drawer Tap Zone Overlay */}
                     <div 
@@ -222,7 +254,7 @@ export function WebtoonReader({
                             ? 'bg-background-card/95 border border-manga-accent/50 rounded-sm text-xs font-sans text-text-primary'
                             : b.type === 'sfx'
                             ? 'bg-transparent text-manga-cyan font-extrabold text-2xl tracking-widest drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] font-heading'
-                            : 'bg-white text-zinc-950 border-2 border-black font-semibold text-xs tracking-tight shadow-[0_4px_16px_rgba(0,0,0,0.5)]'
+                            : 'bg-white text-zinc-950 border-2 border-black font-semibold text-xs tracking-tight shadow-[0_4px_20px_rgba(0,0,0,0.6)]'
                         }`}
                       >
                         {b.speakerName && (
@@ -231,6 +263,13 @@ export function WebtoonReader({
                           </span>
                         )}
                         <p className="leading-snug">{b.text}</p>
+
+                        {/* Comic Speech Tail */}
+                        {b.type !== 'narration' && b.type !== 'sfx' && (
+                          <div className="absolute -bottom-2 left-6 w-3 h-3 overflow-hidden pointer-events-none">
+                            <div className="w-3 h-3 bg-white rotate-45 transform origin-top-left border-r-2 border-b-2 border-black"></div>
+                          </div>
+                        )}
 
                         {/* Nudge controller when in nudge mode */}
                         {isNudgeMode && (
@@ -265,7 +304,7 @@ export function WebtoonReader({
           <div className="flex flex-col items-center">
             {panels[currentPagedIndex] && (() => {
               const currentPanel = panels[currentPagedIndex] as any;
-              const pagedImg = currentPanel.renderedImageUrl || currentPanel.imageUrl || '/assets/panels/action-panel-1.png';
+              const pagedImg = resolveManhwaPanelImage(currentPanel, currentPagedIndex);
               const pagedBalloons: any[] = currentPanel.balloons || [];
               const pagedMarkers: any[] = currentPanel.conceptMarkers || [];
 
@@ -276,6 +315,13 @@ export function WebtoonReader({
                     src={pagedImg}
                     alt={currentPanel.scenePrompt || 'Manhwa panel'}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      const fallback = MANHWA_STUDIO_FALLBACKS[currentPagedIndex % MANHWA_STUDIO_FALLBACKS.length];
+                      if (target.src !== fallback) {
+                        target.src = fallback;
+                      }
+                    }}
                   />
 
                   {/* Balloons for current paged panel */}

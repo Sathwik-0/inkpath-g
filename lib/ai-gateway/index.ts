@@ -87,8 +87,18 @@ export async function generateTextWithProvider(opts: GenerateTextOptions): Promi
         : undefined,
     });
 
-    const result = await generativeModel.generateContent(userPrompt);
-    return result.response.text();
+    try {
+      const result = await generativeModel.generateContent(userPrompt);
+      return result.response.text();
+    } catch (e: any) {
+      if (e.message && e.message.includes('429')) {
+        console.warn('Gemini 429 rate limit encountered. Retrying in 3 seconds...');
+        await new Promise(r => setTimeout(r, 3000));
+        const retryResult = await generativeModel.generateContent(userPrompt);
+        return retryResult.response.text();
+      }
+      throw e;
+    }
   }
 
   if (provider === 'openai') {

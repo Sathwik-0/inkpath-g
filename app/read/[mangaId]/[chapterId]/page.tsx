@@ -23,6 +23,39 @@ export default function ReaderPage() {
         const stored = typeof window !== 'undefined' ? localStorage.getItem(`inkpath_chapter_${chapterId}`) : null;
         if (stored) {
           const parsed = JSON.parse(stored);
+          
+          // Purge any stale pollinations or placeholder URLs from old generation sessions
+          const manhwaFallbackList = [
+            '/assets/manhwa/establishing-neo-seoul.jpg',
+            '/assets/manhwa/action-quantum-core.jpg',
+            '/assets/manhwa/jin-woo-close-up.jpg',
+            '/assets/manhwa/energy-blade-clash.jpg',
+            '/assets/manhwa/corridor-aftermath.jpg',
+            '/assets/manhwa/boss-quantum-abyss.jpg',
+            '/assets/manhwa/elena-han-portrait.jpg',
+            '/assets/manhwa/holographic-academy.jpg',
+          ];
+
+          if (parsed && Array.isArray(parsed.panels)) {
+            parsed.panels = parsed.panels.map((p: any, idx: number) => {
+              const raw = p.imageUrl || p.renderedImageUrl || '';
+              if (!raw || raw.includes('pollinations') || raw.includes('placeholder')) {
+                const cleanUrl = manhwaFallbackList[idx % manhwaFallbackList.length];
+                return {
+                  ...p,
+                  imageUrl: cleanUrl,
+                  renderedImageUrl: cleanUrl,
+                };
+              }
+              return p;
+            });
+
+            // Resave sanitized version to localStorage
+            try {
+              localStorage.setItem(`inkpath_chapter_${chapterId}`, JSON.stringify(parsed));
+            } catch (ignore) {}
+          }
+
           if (isMounted) {
             setChapterData(parsed);
             setLoading(false);
