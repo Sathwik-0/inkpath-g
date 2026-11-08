@@ -299,17 +299,14 @@ export async function runPanelImageGeneration(opts: {
     };
   }
 
-  // Fallback to high quality theme-appropriate atmospheric panel asset
-  const stockAssets = [
-    '/assets/panels/action-panel-1.png',
-    '/assets/scenes/neo-seoul.png',
-    '/assets/covers/neural-blade.png',
-    '/assets/covers/quantum-hunter.png',
-  ];
-  const selected = stockAssets[(panelIndex - 1) % stockAssets.length];
+  // Generate dynamic, unique 9:16 vertical manhwa artwork via Flux anime diffusion
+  const cleanPrompt = `${genre} manhwa webtoon style, full color anime digital art, ${scenePrompt}, featuring ${characterDesc}, detailed line art, dynamic anime camera angle, masterpiece, dramatic lighting`;
+  const encoded = encodeURIComponent(cleanPrompt.slice(0, 300));
+  const seed = Math.floor(Math.random() * 1000000);
+  const fluxUrl = `https://image.pollinations.ai/prompt/${encoded}?width=768&height=1152&model=flux&nologo=true&seed=${seed}`;
 
   return {
-    imageUrl: selected,
-    generatedViaAi: false,
+    imageUrl: fluxUrl,
+    generatedViaAi: true,
   };
 }

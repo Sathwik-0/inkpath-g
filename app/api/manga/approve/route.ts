@@ -29,12 +29,17 @@ export async function POST(req: NextRequest) {
     };
 
     // Step 1: Real AI Storyboard generation with panels & decoupled balloons
-    const storyboardPanels = await runStoryboardGeneration(
-      context,
-      chapterNumber,
-      concepts || [],
-      characters || []
-    );
+    let storyboardPanels: any[] = [];
+    try {
+      storyboardPanels = await runStoryboardGeneration(
+        context,
+        chapterNumber,
+        concepts || [],
+        characters || []
+      );
+    } catch (e: any) {
+      console.warn('AI storyboard generation rate limit / fallback:', e.message);
+    }
 
     // If AI storyboard is empty or failed, provide high quality default panels
     const panelsData = storyboardPanels.length > 0 ? storyboardPanels : [
@@ -171,3 +176,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err.message || 'Chapter generation failed' }, { status: 500 });
   }
 }
+

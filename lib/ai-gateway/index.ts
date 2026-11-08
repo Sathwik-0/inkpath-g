@@ -158,36 +158,40 @@ export async function generateImageWithGemini(opts: {
   aspectRatio?: '9:16' | '1:1' | '16:9' | '3:4';
 }): Promise<{ imageBase64: string; mimeType: string } | null> {
   const { apiKey, prompt } = opts;
-  try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }]
-      })
-    });
+  const imageModels = ['gemini-3.1-flash-image', 'gemini-2.5-flash-image'];
 
-    if (!res.ok) {
-      console.warn(`Gemini image generation warning: ${res.status} ${res.statusText}`);
-      return null;
-    }
+  for (const model of imageModels) {
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            responseModalities: ['TEXT', 'IMAGE']
+          }
+        })
+      });
 
-    const data = await res.json();
-    const candidate = data.candidates?.[0];
-    const parts = candidate?.content?.parts || [];
-    for (const part of parts) {
-      if (part.inlineData && part.inlineData.data) {
-        return {
-          imageBase64: part.inlineData.data,
-          mimeType: part.inlineData.mimeType || 'image/png'
-        };
+      if (!res.ok) {
+        continue;
       }
+
+      const data = await res.json();
+      const candidate = data.candidates?.[0];
+      const parts = candidate?.content?.parts || [];
+      for (const part of parts) {
+        if (part.inlineData && part.inlineData.data) {
+          return {
+            imageBase64: part.inlineData.data,
+            mimeType: part.inlineData.mimeType || 'image/png'
+          };
+        }
+      }
+    } catch (err: any) {
+      console.warn(`Gemini image generation call failed for ${model}:`, err.message);
     }
-    return null;
-  } catch (err: any) {
-    console.warn('Gemini image generation call failed:', err.message);
-    return null;
   }
+
+  return null;
 }

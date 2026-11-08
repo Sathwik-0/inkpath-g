@@ -88,3 +88,4 @@ Rules:
     explanation: `${concept.term}: ${concept.derivationSnippet}`
   }));
 }
+
