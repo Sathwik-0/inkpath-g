@@ -46,7 +46,7 @@ export function WebtoonReader({
   chapterTitle?: string;
   chapterNumber?: number;
   totalChapters?: number;
-  panels?: DemoPanel[];
+  panels?: any[];
   freeChaptersLeft?: number;
 }) {
   const [readingMode, setReadingMode] = useState<'vertical' | 'paged'>('vertical');
@@ -174,48 +174,119 @@ export function WebtoonReader({
         {readingMode === 'vertical' ? (
           // Continuous Vertical Webtoon Stack
           <div className="flex flex-col space-y-1">
-            {panels.map((panel, idx) => (
-              <div 
-                key={panel.panelId} 
-                className="relative w-full bg-black overflow-hidden group shadow-2xl"
-              >
-                {/* Panel Image Container */}
-                <div className="relative w-full aspect-[9/14] bg-[#0E0E14]">
+            {panels.map((panel: any, idx: number) => {
+              const panelImg = panel.renderedImageUrl || panel.imageUrl || '/assets/panels/action-panel-1.png';
+              const panelKey = panel.panelId || panel.id || `panel-${idx}`;
+              const balloons: any[] = panel.balloons || [];
+              const conceptMarkers: any[] = panel.conceptMarkers || [];
+
+              return (
+                <div 
+                  key={panelKey} 
+                  className="relative w-full bg-black overflow-hidden group shadow-2xl"
+                >
+                  {/* Panel Image Container */}
+                  <div className="relative w-full aspect-[9/14] bg-[#0E0E14]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={panelImg}
+                      alt={panel.scenePrompt || 'Manhwa panel'}
+                      className="w-full h-full object-cover select-none"
+                      loading={idx <= 1 ? 'eager' : 'lazy'}
+                    />
+                    
+                    {/* Hover Drawer Tap Zone Overlay */}
+                    <div 
+                      onClick={() => {
+                        if (conceptMarkers.length > 0) {
+                          setActiveConcept(conceptMarkers[0]);
+                        }
+                      }}
+                      className="absolute inset-0 bg-transparent cursor-pointer group-hover:bg-purple-900/10 transition-colors"
+                    />
+                  </div>
+
+                  {/* Decoupled HTML/CSS Speech Balloons */}
+                  {balloons.map((b: any, bIdx: number) => {
+                    const balloonId = b.id || `b-${idx}-${bIdx}`;
+                    const nudge = bubblePositions[balloonId] || { x: 0, y: 0 };
+                    const left = Math.min(95, Math.max(5, (b.xPercent ?? 50) + nudge.x));
+                    const top = Math.min(95, Math.max(5, (b.yPercent ?? 50) + nudge.y));
+
+                    return (
+                      <div
+                        key={balloonId}
+                        style={{ left: `${left}%`, top: `${top}%` }}
+                        className={`absolute -translate-x-1/2 -translate-y-1/2 max-w-[280px] p-3 rounded-2xl shadow-2xl backdrop-blur-md pointer-events-auto transition-transform hover:scale-105 z-20 ${
+                          b.type === 'narration'
+                            ? 'bg-background-card/95 border border-manga-accent/50 rounded-sm text-xs font-sans text-text-primary'
+                            : b.type === 'sfx'
+                            ? 'bg-transparent text-manga-cyan font-extrabold text-2xl tracking-widest drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] font-heading'
+                            : 'bg-white text-zinc-950 border-2 border-black font-semibold text-xs tracking-tight shadow-[0_4px_16px_rgba(0,0,0,0.5)]'
+                        }`}
+                      >
+                        {b.speakerName && (
+                          <span className="block text-[9px] uppercase tracking-wider text-manga-violet font-mono mb-0.5 font-bold">
+                            {b.speakerName}
+                          </span>
+                        )}
+                        <p className="leading-snug">{b.text}</p>
+
+                        {/* Nudge controller when in nudge mode */}
+                        {isNudgeMode && (
+                          <div className="flex items-center gap-1 mt-1 pt-1 border-t border-black/20 text-[9px]">
+                            <button onClick={() => handleNudge(balloonId, 0, -2)} className="px-1 bg-black/20 rounded">▲</button>
+                            <button onClick={() => handleNudge(balloonId, 0, 2)} className="px-1 bg-black/20 rounded">▼</button>
+                            <button onClick={() => handleNudge(balloonId, -2, 0)} className="px-1 bg-black/20 rounded">◀</button>
+                            <button onClick={() => handleNudge(balloonId, 2, 0)} className="px-1 bg-black/20 rounded">▶</button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {/* Pedagogical Anchor Buttons */}
+                  {conceptMarkers.map((cm: any) => (
+                    <button
+                      key={cm.id || cm.conceptId}
+                      onClick={() => setActiveConcept(cm)}
+                      className="absolute top-4 right-4 z-30 flex items-center gap-1.5 px-3 py-1 rounded-full bg-manga-violet/85 hover:bg-manga-violet text-white backdrop-blur-md border border-white/20 text-[11px] font-mono shadow-glow-violet transition-all"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                      <span>Anchor: {cm.term}</span>
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          // Page-by-Page Flip Reader
+          <div className="flex flex-col items-center">
+            {panels[currentPagedIndex] && (() => {
+              const currentPanel = panels[currentPagedIndex] as any;
+              const pagedImg = currentPanel.renderedImageUrl || currentPanel.imageUrl || '/assets/panels/action-panel-1.png';
+              const pagedBalloons: any[] = currentPanel.balloons || [];
+              const pagedMarkers: any[] = currentPanel.conceptMarkers || [];
+
+              return (
+                <div className="relative w-full aspect-[9/14] bg-black shadow-2xl rounded-xl overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={panel.renderedImageUrl}
-                    alt={panel.scenePrompt}
-                    className="w-full h-full object-cover select-none"
-                    loading={idx <= 1 ? 'eager' : 'lazy'}
+                    src={pagedImg}
+                    alt={currentPanel.scenePrompt || 'Manhwa panel'}
+                    className="w-full h-full object-cover"
                   />
-                  
-                  {/* Hover Drawer Tap Zone Overlay */}
-                  <div 
-                    onClick={() => {
-                      if (panel.conceptMarkers && panel.conceptMarkers.length > 0) {
-                        setActiveConcept(panel.conceptMarkers[0]);
-                      }
-                    }}
-                    className="absolute inset-0 bg-transparent cursor-pointer group-hover:bg-purple-900/10 transition-colors"
-                  />
-                </div>
 
-                {/* Decoupled HTML/CSS Speech Balloons */}
-                {panel.balloons.map((b) => {
-                  const nudge = bubblePositions[b.id] || { x: 0, y: 0 };
-                  const left = Math.min(95, Math.max(5, b.xPercent + nudge.x));
-                  const top = Math.min(95, Math.max(5, b.yPercent + nudge.y));
-
-                  return (
+                  {/* Balloons for current paged panel */}
+                  {pagedBalloons.map((b: any, bIdx: number) => (
                     <div
-                      key={b.id}
-                      style={{ left: `${left}%`, top: `${top}%` }}
-                      className={`absolute -translate-x-1/2 -translate-y-1/2 max-w-[280px] p-3 rounded-2xl shadow-2xl backdrop-blur-md pointer-events-auto transition-transform hover:scale-105 z-20 ${
+                      key={b.id || `paged-b-${bIdx}`}
+                      style={{ left: `${b.xPercent ?? 50}%`, top: `${b.yPercent ?? 50}%` }}
+                      className={`absolute -translate-x-1/2 -translate-y-1/2 max-w-[280px] p-3 rounded-2xl shadow-2xl backdrop-blur-md pointer-events-auto z-20 ${
                         b.type === 'narration'
                           ? 'bg-background-card/95 border border-manga-accent/50 rounded-sm text-xs font-sans text-text-primary'
-                          : b.type === 'sfx'
-                          ? 'bg-transparent text-manga-cyan font-extrabold text-2xl tracking-widest drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] font-heading'
-                          : 'bg-white text-zinc-950 border-2 border-black font-semibold text-xs tracking-tight shadow-[0_4px_16px_rgba(0,0,0,0.5)]'
+                          : 'bg-white text-zinc-950 border-2 border-black font-semibold text-xs tracking-tight'
                       }`}
                     >
                       {b.speakerName && (
@@ -224,79 +295,23 @@ export function WebtoonReader({
                         </span>
                       )}
                       <p className="leading-snug">{b.text}</p>
-
-                      {/* Nudge controller when in nudge mode */}
-                      {isNudgeMode && (
-                        <div className="flex items-center gap-1 mt-1 pt-1 border-t border-black/20 text-[9px]">
-                          <button onClick={() => handleNudge(b.id, 0, -2)} className="px-1 bg-black/20 rounded">▲</button>
-                          <button onClick={() => handleNudge(b.id, 0, 2)} className="px-1 bg-black/20 rounded">▼</button>
-                          <button onClick={() => handleNudge(b.id, -2, 0)} className="px-1 bg-black/20 rounded">◀</button>
-                          <button onClick={() => handleNudge(b.id, 2, 0)} className="px-1 bg-black/20 rounded">▶</button>
-                        </div>
-                      )}
                     </div>
-                  );
-                })}
+                  ))}
 
-                {/* Pedagogical Anchor Buttons */}
-                {panel.conceptMarkers.map((cm) => (
-                  <button
-                    key={cm.id}
-                    onClick={() => setActiveConcept(cm)}
-                    className="absolute top-4 right-4 z-30 flex items-center gap-1.5 px-3 py-1 rounded-full bg-manga-violet/85 hover:bg-manga-violet text-white backdrop-blur-md border border-white/20 text-[11px] font-mono shadow-glow-violet transition-all"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                    <span>Anchor: {cm.term}</span>
-                  </button>
-                ))}
-              </div>
-            ))}
-          </div>
-        ) : (
-          // Page-by-Page Flip Reader
-          <div className="flex flex-col items-center">
-            {panels[currentPagedIndex] && (
-              <div className="relative w-full aspect-[9/14] bg-black shadow-2xl rounded-xl overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={panels[currentPagedIndex].renderedImageUrl}
-                  alt={panels[currentPagedIndex].scenePrompt}
-                  className="w-full h-full object-cover"
-                />
-
-                {/* Balloons for current paged panel */}
-                {panels[currentPagedIndex].balloons.map((b) => (
-                  <div
-                    key={b.id}
-                    style={{ left: `${b.xPercent}%`, top: `${b.yPercent}%` }}
-                    className={`absolute -translate-x-1/2 -translate-y-1/2 max-w-[280px] p-3 rounded-2xl shadow-2xl backdrop-blur-md pointer-events-auto z-20 ${
-                      b.type === 'narration'
-                        ? 'bg-background-card/95 border border-manga-accent/50 rounded-sm text-xs font-sans text-text-primary'
-                        : 'bg-white text-zinc-950 border-2 border-black font-semibold text-xs tracking-tight'
-                    }`}
-                  >
-                    {b.speakerName && (
-                      <span className="block text-[9px] uppercase tracking-wider text-manga-violet font-mono mb-0.5 font-bold">
-                        {b.speakerName}
-                      </span>
-                    )}
-                    <p className="leading-snug">{b.text}</p>
-                  </div>
-                ))}
-
-                {/* Anchor */}
-                {panels[currentPagedIndex].conceptMarkers.map((cm) => (
-                  <button
-                    key={cm.id}
-                    onClick={() => setActiveConcept(cm)}
-                    className="absolute top-4 right-4 z-30 flex items-center gap-1.5 px-3 py-1 rounded-full bg-manga-violet text-white text-[11px] font-mono shadow-glow-violet"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                    <span>{cm.term}</span>
-                  </button>
-                ))}
-              </div>
-            )}
+                  {/* Anchor */}
+                  {pagedMarkers.map((cm: any) => (
+                    <button
+                      key={cm.id || cm.conceptId}
+                      onClick={() => setActiveConcept(cm)}
+                      className="absolute top-4 right-4 z-30 flex items-center gap-1.5 px-3 py-1 rounded-full bg-manga-violet text-white text-[11px] font-mono shadow-glow-violet"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                      <span>{cm.term}</span>
+                    </button>
+                  ))}
+                </div>
+              );
+            })()}
 
             {/* Paged Navigation Bar */}
             <div className="mt-4 flex items-center justify-between w-full px-4">
