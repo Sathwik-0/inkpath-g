@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { generateTextWithProvider, GenerateTextOptions } from '@/lib/ai-gateway';
+import { generateTextWithProvider, generateImageWithGemini } from '@/lib/ai-gateway';
 import { SupportedProvider } from '@/lib/ai-gateway/config';
+import { extractContent } from './content-extractor';
 
 export interface PipelineContext {
   mangaId: string;
@@ -44,20 +45,20 @@ export interface CharacterItem {
 }
 
 /**
- * Step 1: Ingest & Clean Content
+ * Step 1: Ingest & Clean Content from PDF, YouTube, Text, or Topic
  */
-export async function runIngestion(content: string, type: string) {
-  if (type === 'topic') {
-    return {
-      title: content,
-      cleanedText: `Curriculum Topic: ${content}. Standard pedagogical breakdown required.`,
-      isAiGeneratedKnowledge: true,
-    };
-  }
+export async function runIngestion(source: {
+  type: string;
+  rawContent?: string;
+  fileBase64?: string;
+  url?: string;
+}) {
+  const result = await extractContent(source);
   return {
-    title: 'Extracted Material',
-    cleanedText: content.slice(0, 15000), // bounded input window
-    isAiGeneratedKnowledge: false,
+    title: result.title || 'Curriculum Syllabus',
+    cleanedText: result.text.slice(0, 15000),
+    isAiGeneratedKnowledge: source.type === 'topic',
+    metadata: result.metadata,
   };
 }
 
@@ -266,4 +267,49 @@ Format strictly as JSON:
   } catch {
     return [];
   }
+}
+
+/**
+ * Step 7: Generate Visual Asset for a Panel
+ * Attempts Gemini image diffusion model, or falls back to stylized manhwa atmosphere asset.
+ */
+export async function runPanelImageGeneration(opts: {
+  apiKey: string;
+  scenePrompt: string;
+  characters: CharacterItem[];
+  genre: string;
+  panelIndex: number;
+}): Promise<{ imageUrl: string; generatedViaAi: boolean }> {
+  const { apiKey, scenePrompt, characters, genre, panelIndex } = opts;
+
+  // Build manhwa art prompt
+  const characterDesc = characters.map(c => `${c.name} (${c.visualAttributes.hair}, ${c.visualAttributes.eyes}, wearing ${c.visualAttributes.outfit})`).join(' and ');
+  const fullPrompt = `Korean manhwa webtoon style, full color digital painting. Genre: ${genre}. Scene: ${scenePrompt}. Featuring: ${characterDesc}. Dramatic cinematic lighting, clean manhwa linework, vivid color grading, dynamic angle, no speech bubbles or text in image.`;
+
+  const imageResult = await generateImageWithGemini({
+    apiKey,
+    prompt: fullPrompt,
+    aspectRatio: '9:16',
+  });
+
+  if (imageResult && imageResult.imageBase64) {
+    return {
+      imageUrl: `data:${imageResult.mimeType};base64,${imageResult.imageBase64}`,
+      generatedViaAi: true,
+    };
+  }
+
+  // Fallback to high quality theme-appropriate atmospheric panel asset
+  const stockAssets = [
+    '/assets/panels/action-panel-1.png',
+    '/assets/scenes/neo-seoul.png',
+    '/assets/covers/neural-blade.png',
+    '/assets/covers/quantum-hunter.png',
+  ];
+  const selected = stockAssets[(panelIndex - 1) % stockAssets.length];
+
+  return {
+    imageUrl: selected,
+    generatedViaAi: false,
+  };
 }

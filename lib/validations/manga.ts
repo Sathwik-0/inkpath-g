@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const IngestionSourceSchema = z.object({
-  type: z.enum(['pdf', 'latex', 'youtube_transcript', 'raw_text', 'topic']),
+  type: z.enum(['pdf', 'latex', 'youtube_transcript', 'youtube', 'raw_text', 'text', 'topic']),
   title: z.string().min(2).max(180),
   sourceUrl: z.string().url().optional().or(z.literal('')),
   rawContent: z.string().min(10).optional().or(z.literal('')),

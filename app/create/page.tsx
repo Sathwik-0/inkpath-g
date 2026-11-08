@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { StudioShell } from '@/components/layout/StudioShell';
 import { 
   Sparkles, 
@@ -13,50 +14,130 @@ import {
   ArrowRight, 
   BookOpen,
   Layers,
-  ShieldCheck
+  AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CreateMangaStudioPage() {
-  const [sourceType, setSourceType] = useState<'pdf' | 'youtube' | 'text' | 'topic'>('pdf');
-  const [title, setTitle] = useState('MIT 8.04 Quantum Physics I: Wave Collapse');
-  const [sourceContent, setSourceContent] = useState('Theorem 4.1: The state vector |ψ⟩ resides as a coherent superposition of eigenstates until measurement induces stochastic projection. Canonical conjugates Δx and Δp obey Heisenberg uncertainty principle.');
+  const router = useRouter();
+  const [sourceType, setSourceType] = useState<'pdf' | 'youtube' | 'text' | 'topic'>('topic');
+  const [title, setTitle] = useState('Quantum Mechanics: Wavepacket Collapse & Superposition');
+  const [sourceContent, setSourceContent] = useState('Wave-particle duality states that quantum entities exhibit both wave and particle characteristics. The wavepacket |ψ⟩ collapses stochastically upon observation, obeying Heisenberg uncertainty relation Δx·Δp ≥ ℏ/2.');
+  const [youtubeUrl, setYoutubeUrl] = useState('https://www.youtube.com/watch?v=7u_UQG1Ka68');
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [genre, setGenre] = useState('sci_fi');
   const [rigor, setRigor] = useState<'casual_narrative' | 'balanced' | 'hardcore_stem'>('balanced');
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [stepMessage, setStepMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<any | null>(null);
-  const [isApproved, setIsApproved] = useState(false);
+  const [isGeneratingArtwork, setIsGeneratingArtwork] = useState(false);
+  const [generatedResult, setGeneratedResult] = useState<any | null>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPdfFile(file);
+      setTitle(file.name.replace(/\.[^/.]+$/, ''));
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = (reader.result as string).split(',')[1];
+        setPdfBase64(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSynthesize = async () => {
     setIsProcessing(true);
+    setErrorMessage(null);
     setStepMessage('Tokenizing curriculum nodes & extracting concept graph...');
 
     try {
+      const payload: any = {
+        title,
+        source: {
+          type: sourceType,
+          title,
+          genre,
+          pedagogicalRigor: rigor,
+        },
+        genre,
+        pedagogicalRigor: rigor,
+      };
+
+      if (sourceType === 'pdf' && pdfBase64) {
+        payload.source.fileBufferBase64 = pdfBase64;
+      } else if (sourceType === 'youtube') {
+        payload.source.sourceUrl = youtubeUrl;
+        payload.source.rawContent = `Lecture on ${title}: ${youtubeUrl}`;
+      } else {
+        payload.source.rawContent = sourceContent;
+      }
+
+      setStepMessage('Engaging Gemini 2.5 Flash for story synthesis...');
+
       const res = await fetch('/api/manga/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to synthesize manga preview.');
+      }
+
+      if (data.preview) {
+        setPreviewData(data.preview);
+      }
+    } catch (err: any) {
+      console.error(err);
+      setErrorMessage(err.message || 'Creation workflow failed. Please check your parameters.');
+    } finally {
+      setIsProcessing(false);
+      setStepMessage(null);
+    }
+  };
+
+  const handleApproveAndGenerate = async () => {
+    if (!previewData) return;
+    setIsGeneratingArtwork(true);
+    setErrorMessage(null);
+    setStepMessage('Drafting 9:16 vertical storyboard panels with Gemini...');
+
+    try {
+      const res = await fetch('/api/manga/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title,
-          source: {
-            type: sourceType,
-            title,
-            rawContent: sourceContent,
-          },
-          genre,
-          pedagogicalRigor: rigor,
+          mangaId: previewData.id,
+          approvedTitle: previewData.title,
+          approvedGenre: previewData.recommendedGenre || genre,
+          concepts: previewData.concepts,
+          characters: previewData.characters,
+          chapterNumber: 1,
         }),
       });
 
       const data = await res.json();
-      if (data.preview) {
-        setPreviewData(data.preview);
+      if (!res.ok) {
+        throw new Error(data.error || 'Artwork generation failed.');
       }
-    } catch (err) {
+
+      setGeneratedResult(data);
+      
+      // Store in localStorage for seamless reader load
+      if (typeof window !== 'undefined' && data.chapterId) {
+        localStorage.setItem(`inkpath_chapter_${data.chapterId}`, JSON.stringify(data));
+      }
+    } catch (err: any) {
       console.error(err);
+      setErrorMessage(err.message || 'Generation failed. Please try again.');
     } finally {
-      setIsProcessing(false);
+      setIsGeneratingArtwork(false);
       setStepMessage(null);
     }
   };
@@ -72,7 +153,7 @@ export default function CreateMangaStudioPage() {
                 Manga Studio Rig
               </span>
               <span className="text-[10px] font-mono text-emerald-400">
-                ● 3 Free Platform Chapters Available
+                ● 3 Free Platform Chapters Available (Gemini Powered)
               </span>
             </div>
             <h1 className="font-heading font-extrabold text-2xl text-text-primary mt-1">
@@ -80,6 +161,13 @@ export default function CreateMangaStudioPage() {
             </h1>
           </div>
         </div>
+
+        {errorMessage && (
+          <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-3 text-rose-300 text-xs">
+            <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-400" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
 
         {!previewData ? (
           // Ingest & Curriculum Input Form
@@ -92,28 +180,15 @@ export default function CreateMangaStudioPage() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button
                   type="button"
-                  onClick={() => setSourceType('pdf')}
+                  onClick={() => setSourceType('topic')}
                   className={`p-3.5 rounded-xl border flex flex-col items-center gap-2 text-xs transition-all ${
-                    sourceType === 'pdf'
+                    sourceType === 'topic'
                       ? 'border-manga-violet bg-manga-violet/15 text-white font-semibold shadow-glow-violet'
                       : 'border-manga-border bg-background-surface text-text-secondary hover:text-text-primary'
                   }`}
                 >
-                  <Upload className="w-5 h-5 text-manga-violet" />
-                  <span>PDF / LaTeX File</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSourceType('youtube')}
-                  className={`p-3.5 rounded-xl border flex flex-col items-center gap-2 text-xs transition-all ${
-                    sourceType === 'youtube'
-                      ? 'border-manga-violet bg-manga-violet/15 text-white font-semibold shadow-glow-violet'
-                      : 'border-manga-border bg-background-surface text-text-secondary hover:text-text-primary'
-                  }`}
-                >
-                  <Youtube className="w-5 h-5 text-rose-400" />
-                  <span>YouTube Link</span>
+                  <Compass className="w-5 h-5 text-amber-400" />
+                  <span>Curriculum Topic</span>
                 </button>
 
                 <button
@@ -131,15 +206,28 @@ export default function CreateMangaStudioPage() {
 
                 <button
                   type="button"
-                  onClick={() => setSourceType('topic')}
+                  onClick={() => setSourceType('pdf')}
                   className={`p-3.5 rounded-xl border flex flex-col items-center gap-2 text-xs transition-all ${
-                    sourceType === 'topic'
+                    sourceType === 'pdf'
                       ? 'border-manga-violet bg-manga-violet/15 text-white font-semibold shadow-glow-violet'
                       : 'border-manga-border bg-background-surface text-text-secondary hover:text-text-primary'
                   }`}
                 >
-                  <Compass className="w-5 h-5 text-amber-400" />
-                  <span>Curriculum Topic</span>
+                  <Upload className="w-5 h-5 text-manga-violet" />
+                  <span>PDF Document</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSourceType('youtube')}
+                  className={`p-3.5 rounded-xl border flex flex-col items-center gap-2 text-xs transition-all ${
+                    sourceType === 'youtube'
+                      ? 'border-manga-violet bg-manga-violet/15 text-white font-semibold shadow-glow-violet'
+                      : 'border-manga-border bg-background-surface text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  <Youtube className="w-5 h-5 text-rose-400" />
+                  <span>YouTube Lecture</span>
                 </button>
               </div>
             </div>
@@ -158,19 +246,62 @@ export default function CreateMangaStudioPage() {
               />
             </div>
 
-            {/* Source Content Input */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono text-text-muted uppercase tracking-wider">
-                3. Raw Curriculum Text, Syllabus, or Transcript Excerpt
-              </label>
-              <textarea
-                rows={5}
-                value={sourceContent}
-                onChange={(e) => setSourceContent(e.target.value)}
-                className="w-full bg-background-surface border border-manga-border rounded-xl p-3.5 text-xs text-text-primary font-mono focus:outline-none focus:border-manga-violet"
-                placeholder="Paste latex formulas, paper abstract, or chapter transcript here..."
-              />
-            </div>
+            {/* Modality Specific Inputs */}
+            {sourceType === 'pdf' && (
+              <div className="space-y-1.5">
+                <label className="text-xs font-mono text-text-muted uppercase tracking-wider">
+                  Upload PDF Syllabus or Textbook Excerpt
+                </label>
+                <div className="border border-dashed border-manga-border rounded-xl p-6 text-center hover:border-manga-violet transition-colors bg-background-surface">
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    id="pdf-upload"
+                  />
+                  <label htmlFor="pdf-upload" className="cursor-pointer space-y-2 block">
+                    <Upload className="w-8 h-8 text-manga-violet mx-auto" />
+                    <p className="text-xs text-text-primary font-medium">
+                      {pdfFile ? pdfFile.name : 'Click to upload PDF file'}
+                    </p>
+                    <p className="text-[10px] text-text-muted">
+                      {pdfFile ? `${(pdfFile.size / 1024).toFixed(1)} KB` : 'Supports academic papers, lecture slides, and notes'}
+                    </p>
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {sourceType === 'youtube' && (
+              <div className="space-y-1.5">
+                <label className="text-xs font-mono text-text-muted uppercase tracking-wider">
+                  YouTube Lecture URL
+                </label>
+                <input
+                  type="url"
+                  value={youtubeUrl}
+                  onChange={(e) => setYoutubeUrl(e.target.value)}
+                  className="w-full bg-background-surface border border-manga-border rounded-xl px-4 py-2.5 text-xs text-text-primary focus:outline-none focus:border-manga-violet"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
+              </div>
+            )}
+
+            {(sourceType === 'text' || sourceType === 'topic') && (
+              <div className="space-y-1.5">
+                <label className="text-xs font-mono text-text-muted uppercase tracking-wider">
+                  {sourceType === 'topic' ? 'Curriculum Topic Details or Key Questions' : 'Raw Curriculum Text or Syllabus'}
+                </label>
+                <textarea
+                  rows={4}
+                  value={sourceContent}
+                  onChange={(e) => setSourceContent(e.target.value)}
+                  className="w-full bg-background-surface border border-manga-border rounded-xl p-3.5 text-xs text-text-primary font-mono focus:outline-none focus:border-manga-violet"
+                  placeholder="Paste formulas, topic overview, or lecture notes..."
+                />
+              </div>
+            )}
 
             {/* Genre & Rigor Tuning */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -217,7 +348,7 @@ export default function CreateMangaStudioPage() {
                 {isProcessing ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>{stepMessage || 'Synthesizing Pipeline...'}</span>
+                    <span>{stepMessage || 'Synthesizing Pipeline with Gemini 2.5 Flash...'}</span>
                   </>
                 ) : (
                   <>
@@ -239,14 +370,16 @@ export default function CreateMangaStudioPage() {
                 <h2 className="text-xl font-heading font-bold text-text-primary">
                   {previewData.title}
                 </h2>
-                <p className="text-xs text-text-muted">
-                  Recommended Genre: <strong className="text-manga-cyan uppercase">{previewData.recommendedGenre}</strong>
-                </p>
+                <span className="text-xs text-manga-accent">
+                  Genre: {previewData.recommendedGenre?.toUpperCase()}
+                </span>
               </div>
-
-              <span className="text-xs px-2.5 py-1 rounded bg-manga-violet/20 text-manga-accent font-mono">
-                No Panel Art Generated Yet
-              </span>
+              <button
+                onClick={() => setPreviewData(null)}
+                className="text-xs text-text-muted hover:text-text-primary underline"
+              >
+                Reset Parameters
+              </button>
             </div>
 
             {/* Synopsis */}
@@ -256,6 +389,26 @@ export default function CreateMangaStudioPage() {
                 {previewData.synopsis}
               </p>
             </div>
+
+            {/* Chapter Outline */}
+            {previewData.chapterOutline && (
+              <div className="space-y-2">
+                <span className="text-[11px] font-mono uppercase text-text-muted">
+                  Serialized Chapter Arc ({previewData.chapterOutline.length} Chapters)
+                </span>
+                <div className="space-y-2">
+                  {previewData.chapterOutline.map((ch: any) => (
+                    <div key={ch.chapterNumber} className="p-3 bg-background-surface rounded-xl border border-manga-border text-xs flex items-center justify-between">
+                      <div>
+                        <span className="font-mono text-manga-violet font-bold mr-2">CH {ch.chapterNumber}:</span>
+                        <span className="font-semibold text-text-primary">{ch.title}</span>
+                      </div>
+                      <span className="text-[11px] text-text-muted">{ch.objective}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Extracted Concepts */}
             <div className="space-y-2">
@@ -297,9 +450,10 @@ export default function CreateMangaStudioPage() {
             </div>
 
             {/* Explicit Approval Buttons */}
-            {!isApproved ? (
+            {!generatedResult ? (
               <div className="pt-4 border-t border-manga-border flex items-center justify-between">
                 <button
+                  disabled={isGeneratingArtwork}
                   onClick={() => setPreviewData(null)}
                   className="px-4 py-2 rounded-xl bg-background-surface border border-manga-border text-text-muted hover:text-text-primary text-xs"
                 >
@@ -307,11 +461,21 @@ export default function CreateMangaStudioPage() {
                 </button>
 
                 <button
-                  onClick={() => setIsApproved(true)}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-manga-violet to-manga-indigo text-white font-semibold text-xs shadow-glow-violet hover:brightness-110 flex items-center gap-2"
+                  disabled={isGeneratingArtwork}
+                  onClick={handleApproveAndGenerate}
+                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-manga-violet to-manga-indigo text-white font-semibold text-xs shadow-glow-violet hover:brightness-110 disabled:opacity-50 flex items-center gap-2"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Approve & Generate Chapter 01 Artwork</span>
+                  {isGeneratingArtwork ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin text-emerald-400" />
+                      <span>{stepMessage || 'Rendering Chapter 01 Artwork...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <span>Approve & Render Chapter 01 Artwork</span>
+                    </>
+                  )}
                 </button>
               </div>
             ) : (
@@ -321,18 +485,18 @@ export default function CreateMangaStudioPage() {
                 </div>
                 <div>
                   <h3 className="font-heading font-bold text-lg text-text-primary">
-                    Chapter 01 Artwork Ready for Reading!
+                    Chapter 01 Rendered & Ready for Reading!
                   </h3>
                   <p className="text-xs text-text-secondary mt-1">
-                    Your manga storyboard and initial panels have been rendered.
+                    {generatedResult.panels?.length || 3} manhwa panels rendered with decoupled speech balloons & concept markers.
                   </p>
                 </div>
                 <Link
-                  href="/read/quantum-hunter/ch-01"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-manga-violet to-manga-indigo text-white font-semibold text-xs shadow-glow-violet"
+                  href={`/read/${generatedResult.mangaId || previewData.id}/${generatedResult.chapterId}`}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-manga-violet to-manga-indigo text-white font-semibold text-xs shadow-glow-violet hover:scale-105 transition-transform"
                 >
                   <BookOpen className="w-4 h-4" />
-                  <span>Open in Webtoon Reader</span>
+                  <span>Open in Webtoon Reader →</span>
                 </Link>
               </div>
             )}

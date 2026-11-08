@@ -28,7 +28,7 @@ export async function validateProviderKey(
   try {
     if (provider === 'gemini') {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const result = await model.generateContent({
         contents: [{ role: 'user', parts: [{ text: 'ping' }] }],
         generationConfig: { maxOutputTokens: 2 },
@@ -146,4 +146,48 @@ export async function generateTextWithProvider(opts: GenerateTextOptions): Promi
   }
 
   throw new Error(`Unsupported provider: ${provider}`);
+}
+
+/**
+ * Generate image using Gemini Nano Banana / Flash Image model.
+ * Returns base64 image data or null if not available.
+ */
+export async function generateImageWithGemini(opts: {
+  apiKey: string;
+  prompt: string;
+  aspectRatio?: '9:16' | '1:1' | '16:9' | '3:4';
+}): Promise<{ imageBase64: string; mimeType: string } | null> {
+  const { apiKey, prompt } = opts;
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{ text: prompt }]
+        }]
+      })
+    });
+
+    if (!res.ok) {
+      console.warn(`Gemini image generation warning: ${res.status} ${res.statusText}`);
+      return null;
+    }
+
+    const data = await res.json();
+    const candidate = data.candidates?.[0];
+    const parts = candidate?.content?.parts || [];
+    for (const part of parts) {
+      if (part.inlineData && part.inlineData.data) {
+        return {
+          imageBase64: part.inlineData.data,
+          mimeType: part.inlineData.mimeType || 'image/png'
+        };
+      }
+    }
+    return null;
+  } catch (err: any) {
+    console.warn('Gemini image generation call failed:', err.message);
+    return null;
+  }
 }
