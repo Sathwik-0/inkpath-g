@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed-variant":"#2f2ebe","secondary":"#c0c1ff","outline-variant":"#494454","primary-fixed":"#e9ddff","inverse-primary":"#6d3bd7","on-tertiary-fixed":"#001f26","on-tertiary-fixed-variant":"#004e5c","on-surface-variant":"#cbc3d7","surface-tint":"#d0bcff","inverse-surface":"#e4e1ea","secondary-fixed-dim":"#c0c1ff","background":"#131319","tertiary-container":"#009eb9","primary-container":"#a078ff","surface-container-highest":"#35343b","outline":"#958ea0","surface-container-low":"#1b1b21","surface-bright":"#393840","on-secondary-fixed":"#07006c","inverse-on-surface":"#303037","on-surface":"#e4e1ea","on-error":"#690005","tertiary":"#4cd7f6","on-secondary":"#1000a9","secondary-container":"#3131c0","on-primary":"#3c0091","secondary-fixed":"#e1e0ff","on-primary-fixed":"#23005c","primary-fixed-dim":"#d0bcff","on-secondary-container":"#b0b2ff","surface-variant":"#35343b","tertiary-fixed-dim":"#4cd7f6","on-tertiary":"#003640","error":"#ffb4ab","on-primary-container":"#340080","surface-dim":"#131319","on-error-container":"#ffdad6","surface-container":"#1f1f26","surface-container-lowest":"#0e0e14","on-tertiary-container":"#002f38","surface":"#131319","on-primary-fixed-variant":"#5516be","primary":"#d0bcff","tertiary-fixed":"#acedff","on-background":"#e4e1ea","surface-container-high":"#2a2930","error-container":"#93000a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xl":"2.5rem","gutter":"1.5rem","gutter-mobile":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","margin":"2rem","space-xs":"0.25rem","space-md":"1rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Space Grotesk"],"body-sm":["Inter"],"title-md":["Inter"],"headline-lg":["Space Grotesk"],"body-lg":["Inter"],"body-md":["Inter"],"label-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"display-xl":["Space Grotesk"],"display-xl-mobile":["Space Grotesk"],"headline-md":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"]},fontSize:{"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"600"}],"display-xl":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"display-xl-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="p-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Project Manga Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAg5_xv5W6NRPUWFa0onjzkQpz6Hpu6swgVGG6BoqCCAz69siQgMa3JIoYRQzUYphh68oGaWnvyR6pfRoHVqkmcP6J_SkdY9EIKZ6ZXNN_Mu06q1UelNQPqy-9KpP1XTSFUYjaIqxRckEYOY7cKZRF36ciBCF_F_0Feu3yTfTWLeG8TPcxN-5co2sLXBKx-Rpd38_LPTAw0WQuy_DgRA5-qJjI033rOfSJk_o5N-2N3gQ"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary drop-shadow-[0_0_12px_rgba(208,188,255,0.4)]">PROJECT MANGA</span></div><span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase tracking-wider">BETA</span></div><div class="flex-1 overflow-y-auto px-space-md py-space-xs"><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(160,120,255,0.25)]"><div class="px-space-md pt-space-xs pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Workspace</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="my-library" href="#">My Library</a><div class="px-space-md pt-space-sm pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Series &amp; Studio</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="the-quantum-hunter-manga-details-chapter-directory" href="#">Manga Overview</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="story-studio-chapter-management" href="#">Story Studio &amp; Chapters</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="character-bible" href="#">Character Bible</a><div class="px-space-md pt-space-sm pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Configuration</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="general-settings" href="#">General Settings</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="ai-providers-byok" href="#">AI Providers (BYOK)</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="usage-quota" href="#">Usage &amp; Quota</a></nav></div><div class="p-space-md bg-surface-container-low flex flex-col gap-space-sm"><div class="flex items-center justify-between px-space-sm py-space-xs rounded-full bg-surface-container-highest"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary">API ONLINE</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">3/3 FREE CHAPTERS</span></div><div class="flex items-center gap-space-sm p-space-xs rounded-lg hover:bg-surface-container-high transition-colors"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md truncate text-on-surface">Ren</span><span class="font-label-sm text-label-sm text-secondary truncate">Level 12 Lorekeeper</span></div></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="relative flex-1 max-w-lg"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 rounded-xl bg-surface-container-high text-on-surface placeholder:text-outline font-body-md text-body-md outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search manga, lore nodes, prompts, or characters..." type="text"/></div><div class="flex items-center gap-space-md"><div class="flex items-center p-1 rounded-lg bg-surface-container-high gap-1"><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Continuous Vertical Scroll" type="button"><span class="material-symbols-outlined text-[18px]">view_day</span></button><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Spread View" type="button"><span class="material-symbols-outlined text-[18px]">menu_book</span></button></div><button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-90 shadow-[0_0_16px_rgba(208,188,255,0.35)] transition-all" type="button"><span class="material-symbols-outlined text-[18px]">bolt</span><span class="font-label-md text-label-md uppercase tracking-wider">Quick Create</span></button><button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="w-2 h-2 rounded-full bg-tertiary absolute top-2 right-2"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/></div></header><main class="relative w-full pt-16 px-space-lg py-space-xl bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Dynamic Ambient Glow Background Overlay -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-40 right-1/4 w-[580px] h-[580px] rounded-full bg-primary/10 blur-[140px] pointer-events-none"></div>
+<div class="absolute top-96 left-12 w-[420px] h-[420px] rounded-full bg-tertiary/10 blur-[130px] pointer-events-none"></div>
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col gap-space-md mb-space-xl">
+<!-- Breadcrumb & Saga Tagline -->
+<div class="flex items-center gap-space-sm text-outline font-label-sm text-label-sm uppercase tracking-wider">
+<span>Series &amp; Studio</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-tertiary">The Quantum Hunter: Schrödinger's Abyss</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">Story Studio &amp; Chapter Orchestration</span>
+</div>
+<!-- Main Header Row -->
+<div class="flex flex-wrap items-end justify-between gap-space-md">
+<div class="flex flex-col gap-1 max-w-2xl">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-wider">SERIALIZED STUDIO v2.8</span>
+<span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+              NEO-SEOUL TIMELINE SYNCED
+            </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+            Story Studio &amp; Chapter Management
+          </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Orchestrate continuous manhwa narratives, enforce physics-accurate lore continuity, and regenerate individual vertical panel viewports.
+          </p>
+</div>
+<!-- Top Right Strategic Actions -->
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-1.5 px-space-md py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md hover:bg-surface-container-highest transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">sync_saved_locally</span>
+<span>Batch Regenerate Drafts</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md hover:bg-surface-container-highest transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">verified</span>
+<span>Review Saga Continuity</span>
+</button>
+<button class="flex items-center gap-2 px-space-lg py-2.5 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-95 shadow-[0_0_24px_rgba(208,188,255,0.35)] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Create New Chapter</span>
+</button>
+</div>
+</div>
+<!-- Top Metric Overview Strip -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md p-space-md rounded-xl bg-surface-container-low shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+<div class="flex items-center gap-space-md px-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">collections_bookmark</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Published &amp; Staged</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">18</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Chapters Total</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md px-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-secondary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">account_tree</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Narrative Framework</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">3 Arcs</span>
+<span class="font-body-sm text-body-sm text-secondary">Active Canon</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md px-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-tertiary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">neurology</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Pedagogical Corpus</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">48</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Academic Concepts</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md px-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-tertiary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Continuity Health</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-tertiary font-bold">99.2%</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-highest text-tertiary">Zero Lore Drift</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section A: Story Arc & Pacing Timeline -->
+<section class="flex flex-col gap-space-md mb-space-xl">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-primary">timeline</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Story Arc &amp; Pacing Timeline</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">3 Sagas</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">
+            Compact Density
+          </button>
+<button class="px-3 py-1 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold transition-colors">
+            Canonical Order
+          </button>
+</div>
+</div>
+<!-- Timeline Interactive Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Arc 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all duration-300 hover:bg-surface-container relative overflow-hidden group shadow-lg">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">ARC 01 • PROLOGUE</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-tertiary font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              100% Published
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 group-hover:text-primary transition-colors">
+            The Decoherence Breach
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+            Chapters 01–06. Introduction of Jin Woo-Hyun and initial manifestation of the Schrödinger Anomaly in Neo-Seoul.
+          </p>
+<!-- Arc Progress & Chapter Pill Tags -->
+<div class="flex flex-col gap-2 pt-space-xs">
+<div class="flex justify-between font-label-sm text-label-sm text-outline">
+<span>Chapter Coverage</span>
+<span class="text-on-surface">6 of 6 Chapters</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-primary w-full"></div>
+</div>
+<div class="flex flex-wrap gap-1.5 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 01</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 02</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold shadow-sm">Ch 03 (Current)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 04</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 05</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 06</span>
+</div>
+</div>
+</div>
+<!-- Arc 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all duration-300 hover:bg-surface-container relative overflow-hidden group shadow-lg">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-tertiary"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">ARC 02 • CORE TENSION</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+              In Production
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 group-hover:text-secondary transition-colors">
+            Waveguide Resonance &amp; Entanglement
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+            Chapters 07–12. Sub-atomic spatial ruptures expand. Ch 7–8 live globally, Ch 9 current script draft in iteration.
+          </p>
+<div class="flex flex-col gap-2 pt-space-xs">
+<div class="flex justify-between font-label-sm text-label-sm text-outline">
+<span>Chapter Coverage</span>
+<span class="text-on-surface">2 Live • 1 Drafting</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-secondary w-2/5"></div>
+</div>
+<div class="flex flex-wrap gap-1.5 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 07 Live</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Ch 08 Live</span>
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Ch 09 In Script</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-outline font-label-sm text-label-sm opacity-60">Ch 10</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-outline font-label-sm text-label-sm opacity-60">Ch 11</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-outline font-label-sm text-label-sm opacity-60">Ch 12</span>
+</div>
+</div>
+</div>
+<!-- Arc 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all duration-300 hover:bg-surface-container relative overflow-hidden group shadow-lg">
+<div class="absolute top-0 left-0 right-0 h-1 bg-surface-container-highest"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">ARC 03 • CLIMAX</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-outline font-label-sm text-label-sm">
+              Outlined
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 group-hover:text-tertiary transition-colors">
+            The Many-Worlds Climax
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+            Chapters 13–18. Universal divergence collapse and confrontation with the Observer Council on the Quantum Boundary.
+          </p>
+<div class="flex flex-col gap-2 pt-space-xs">
+<div class="flex justify-between font-label-sm text-label-sm text-outline">
+<span>Chapter Coverage</span>
+<span class="text-on-surface">Storyboard Scripted</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-outline w-1/12"></div>
+</div>
+<div class="flex flex-wrap gap-1.5 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container text-outline font-label-sm text-label-sm">Ch 13 Synopsis</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-outline font-label-sm text-label-sm">Ch 14 Outline</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-outline font-label-sm text-label-sm">Ch 15–18 Mapped</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section B: Chapter Management & Panel Studio -->
+<section class="flex flex-col gap-space-lg mb-space-xl">
+<!-- Chapter Metadata Workbench Card -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-xl">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-space-md pb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="px-3 py-1 rounded bg-primary-container text-on-primary-container font-label-md text-label-md uppercase tracking-wider font-semibold">
+              FOCUS CHAPTER 03
+            </div>
+<span class="font-label-sm text-label-sm text-tertiary">ESTIMATED SCROLL LENGTH: 4,800 PX</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-container-highest transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">science</span>
+              Run Educational Accuracy Validator
+            </button>
+<button class="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-container-highest transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">cached</span>
+              Regenerate Entire Chapter
+            </button>
+<button class="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 shadow-md transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">publish</span>
+              Publish Chapter
+            </button>
+</div>
+</div>
+<!-- Editable Metadata Fields -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md pt-space-sm">
+<!-- Title & Synopsis -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div>
+<label class="block font-label-sm text-label-sm uppercase text-outline mb-1">Chapter Canonical Title</label>
+<input class="w-full h-11 px-space-md rounded-lg bg-surface-container-lowest text-on-surface font-headline-sm text-headline-sm focus:outline-none focus:bg-surface-container-high transition-colors" type="text" value="Schrödinger's Abyss - Superposition Collapse"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase text-outline mb-1">Episode Synopsis &amp; Narrative Objective</label>
+<textarea class="w-full p-space-md rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-high transition-colors leading-relaxed" rows="3">Jin Woo-Hyun triggers localized quantum decoherence beneath the Neo-Seoul Academy sub-basement. As the probability wave begins destabilizing, he is forced to manifest the Probability Sphere to collapse rogue eigenstates into a singular, tangible combat outcome before the corridor collapses into void.</textarea>
+</div>
+</div>
+<!-- Academic Anchors & Character Bible Cast -->
+<div class="lg:col-span-5 flex flex-col gap-space-md p-space-md rounded-lg bg-surface-container">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Academic Lore Anchors</span>
+<span class="text-tertiary font-label-sm text-label-sm">MIT 8.04 Sync</span>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded bg-surface-container-highest text-tertiary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">school</span>
+                  Copenhagen Interpretation
+                </span>
+<span class="px-2.5 py-1 rounded bg-surface-container-highest text-tertiary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">functions</span>
+                  State Vector Collapse
+                </span>
+<span class="px-2.5 py-1 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">menu_book</span>
+                  Theorem 2.4 (Eigenvalues)
+                </span>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Characters Present in Episode</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">3 Roster Members</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md">Jin Woo-Hyun</span>
+<span class="font-label-sm text-label-sm text-outline">Protagonist</span>
+</div>
+<div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md">Dr. Elena Han</span>
+<span class="font-label-sm text-label-sm text-outline">Comms</span>
+</div>
+<div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-md text-label-md">The Cat of Nine Realities</span>
+<span class="font-label-sm text-label-sm text-outline">Familiar</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Structured Panel Studio: Vertical Webtoon Stream Inspector -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-tertiary">view_column_2</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Structured Panel Studio</h2>
+<span class="font-label-sm text-label-sm text-outline">• 5 Sequenced Manhwa Viewports</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span>All AI nodes calibrated to high-resolution vertical aspect ratio (9:16)</span>
+</div>
+</div>
+<!-- Panels List Container -->
+<div class="flex flex-col gap-space-md">
+<!-- Panel 01 -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all hover:bg-surface-container shadow-md">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<div class="lg:col-span-1 flex flex-col items-center justify-center p-space-sm rounded bg-surface-container text-center">
+<span class="font-label-sm text-label-sm uppercase text-outline">PANEL</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">01</span>
+<span class="font-label-sm text-label-sm text-tertiary mt-1">ESTAB</span>
+</div>
+<!-- Visual Thumbnail -->
+<div class="lg:col-span-3 h-44 rounded-lg bg-surface-container-lowest overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Dark futuristic subterranean research complex in Neo-Seoul, deep concrete bunker with glowing purple and cyan particle containment rings, volumetric moody lighting, cracked reinforced observation glass, anime manhwa cinematic style, high dynamic contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOMjdLBcKzEVXgp4yIxXGD5ARPjIWnDKqjJYTZ35IeeOU1syFkzvBUTOF6baSKu-wCQBGtXGweo8vmnC8mulFVZYInsFmSYZ5eRw0c_b2oqg7AnvXc-1_ufabfCwOM7kxejLanT1Z5KVsQ9BECEjzhuDIEG2YfsE_4v_j7wS0H_dCSvPZYKsv5M5MDsJaNB6n5xjeItf-DxcYV72JsCSELBMmJDL0UJ_Y210VPkwjl"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur text-tertiary font-label-sm text-label-sm">
+                  Complete
+                </div>
+</div>
+<!-- Panel Narrative Data & Dialogue Bubble Anchor -->
+<div class="lg:col-span-5 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Narration Box</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Upper Gutter</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md italic shadow-inner">
+                  “Sub-basement particle containment vault. Sector 7. Here, the boundaries of classical thermodynamics cease to apply.”
+                </div>
+<div class="flex items-center gap-space-sm text-outline font-label-sm text-label-sm">
+<span>Aspect: 16:9 Wide Cut</span>
+<span>•</span>
+<span>Lighting: Moody Ambient Neon</span>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="lg:col-span-3 flex flex-col gap-2">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">cached</span>
+                  Regenerate Panel
+                </button>
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+                  Edit Prompt &amp; Layout
+                </button>
+</div>
+</div>
+</div>
+<!-- Panel 02: HERO / CLIMAX (Inspiration Visual Panel) -->
+<div class="p-space-lg rounded-xl bg-surface-container transition-all relative overflow-hidden shadow-2xl">
+<!-- Glow Bleed on Focus Action Card -->
+<div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-primary/20 blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<div class="lg:col-span-1 flex flex-col items-center justify-center p-space-sm rounded-lg bg-primary-container text-on-primary-container text-center shadow-md">
+<span class="font-label-sm text-label-sm uppercase">PANEL</span>
+<span class="font-headline-md text-headline-md font-bold">02</span>
+<span class="font-label-sm text-label-sm mt-1 px-1 rounded bg-on-primary-container/20">CLIMAX</span>
+</div>
+<!-- Reference/Hero Artwork Container matching Prompt Image -->
+<div class="lg:col-span-5 rounded-lg overflow-hidden relative group shadow-2xl">
+<img alt="Jin Woo-Hyun channeling probability sphere amidst collapsing quantum rubble" class="w-full h-80 object-cover object-center transform transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/ALJJyrCasKl7v7fA2WSvr-NtrpkuXkw0J7rgsArRWHtkMCdp4Xm3pL183jOsvInG-cDJ1u8zOPtVNINACsJDsDpxZiezdj_hk6nhzr8Fh7TNPiHgmbHrTmiwqCLhgvzMCcKXTWem_qVNBhRcDHLx-ge7c8oFeUi-TPsUNbceX_CJ0ps-V4fyR4_bzTTDYXdyaCj2kuN5H_yZROGUbiAnSjLP7XN9DmefUlWo3MXTX3d0jtBaBg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+<span class="px-2 py-1 rounded bg-surface-container-lowest/90 backdrop-blur text-primary font-label-sm text-label-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                    Verified &amp; Vector Scaled
+                  </span>
+<span class="font-label-sm text-label-sm text-tertiary">Seed: 9048123-MIT</span>
+</div>
+</div>
+<!-- Dialogue, Academic Anchor & Vector Controls -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+                      Full-Bleed Spread
+                    </span>
+<span class="text-tertiary font-label-sm text-label-sm">Continuity Locked</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Hero Combat Sequence</span>
+</div>
+<!-- Speech Bubble Dialogue Content -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm uppercase text-outline flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">chat_bubble</span>
+                    Dialogue • Jin Woo-Hyun (Primary Burst)
+                  </label>
+<div class="p-space-md rounded-lg bg-surface-container-lowest text-on-surface font-title-md text-title-md shadow-inner">
+                    “By observing the particle, I collapse its eigenstates into a single reality!”
+                  </div>
+</div>
+<!-- Academic Annotation Card -->
+<div class="p-space-sm rounded-lg bg-surface-container-high flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-tertiary mt-0.5">psychology</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-tertiary font-bold">Academic Anchor: Wavefunction Collapse</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                      Visual representation accurately reflects the superposition spherical rings deteriorating upon conscious observation trigger.
+                    </p>
+</div>
+</div>
+<!-- Interactive Action Trio -->
+<div class="grid grid-cols-3 gap-space-sm pt-space-xs">
+<button class="flex items-center justify-center gap-1.5 py-2 px-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors shadow" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">tune</span>
+                    Refine Dialogue
+                  </button>
+<button class="flex items-center justify-center gap-1.5 py-2 px-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors shadow" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">visibility</span>
+                    Inspect Concept
+                  </button>
+<button class="flex items-center justify-center gap-1.5 py-2 px-space-sm rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:opacity-90 transition-colors shadow-lg" type="button">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                    Regenerate Panel
+                  </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel 03 -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all hover:bg-surface-container shadow-md">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<div class="lg:col-span-1 flex flex-col items-center justify-center p-space-sm rounded bg-surface-container text-center">
+<span class="font-label-sm text-label-sm uppercase text-outline">PANEL</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">03</span>
+<span class="font-label-sm text-label-sm text-secondary mt-1">COMMS</span>
+</div>
+<div class="lg:col-span-3 h-44 rounded-lg bg-surface-container-lowest overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Close up face of Dr. Elena Han in high tech control lab, cybernetic headset with glowing cyan holographic waveforms, urgent distressed expression, dramatic purple backlight reflections, manhwa webtoon style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKc_915M1FCoVBi3nS6pMlIxF5Nj6QhtXye5dXWADy7Qcoui0hPI7ciF_Otb3wDhi2fzjFtZYLfMdRievvAEgFUbqyLKEoZQO6KkaIiR-jxfSG_uXvGprMPVi6_Bo_G5LlexAXzdhPBCisaV0_N9QZe28OwQBQNkYZg8AU0MiM2lP02AbWeGWrkZuQkgTqXnVTXsDkzCeUlHyXLnPYOsXkvaGc7PQzyVbIQf25OZ5j"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur text-tertiary font-label-sm text-label-sm">
+                  Complete
+                </div>
+</div>
+<div class="lg:col-span-5 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Radio Transceiver Bubble</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-tertiary font-label-sm text-label-sm">Dr. Elena Han</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md italic shadow-inner">
+                  “Woo-Hyun, stop! The probability wave is destabilizing! If you don't lock the eigenvalue within three seconds, you'll rip the manifold!”
+                </div>
+<div class="flex items-center gap-space-sm text-outline font-label-sm text-label-sm">
+<span>Aspect: Dynamic Angle Cut</span>
+<span>•</span>
+<span>Audio HUD Filter: Active</span>
+</div>
+</div>
+<div class="lg:col-span-3 flex flex-col gap-2">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">cached</span>
+                  Regenerate Panel
+                </button>
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+                  Edit Prompt &amp; Layout
+                </button>
+</div>
+</div>
+</div>
+<!-- Panel 04 -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all hover:bg-surface-container shadow-md">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<div class="lg:col-span-1 flex flex-col items-center justify-center p-space-sm rounded bg-surface-container text-center">
+<span class="font-label-sm text-label-sm uppercase text-outline">PANEL</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">04</span>
+<span class="font-label-sm text-label-sm text-outline mt-1">AFTERMATH</span>
+</div>
+<div class="lg:col-span-3 h-44 rounded-lg bg-surface-container-lowest overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Aftermath of a massive energy blast in futuristic Seoul corridor, smoke and sparkling purple embers settling, shattered levitating concrete debris frozen midair, cinematic wide composition webtoon art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQTqAa-jwgFzG5975ZOfslmMBAm1v8mFgmv7Oth47cQEQ71bjmwVOfryq6PCiACJhA6YtuKQN2t9NyRWnnUfv0wBxm8cEMdH_ZUvSkRjEkSirFCyHXrm_-Lcbq3dqiDkrtSXmqTwsrAGYXQibPzWhkY5Z_EVG0xJS4SkgQz3tY0aL6p70tItFpy881MKP9fj_w9sGS8qKZ_9GTV3DNIqBJiQ9tszY-1pX2s_yLASBe"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur text-tertiary font-label-sm text-label-sm">
+                  Complete
+                </div>
+</div>
+<div class="lg:col-span-5 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Monologue Sub-Panel</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Jin Woo-Hyun</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md italic shadow-inner">
+                  “The singularity is cleared. Prepare the waveguide. We aren't done until the baseline vector is restored.”
+                </div>
+<div class="flex items-center gap-space-sm text-outline font-label-sm text-label-sm">
+<span>Aspect: 9:16 Vertical Flow</span>
+<span>•</span>
+<span>Atmospheric FX: Particle Drift</span>
+</div>
+</div>
+<div class="lg:col-span-3 flex flex-col gap-2">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">cached</span>
+                  Regenerate Panel
+                </button>
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+                  Edit Prompt &amp; Layout
+                </button>
+</div>
+</div>
+</div>
+<!-- Panel 05: Academic Dirac Infographic -->
+<div class="p-space-md rounded-xl bg-surface-container-low transition-all hover:bg-surface-container shadow-md">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<div class="lg:col-span-1 flex flex-col items-center justify-center p-space-sm rounded bg-surface-container text-center">
+<span class="font-label-sm text-label-sm uppercase text-outline">PANEL</span>
+<span class="font-headline-md text-headline-md text-tertiary font-bold">05</span>
+<span class="font-label-sm text-label-sm text-tertiary mt-1">THEORY</span>
+</div>
+<!-- High-End LaTeX & Graph Illustration -->
+<div class="lg:col-span-3 h-44 rounded-lg bg-surface-container-lowest p-space-md flex flex-col justify-between shadow-inner relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary uppercase">DIRAC FORMULATION</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">LaTeX Verified</span>
+</div>
+<div class="flex items-center justify-center py-2 text-primary font-mono text-center">
+<div class="flex flex-col items-center">
+<span class="text-title-md tracking-widest">|Ψ⟩ = ∑ c<sub>n</sub> |φ<sub>n</sub>⟩</span>
+<span class="font-label-sm text-label-sm text-outline mt-1">P(n) = |⟨φ<sub>n</sub>|Ψ⟩|<sup>2</sup></span>
+</div>
+</div>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm">
+<span>Educational Insert</span>
+<span>Ch 03 Post-Climax</span>
+</div>
+</div>
+<div class="lg:col-span-5 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Pedagogical Explainer Overlay</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-tertiary font-label-sm text-label-sm">Infographic Break</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-inner">
+                  “A physical state in quantum mechanics is represented by a ray in Hilbert space. Observation forces the linear superposition to yield a single observable eigenvalue.”
+                </div>
+<div class="flex items-center gap-space-sm text-outline font-label-sm text-label-sm">
+<span>Target Reader Retention: 98.4%</span>
+<span>•</span>
+<span>Peer-Reviewed by Quantum Lab Node</span>
+</div>
+</div>
+<div class="lg:col-span-3 flex flex-col gap-2">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">science</span>
+                  Test Formula Verification
+                </button>
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+                  Re-render Infographic
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Chapter Bottom Strip Actions -->
+<div class="flex flex-wrap items-center justify-between p-space-md rounded-xl bg-surface-container-low shadow-lg mt-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-2 text-outline font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>All 5 panels aligned to episodic vertical pacing standard.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md hover:bg-surface-container-highest transition-colors" type="button">
+            Discard Unsaved Edits
+          </button>
+<button class="flex items-center gap-2 px-space-lg py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-90 shadow-[0_0_16px_rgba(208,188,255,0.3)] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Save Chapter Pipeline</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div></main></div></body></html>

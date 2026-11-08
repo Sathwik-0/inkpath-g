@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed-variant":"#2f2ebe","secondary":"#c0c1ff","outline-variant":"#494454","primary-fixed":"#e9ddff","inverse-primary":"#6d3bd7","on-tertiary-fixed":"#001f26","on-tertiary-fixed-variant":"#004e5c","on-surface-variant":"#cbc3d7","surface-tint":"#d0bcff","inverse-surface":"#e4e1ea","secondary-fixed-dim":"#c0c1ff","background":"#131319","tertiary-container":"#009eb9","primary-container":"#a078ff","surface-container-highest":"#35343b","outline":"#958ea0","surface-container-low":"#1b1b21","surface-bright":"#393840","on-secondary-fixed":"#07006c","inverse-on-surface":"#303037","on-surface":"#e4e1ea","on-error":"#690005","tertiary":"#4cd7f6","on-secondary":"#1000a9","secondary-container":"#3131c0","on-primary":"#3c0091","secondary-fixed":"#e1e0ff","on-primary-fixed":"#23005c","primary-fixed-dim":"#d0bcff","on-secondary-container":"#b0b2ff","surface-variant":"#35343b","tertiary-fixed-dim":"#4cd7f6","on-tertiary":"#003640","error":"#ffb4ab","on-primary-container":"#340080","surface-dim":"#131319","on-error-container":"#ffdad6","surface-container":"#1f1f26","surface-container-lowest":"#0e0e14","on-tertiary-container":"#002f38","surface":"#131319","on-primary-fixed-variant":"#5516be","primary":"#d0bcff","tertiary-fixed":"#acedff","on-background":"#e4e1ea","surface-container-high":"#2a2930","error-container":"#93000a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xl":"2.5rem","gutter":"1.5rem","gutter-mobile":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","margin":"2rem","space-xs":"0.25rem","space-md":"1rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Space Grotesk"],"body-sm":["Inter"],"title-md":["Inter"],"headline-lg":["Space Grotesk"],"body-lg":["Inter"],"body-md":["Inter"],"label-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"display-xl":["Space Grotesk"],"display-xl-mobile":["Space Grotesk"],"headline-md":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"]},fontSize:{"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"600"}],"display-xl":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"display-xl-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="p-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Project Manga Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAg5_xv5W6NRPUWFa0onjzkQpz6Hpu6swgVGG6BoqCCAz69siQgMa3JIoYRQzUYphh68oGaWnvyR6pfRoHVqkmcP6J_SkdY9EIKZ6ZXNN_Mu06q1UelNQPqy-9KpP1XTSFUYjaIqxRckEYOY7cKZRF36ciBCF_F_0Feu3yTfTWLeG8TPcxN-5co2sLXBKx-Rpd38_LPTAw0WQuy_DgRA5-qJjI033rOfSJk_o5N-2N3gQ"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary drop-shadow-[0_0_12px_rgba(208,188,255,0.4)]">PROJECT MANGA</span></div><span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase tracking-wider">BETA</span></div><div class="flex-1 overflow-y-auto px-space-md py-space-xs"><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(160,120,255,0.25)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="my-library" href="#"><span class="material-symbols-outlined text-[20px]">auto_stories</span><span class="font-body-md text-body-md">My Library</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="create-manga-studio" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">brush</span><span class="font-body-md text-body-md">Create Manga Studio</span></div><span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">+ New Manga</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="explore-manga" href="#"><span class="material-symbols-outlined text-[20px]">explore</span><span class="font-body-md text-body-md">Explore Manga</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(160,120,255,0.25)]" data-path="reader" href="#"><span class="material-symbols-outlined text-[20px]">chrome_reader_mode</span><span class="font-body-md text-body-md">Reader</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="character-bible" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-body-md text-body-md">Character Bible</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="story-studio" href="#"><span class="material-symbols-outlined text-[20px]">history_edu</span><span class="font-body-md text-body-md">Story Studio</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings-api-keys" href="#"><span class="material-symbols-outlined text-[20px]">key</span><span class="font-body-md text-body-md">Settings &amp; BYOK Keys</span></a></nav></div><div class="p-space-md bg-surface-container-low flex flex-col gap-space-sm"><div class="flex items-center justify-between px-space-sm py-space-xs rounded-full bg-surface-container-highest"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary">API ONLINE</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">3/3 FREE CHAPTERS</span></div><div class="flex items-center gap-space-sm p-space-xs rounded-lg hover:bg-surface-container-high transition-colors"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md truncate text-on-surface">Ren</span><span class="font-label-sm text-label-sm text-secondary truncate">Level 12 Lorekeeper</span></div></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="relative flex-1 max-w-lg"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 rounded-xl bg-surface-container-high text-on-surface placeholder:text-outline font-body-md text-body-md outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search manga, lore nodes, prompts, or characters..." type="text"/></div><div class="flex items-center gap-space-md"><div class="flex items-center p-1 rounded-lg bg-surface-container-high gap-1"><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Continuous Vertical Scroll" type="button"><span class="material-symbols-outlined text-[18px]">view_day</span></button><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Spread View" type="button"><span class="material-symbols-outlined text-[18px]">menu_book</span></button></div><button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-90 shadow-[0_0_16px_rgba(208,188,255,0.35)] transition-all" type="button"><span class="material-symbols-outlined text-[18px]">bolt</span><span class="font-label-md text-label-md uppercase tracking-wider">Quick Create</span></button><button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="w-2 h-2 rounded-full bg-tertiary absolute top-2 right-2"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/></div></header><main class="relative w-full pt-16 px-space-lg py-space-xl bg-background min-h-screen"><div class="flex flex-col w-full relative select-none">
+<!-- FLOATING MINIMALIST TOP READER HUD -->
+<aside class="sticky top-0 z-30 w-full backdrop-blur-xl bg-surface-container-lowest/90 px-space-md py-space-sm shadow-[0_12px_32px_rgba(0,0,0,0.8)] flex flex-wrap items-center justify-between gap-space-sm">
+<!-- Left: Navigation & Series Info -->
+<div class="flex items-center gap-space-sm min-w-0">
+<a class="p-2 rounded-lg bg-surface-container-high text-on-surface hover:text-primary transition-colors flex items-center justify-center" data-path="my-library" href="#" title="Back to Library">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</a>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">The Quantum Hunter</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">CANON EP. 03</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Ch. 03: Schrödinger's Abyss — Superposition in Action</span>
+</div>
+</div>
+<!-- Center: Reading Progress & Telemetry -->
+<div class="hidden md:flex items-center gap-space-md bg-surface-container-high px-space-md py-1.5 rounded-full">
+<div class="flex items-center gap-2 font-label-md text-label-md text-secondary">
+<span class="material-symbols-outlined text-[16px] text-tertiary">timelapse</span>
+<span id="progress-text">Page 14 of 42 (33%)</span>
+</div>
+<div class="w-32 h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container via-tertiary to-primary w-1/3 transition-all duration-300" id="progress-bar-fill"></div>
+</div>
+</div>
+<!-- Right: Viewer Controls, Settings, Concept Toggle -->
+<div class="flex items-center gap-2">
+<!-- Mode Switch -->
+<div class="flex items-center bg-surface-container-high p-1 rounded-lg">
+<button class="flex items-center gap-1 px-space-sm py-1 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm shadow-[0_0_12px_rgba(160,120,255,0.4)]" type="button">
+<span class="material-symbols-outlined text-[16px]">view_day</span>
+<span class="hidden sm:inline">Vertical Webtoon</span>
+</button>
+<button class="flex items-center gap-1 px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">auto_stories</span>
+<span class="hidden sm:inline">Page-by-Page</span>
+</button>
+</div>
+<!-- Quick Settings Menu Button -->
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" id="toggle-settings-btn" title="Display Preferences" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<!-- Bookmark Action -->
+<button class="p-2 rounded-lg bg-secondary-container text-on-secondary-container hover:shadow-[0_0_16px_rgba(192,193,255,0.4)] transition-all" title="Bookmark Panel 14" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+</aside>
+<!-- QUICK SETTINGS SUB-DRAWER (Toggled) -->
+<div class="hidden sticky top-16 z-20 w-full max-w-3xl mx-auto px-space-md py-space-sm bg-surface-container/95 backdrop-blur-md rounded-b-xl shadow-xl flex-wrap items-center justify-between gap-space-md" id="reader-settings-panel">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Canvas Width:</span>
+<button class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary" type="button">Standard (768px)</button>
+<button class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm hover:bg-primary hover:text-on-primary" type="button">Cinema (960px)</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Sound Effects:</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm">Stylized SFX [ON]</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Physics Overlay:</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm">Active Chords</span>
+</div>
+</div>
+<!-- MAIN SCROLL CONTAINER: OBSIDIAN GUTTER WEBTOON -->
+<div class="relative w-full max-w-3xl mx-auto flex flex-col items-center gap-space-xl py-space-xl">
+<!-- READING ASSISTANT CALLOUT PILL -->
+<div class="flex items-center gap-2 px-space-md py-1 rounded-full bg-surface-container-low shadow-[0_0_20px_rgba(76,215,246,0.15)]">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-ping"></span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Interactive Quantum Overlay Active</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">— Click markers for wave equations</span>
+</div>
+<!-- ==================== PANEL 1: ESTABLISHING SHOT ==================== -->
+<article class="relative w-full rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.8)] bg-surface-container-lowest group">
+<!-- Art Canvas Layer -->
+<div class="relative w-full aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover object-center filter brightness-95 contrast-105 group-hover:scale-[1.01] transition-transform duration-700 ease-out" data-alt="A sprawling, high-tech futuristic university campus in Neo-Seoul at midnight under a star-filled galactic sky, glowing with intense violet and cyan neon lights. Massive cylindrical holographic data pillars display glowing purple Korean equations and technological diagrams. Sleek hover vehicles trace luminous light trails across the deep space sky. Atmospheric mist rolls across high-tech architecture with massive glass facade structures and tiered plazas." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_sje4Fuxos84pKjD_2ya5WjKDwiAz6brI02lR-u7MjOuio_EEVNTXl0DKlAnhnIlG2fVSX2__ib_qbBWAZZXk1gQDDZ6INlyfLfMJXZn0rpBQ51pUU4X8sJbn1x-dNCBbRzO9opj63WlEKi1bW3B-ne1ibeXvONJ1JmCwditt5VYKyt8AMyk_29_fq8ss1A2q_nQazxBkSE_K8v6TVt5_lLJH_zG65zOnunvDSvfB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/60 pointer-events-none"></div>
+</div>
+<!-- SPEECH & NARRATION OVERLAY LAYER -->
+<!-- Narration Box (Top-Left) -->
+<div class="absolute top-6 left-6 z-10 max-w-xs bg-surface-container-lowest/90 backdrop-blur-md px-space-md py-space-sm rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.7)]">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">SECTOR RECORD // 00:04:12</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight">Neo-Seoul Quantum Academy — Sector 7</p>
+<span class="font-body-sm text-body-sm text-outline">Sub-Basement Particle Containment Vault</span>
+</div>
+<!-- Dialogue Bubble (Bottom-Right with tail) -->
+<div class="absolute bottom-10 right-8 z-10 max-w-sm">
+<div class="relative bg-surface-container-high/95 backdrop-blur-lg px- space-md p-space-md rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]">
+<div class="flex items-center justify-between gap-2 mb-1.5">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Dr. Han [Comms Deck]</span>
+<span class="font-label-sm text-label-sm text-error flex items-center gap-1 animate-pulse">
+<span class="material-symbols-outlined text-[14px]">warning</span> CRITICAL
+            </span>
+</div>
+<p class="font-title-md text-title-md text-on-surface leading-relaxed">
+            "The probability wave is destabilizing... we have less than ten nanoseconds before collapse!"
+          </p>
+<!-- Speech Tail SVG -->
+<div class="absolute -bottom-3 right-8 w-4 h-4 overflow-hidden pointer-events-none">
+<div class="w-4 h-4 bg-surface-container-high/95 rotate-45 transform origin-top-left"></div>
+</div>
+</div>
+</div>
+<!-- Sub-panel Footer Metadata -->
+<div class="absolute bottom-2 left-6 z-10 font-label-sm text-label-sm text-outline-variant">
+        PANEL 01 / 42 // SEED #89410-QNT
+      </div>
+</article>
+<!-- DRAMATIC GUTTER CONNECTOR -->
+<div class="flex flex-col items-center gap-2 my-space-xs opacity-60">
+<div class="w-0.5 h-8 bg-gradient-to-b from-transparent via-primary to-transparent"></div>
+<span class="material-symbols-outlined text-primary text-[14px] animate-bounce">expand_more</span>
+</div>
+<!-- ==================== PANEL 2: COMBAT CLIMAX & SCIENCE INTERACTION ==================== -->
+<article class="relative w-full rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.9)] bg-surface-container-lowest group">
+<!-- Art Canvas Layer -->
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover object-center filter brightness-100 contrast-110" data-alt="Dynamic anime action manga panel of a dark-haired male quantum warrior crouching inside a shattered mechanical warzone. He wears high-collared dark tactical combat gear and a billowing tattered black cape. In his outstretched hand, he manifests a glowing spherical quantum gyroscope core composed of concentric glowing energy rings radiating bright electric violet and crackling cyan light sparks. Explosive debris, shattered concrete, and sparks fly in the smoke-filled background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPLcjlkp-2Pg-4Ljl3JbJY1T5aWeu2xEy43-0IgiM_R1FqwoA3LdcdBp6lo24wpRwmmjyHmjw1UE9g9yWWopqnClBGBew90WwkaRZVNRHYZRvqcnlKIjA7kiwEuGXAAWI9E2vCFjAbjXkorM9oS4wy_lBDPpod2ItR1Ab085Fd1dfN9JVVh5uoYMNBUz_CzFWyfws7VHwua7I-3pV1_PQEP6PoXoIRlHGvzc29Y8Gw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/40 pointer-events-none"></div>
+</div>
+<!-- KINETIC SFX GRAPHIC OVERLAYS -->
+<!-- 'BOOOM!!' Sound Effect -->
+<div class="absolute top-10 left-8 z-10 transform -rotate-12 select-none pointer-events-none drop-shadow-[0_0_16px_rgba(208,188,255,0.6)]">
+<span class="font-display-xl text-display-xl text-primary font-black tracking-tighter opacity-90 italic">
+          BOOOM!!
+        </span>
+</div>
+<!-- 'ZRRRKT' High-Voltage Sizzle -->
+<div class="absolute top-28 right-12 z-10 transform rotate-6 select-none pointer-events-none drop-shadow-[0_0_20px_rgba(76,215,246,0.8)]">
+<span class="font-headline-lg text-headline-lg text-tertiary font-black tracking-widest italic animate-pulse">
+          ZRRRKT⚡
+        </span>
+</div>
+<!-- Hero Dialogue Bubble with Distinct Shape -->
+<div class="absolute bottom-24 left-8 z-10 max-w-md">
+<div class="relative bg-surface-container-lowest/90 backdrop-blur-xl p-space-md rounded-2xl shadow-[0_8px_32px_rgba(160,120,255,0.3)]">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Jin Woo-Jin — Observable Core</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-snug font-bold">
+            "By observing the particle, I collapse its eigenstates into a single reality!"
+          </p>
+<!-- Speech Tail -->
+<div class="absolute -top-3 left-10 w-4 h-4 overflow-hidden pointer-events-none">
+<div class="w-4 h-4 bg-surface-container-lowest/90 rotate-45 transform origin-bottom-left"></div>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE CONCEPT MARKER (TAP TO INSPECT) -->
+<div class="absolute bottom-8 right-6 z-20">
+<button class="flex items-center gap-2 px-space-md py-2.5 rounded-full bg-primary text-on-primary shadow-[0_0_24px_rgba(208,188,255,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer" id="concept-marker-btn" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-primary animate-pulse">lightbulb</span>
+<span class="font-label-md text-label-md uppercase tracking-wider font-bold">Concept: Wavefunction Collapse</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm ml-1">Inspect</span>
+</button>
+</div>
+<!-- Sub-panel Footer Metadata -->
+<div class="absolute bottom-2 left-6 z-10 font-label-sm text-label-sm text-outline-variant">
+        PANEL 02 / 42 // ACTION CLIMAX // DURATION: 0.003s
+      </div>
+</article>
+<!-- FLOATING SIDE DRAWER: CONTEXTUAL PHYSICS EXPLANATION -->
+<!-- Positioned dynamically or fixed slide-over triggered by button -->
+<div class="w-full bg-surface-container-high rounded-2xl p-space-lg shadow-[0_16px_48px_rgba(0,0,0,0.8)] relative overflow-hidden transition-all duration-300" id="concept-drawer">
+<!-- Glow ambient background element -->
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex items-start justify-between gap-space-md mb-space-md relative z-10">
+<div class="flex items-center gap-3">
+<div class="p-2.5 rounded-xl bg-primary text-on-primary shadow-[0_0_16px_rgba(208,188,255,0.4)]">
+<span class="material-symbols-outlined text-[24px]">school</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Educational Breakdown</span>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm">MIT 8.04 Syllabus</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Wavefunction Collapse (Measurement Problem)</h3>
+</div>
+</div>
+<button class="p-1.5 rounded-lg bg-surface-container-highest text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors" id="close-drawer-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Educational Card Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md relative z-10">
+<!-- Scene Correlation -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">What is happening in this scene?</span>
+<p class="font-body-md text-body-md text-on-surface">
+            Jin exploits the <strong class="text-tertiary">Copenhagen interpretation</strong> of quantum measurement. By projecting his conscious observation apparatus into the chaotic probability wave, he abruptly collapses infinite quantum indeterminacy into a single deterministic kinetic strike.
+          </p>
+</div>
+<!-- Academic & Mathematical Reference -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Academic Concept</span>
+<p class="font-title-md text-title-md text-on-surface">Superposition &amp; State Vector Projection</p>
+<div class="mt-auto p-space-sm rounded-lg bg-surface-container-lowest font-mono text-tertiary text-center font-label-md text-label-md shadow-inner">
+            |Ψ⟩ = α|0⟩ + β|1⟩  ⟶  |1⟩ (Observed)
+          </div>
+</div>
+</div>
+<!-- Source Document Footer Pill -->
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm text-on-surface-variant relative z-10">
+<div class="flex items-center gap-2 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">description</span>
+<span>Source: <strong class="text-on-surface">MIT 8.04 Quantum Physics I</strong>, Lecture 4 (Page 12)</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-space-sm py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm hover:opacity-90 transition-opacity" type="button">
+            Deep Dive Lecture Notes
+          </button>
+<button class="px-space-sm py-1 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm hover:bg-surface-bright transition-colors" type="button">
+            Copy Formula
+          </button>
+</div>
+</div>
+</div>
+<!-- ==================== PANEL 3: NARRATIVE MOMENTUM & TRANSITION ==================== -->
+<article class="relative w-full rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.8)] bg-surface-container-lowest group">
+<!-- Art Canvas Layer -->
+<div class="relative w-full aspect-[16/9] overflow-hidden">
+<img class="w-full h-full object-cover object-center filter brightness-90 contrast-105" data-alt="Cinematic atmospheric webtoon panel showing a low-angle shot of a smoke-filled high-tech corridor illuminated by blinking warning indicators and residual purple electricity arcing between shattered metal bulkheads. In the center, a defeated robotic adversary lies sparking with exposed fiber optics while deep cyan particle trails drift up toward the ceiling vents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmcsn5HtrH7kprf72gNCGURWru4wPpgXsclzluy1YJFP6ILdOBeSqIVIszT7cnG0E-rDaHNWSctwgk4hwseN2f6uHjkv76MuRciGdwlao3SVh_s8gghp3JL7Vfb_sQvfxGk8iBQnkHx-9fAKa0BzCGLRl03xGOc0VP_OCM1ivQvs3Z_PLkEHU1741F3MlR2vhA7fJZvCuZM-zM08AUJZfXTM_-XqAYeFKu51G0WXFH"/>
+<div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest via-transparent to-surface-container-lowest/80 pointer-events-none"></div>
+</div>
+<!-- Story Narrative Overlay -->
+<div class="absolute top-8 left-8 z-10 max-w-sm bg-surface-container-high/90 backdrop-blur-md p-space-md rounded-2xl shadow-xl">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">query_stats</span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Heisenberg Limit Reached</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+          "Δx · Δp ≥ ℏ/2... We paid for absolute kinetic precision with total thermal uncertainty."
+        </p>
+</div>
+<!-- Dialogue Bubble Right -->
+<div class="absolute bottom-8 right-8 z-10 max-w-xs bg-surface-container-lowest/90 backdrop-blur-md p-space-md rounded-2xl shadow-xl text-right">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Jin Woo-Jin</span>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-1">
+          "The singularity is cleared. Prepare the waveguide."
+        </p>
+</div>
+<div class="absolute bottom-2 left-6 z-10 font-label-sm text-label-sm text-outline-variant">
+        PANEL 03 / 42 // AFTERMATH
+      </div>
+</article>
+<!-- CHAPTER FOOTER / REWARD & POST-EPISODE HUB -->
+<section class="w-full bg-surface-container-lowest rounded-2xl p-space-xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] flex flex-col gap-space-lg">
+<!-- Achievement Banner -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md p-space-md rounded-xl bg-surface-container-high relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-40 h-40 bg-secondary-container/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-space-md relative z-10">
+<div class="w-14 h-14 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-[0_0_20px_rgba(192,193,255,0.4)]">
+<span class="material-symbols-outlined text-[32px]">military_tech</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Episode Complete</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold">+150 Lore XP</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Chapter 3: Schrödinger's Abyss</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Read time: 4 mins • 3/3 Physical concepts logged to your notebook</p>
+</div>
+</div>
+<div class="flex items-center gap-2 relative z-10 self-stretch md:self-auto justify-end">
+<button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>Share Panel</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+<span>Save to Bible</span>
+</button>
+</div>
+</div>
+<!-- Concepts Mastered Badges -->
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Key Physics Concepts Encountered:</span>
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 px-space-md py-2 rounded-xl bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] text-tertiary">science</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Superposition Principle</span>
+<span class="font-body-sm text-body-sm text-outline">Linear combination of state vectors</span>
+</div>
+</div>
+<div class="flex items-center gap-2 px-space-md py-2 rounded-xl bg-surface-container-low">
+<span class="material-outlined material-symbols-outlined text-[18px] text-primary">visibility</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Measurement Problem</span>
+<span class="font-body-sm text-body-sm text-outline">Observer-induced determinism</span>
+</div>
+</div>
+<div class="flex items-center gap-2 px-space-md py-2 rounded-xl bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] text-secondary">functions</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Bra-Ket Notation</span>
+<span class="font-body-sm text-body-sm text-outline">Hilbert space coordinate system</span>
+</div>
+</div>
+</div>
+</div>
+<!-- HIGH-ENERGY CALL TO ACTION BUTTONS -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-sm">
+<!-- Start Quiz CTA -->
+<button class="flex items-center justify-center gap-3 p-space-md rounded-xl bg-secondary-container text-on-secondary-container hover:shadow-[0_0_24px_rgba(192,193,255,0.4)] transition-all group" type="button">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">quiz</span>
+<div class="flex flex-col items-start">
+<span class="font-headline-sm text-headline-sm">Start Chapter Quiz</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container/80">5 Questions • Test your Wavefunction grasp</span>
+</div>
+</button>
+<!-- Next Chapter CTA -->
+<a class="flex items-center justify-between p-space-md rounded-xl bg-primary text-on-primary hover:shadow-[0_0_24px_rgba(208,188,255,0.5)] transition-all group" href="#">
+<div class="flex flex-col items-start">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-primary/80">Next Episode</span>
+<span class="font-headline-sm text-headline-sm">Ch. 04: Waveguide Resonance</span>
+</div>
+<span class="material-symbols-outlined text-[28px] group-hover:translate-x-1.5 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- Quick Reader Navigation Controls -->
+<div class="flex items-center justify-between pt-space-md text-on-surface-variant font-label-md text-label-md">
+<a class="flex items-center gap-1 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_left</span>
+<span>Previous: Ch. 02 The Dirac Sea</span>
+</a>
+<span class="text-outline">PROJECT MANGA KNOWLEDGE ENGINE v2.4</span>
+<a class="flex items-center gap-1 text-primary hover:text-primary-fixed transition-colors" href="#">
+<span>Table of Contents</span>
+<span class="material-symbols-outlined text-[18px]">list</span>
+</a>
+</div>
+</section>
+</div>
+<!-- FLOATING QUICK BOTTOM HUD (For Continuous Scroll Telemetry) -->
+<div class="fixed bottom-6 right-8 z-30 flex items-center gap-2">
+<button class="p-3 rounded-full bg-surface-container-highest/90 backdrop-blur-md text-on-surface shadow-xl hover:bg-primary hover:text-on-primary transition-all" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to Top" type="button">
+<span class="material-symbols-outlined text-[20px]">vertical_align_top</span>
+</button>
+</div>
+</div>
+<script>
+  // Interactive Concept Marker Drawer Toggle
+  const conceptMarkerBtn = document.getElementById('concept-marker-btn');
+  const conceptDrawer = document.getElementById('concept-drawer');
+  const closeDrawerBtn = document.getElementById('close-drawer-btn');
+  const toggleSettingsBtn = document.getElementById('toggle-settings-btn');
+  const settingsPanel = document.getElementById('reader-settings-panel');
+
+  if (conceptMarkerBtn && conceptDrawer) {
+    conceptMarkerBtn.addEventListener('click', () => {
+      conceptDrawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      conceptDrawer.classList.add('ring-2', 'ring-primary', 'shadow-[0_0_32px_rgba(208,188,255,0.4)]');
+      setTimeout(() => {
+        conceptDrawer.classList.remove('ring-2', 'ring-primary');
+      }, 1500);
+    });
+  }
+
+  if (closeDrawerBtn && conceptDrawer) {
+    closeDrawerBtn.addEventListener('click', () => {
+      conceptDrawer.classList.toggle('opacity-50');
+      setTimeout(() => conceptDrawer.classList.remove('opacity-50'), 400);
+    });
+  }
+
+  if (toggleSettingsBtn && settingsPanel) {
+    toggleSettingsBtn.addEventListener('click', () => {
+      settingsPanel.classList.toggle('hidden');
+      settingsPanel.classList.toggle('flex');
+    });
+  }
+
+  // Dynamic Scroll Progress Calculation
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+    const progressBar = document.getElementById('progress-bar-fill');
+    const progressText = document.getElementById('progress-text');
+    
+    if (progressBar) {
+      progressBar.style.width = Math.min(100, Math.max(5, progress)) + '%';
+    }
+    if (progressText) {
+      const pageIndex = Math.min(42, Math.max(1, Math.round((progress / 100) * 42)));
+      progressText.textContent = `Page ${pageIndex} of 42 (${Math.round(progress)}%)`;
+    }
+  });
+</script></main></div></body></html>

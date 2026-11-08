@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed-variant":"#2f2ebe","secondary":"#c0c1ff","outline-variant":"#494454","primary-fixed":"#e9ddff","inverse-primary":"#6d3bd7","on-tertiary-fixed":"#001f26","on-tertiary-fixed-variant":"#004e5c","on-surface-variant":"#cbc3d7","surface-tint":"#d0bcff","inverse-surface":"#e4e1ea","secondary-fixed-dim":"#c0c1ff","background":"#131319","tertiary-container":"#009eb9","primary-container":"#a078ff","surface-container-highest":"#35343b","outline":"#958ea0","surface-container-low":"#1b1b21","surface-bright":"#393840","on-secondary-fixed":"#07006c","inverse-on-surface":"#303037","on-surface":"#e4e1ea","on-error":"#690005","tertiary":"#4cd7f6","on-secondary":"#1000a9","secondary-container":"#3131c0","on-primary":"#3c0091","secondary-fixed":"#e1e0ff","on-primary-fixed":"#23005c","primary-fixed-dim":"#d0bcff","on-secondary-container":"#b0b2ff","surface-variant":"#35343b","tertiary-fixed-dim":"#4cd7f6","on-tertiary":"#003640","error":"#ffb4ab","on-primary-container":"#340080","surface-dim":"#131319","on-error-container":"#ffdad6","surface-container":"#1f1f26","surface-container-lowest":"#0e0e14","on-tertiary-container":"#002f38","surface":"#131319","on-primary-fixed-variant":"#5516be","primary":"#d0bcff","tertiary-fixed":"#acedff","on-background":"#e4e1ea","surface-container-high":"#2a2930","error-container":"#93000a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xl":"2.5rem","gutter":"1.5rem","gutter-mobile":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","margin":"2rem","space-xs":"0.25rem","space-md":"1rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Space Grotesk"],"body-sm":["Inter"],"title-md":["Inter"],"headline-lg":["Space Grotesk"],"body-lg":["Inter"],"body-md":["Inter"],"label-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"display-xl":["Space Grotesk"],"display-xl-mobile":["Space Grotesk"],"headline-md":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"]},fontSize:{"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"600"}],"display-xl":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"display-xl-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="p-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Project Manga Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAg5_xv5W6NRPUWFa0onjzkQpz6Hpu6swgVGG6BoqCCAz69siQgMa3JIoYRQzUYphh68oGaWnvyR6pfRoHVqkmcP6J_SkdY9EIKZ6ZXNN_Mu06q1UelNQPqy-9KpP1XTSFUYjaIqxRckEYOY7cKZRF36ciBCF_F_0Feu3yTfTWLeG8TPcxN-5co2sLXBKx-Rpd38_LPTAw0WQuy_DgRA5-qJjI033rOfSJk_o5N-2N3gQ"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary drop-shadow-[0_0_12px_rgba(208,188,255,0.4)]">PROJECT MANGA</span></div><span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase tracking-wider">BETA</span></div><div class="flex-1 overflow-y-auto px-space-md py-space-xs"><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(160,120,255,0.25)]"><div class="px-space-md pt-space-xs pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Workspace</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="my-library" href="#">My Library</a><div class="px-space-md pt-space-sm pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Series &amp; Studio</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="the-quantum-hunter-manga-details-chapter-directory" href="#">Manga Overview</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="story-studio-chapter-management" href="#">Story Studio &amp; Chapters</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="character-bible" href="#">Character Bible</a><div class="px-space-md pt-space-sm pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Configuration</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="general-settings" href="#">General Settings</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="ai-providers-byok" href="#">AI Providers (BYOK)</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="usage-quota" href="#">Usage &amp; Quota</a></nav></div><div class="p-space-md bg-surface-container-low flex flex-col gap-space-sm"><div class="flex items-center justify-between px-space-sm py-space-xs rounded-full bg-surface-container-highest"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary">API ONLINE</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">3/3 FREE CHAPTERS</span></div><div class="flex items-center gap-space-sm p-space-xs rounded-lg hover:bg-surface-container-high transition-colors"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md truncate text-on-surface">Ren</span><span class="font-label-sm text-label-sm text-secondary truncate">Level 12 Lorekeeper</span></div></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="relative flex-1 max-w-lg"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 rounded-xl bg-surface-container-high text-on-surface placeholder:text-outline font-body-md text-body-md outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search manga, lore nodes, prompts, or characters..." type="text"/></div><div class="flex items-center gap-space-md"><div class="flex items-center p-1 rounded-lg bg-surface-container-high gap-1"><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Continuous Vertical Scroll" type="button"><span class="material-symbols-outlined text-[18px]">view_day</span></button><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Spread View" type="button"><span class="material-symbols-outlined text-[18px]">menu_book</span></button></div><button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-90 shadow-[0_0_16px_rgba(208,188,255,0.35)] transition-all" type="button"><span class="material-symbols-outlined text-[18px]">bolt</span><span class="font-label-md text-label-md uppercase tracking-wider">Quick Create</span></button><button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="w-2 h-2 rounded-full bg-tertiary absolute top-2 right-2"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/></div></header><main class="relative w-full pt-16 px-space-lg py-space-xl bg-background min-h-screen"><div class="flex flex-col w-full gap-space-xl">
+<!-- PAGE HEADER & STATUS MARQUEE -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="flex items-center gap-space-sm mb-1">
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase tracking-wider">Telemetry &amp; Billing</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">BYOK Pipeline v2.4.9</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">Usage, Quota &amp; API Analytics</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Monitor your included personalized chapters, token consumption across connected providers, and real-time generation activity.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">download</span>
+        Export Usage CSV
+      </button>
+<button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-90 shadow-[0_0_20px_rgba(208,188,255,0.35)] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Manage API Keys</span>
+</button>
+</div>
+</div>
+<!-- TOP OVERVIEW KPI CARDS -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Card 1: Free Plan Progress -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md shadow-md flex flex-col justify-between">
+<div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-primary/5 pointer-events-none blur-xl"></div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Included Entitlement</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm uppercase tracking-wider">Active Trial</span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg text-headline-lg text-on-surface">2</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant font-normal">of 3 Chapters Free</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">1 generated (Ep 01 &amp; Ep 02 pilot).</p>
+</div>
+<div class="mt-space-md flex flex-col gap-2">
+<div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(160,120,255,0.6)]" style="width: 33.33%;"></div>
+</div>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm">
+<span>33% Consumed</span>
+<span class="text-tertiary">2 Free Remaining</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Total Panels Rendered -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md shadow-md flex flex-col justify-between">
+<div class="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-tertiary/5 pointer-events-none blur-xl"></div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Visual Canvas Pipeline</span>
+<span class="p-1 rounded bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">art_track</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg text-headline-lg text-on-surface">142</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant font-normal">Panels</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">42 Ultra-HD 4K + 100 Script Layers</p>
+</div>
+<!-- Sparkline visual -->
+<div class="mt-space-sm pt-2 flex items-end gap-1.5 h-10 w-full">
+<div class="flex-1 bg-surface-container-highest rounded-t h-4 hover:bg-primary transition-colors" title="Day 1: 4 panels"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-6 hover:bg-primary transition-colors" title="Day 2: 12 panels"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-5 hover:bg-primary transition-colors" title="Day 3: 8 panels"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-9 hover:bg-primary transition-colors" title="Day 4: 28 panels"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-7 hover:bg-primary transition-colors" title="Day 5: 19 panels"></div>
+<div class="flex-1 bg-primary rounded-t h-10 shadow-[0_0_8px_rgba(208,188,255,0.4)]" title="Today: 42 panels"></div>
+</div>
+</div>
+<!-- Card 3: BYOK Monthly Spend -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md shadow-md flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Direct Provider Cost</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm">0% Markup</span>
+</div>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-headline-lg text-headline-lg text-on-surface">$3.42</span>
+<span class="font-body-sm text-body-sm text-outline">USD / MTD</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Google Gemini ($1.85) + OpenAI ($1.57)</p>
+</div>
+<div class="mt-space-md flex items-center justify-between rounded-lg bg-surface-container-lowest p-space-xs px-space-sm">
+<span class="font-label-sm text-label-sm text-outline">Est. Cost / Chapter:</span>
+<span class="font-headline-sm text-headline-sm text-tertiary">~$1.14</span>
+</div>
+</div>
+<!-- Card 4: Academic Vectors -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md shadow-md flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Grounded Pedagogy</span>
+<span class="p-1 rounded bg-surface-container-high text-tertiary">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg text-headline-lg text-on-surface">48</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant font-normal">Theorems</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">MIT 8.04 Quantum Physics Corpus</p>
+</div>
+<div class="mt-space-md flex items-center gap-2">
+<div class="flex -space-x-1.5 overflow-hidden">
+<span class="inline-block h-5 w-5 rounded-full bg-surface-container-highest ring-1 ring-background text-[10px] flex items-center justify-center font-bold text-tertiary">Ψ</span>
+<span class="inline-block h-5 w-5 rounded-full bg-surface-container-highest ring-1 ring-background text-[10px] flex items-center justify-center font-bold text-secondary">ℏ</span>
+<span class="inline-block h-5 w-5 rounded-full bg-surface-container-highest ring-1 ring-background text-[10px] flex items-center justify-center font-bold text-primary">∇</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Schrödinger, Hilbert &amp; Pauli</span>
+</div>
+</div>
+</div>
+<!-- SECTION 1: ACTIVE ENTITLEMENT & HYBRID ENGINE ARCHITECTURE -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-md flex flex-col lg:flex-row items-stretch justify-between gap-space-lg">
+<div class="flex-1 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-md text-headline-md text-on-surface">Capacity Model: Free Tier + BYOK Hybrid</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Optimized</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Every eligible account receives 3 fully personalized educational manga chapters generated end-to-end at zero cost on our hosted cluster. Connect your personal API keys (Google Gemini, OpenAI, Claude) to activate unlimited, unrestricted webtoon serialization once your free chapter credits conclude.
+        </p>
+</div>
+<!-- Feature grid pills -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm pt-2">
+<div class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container">
+<span class="material-symbols-outlined text-tertiary text-[20px]">auto_stories</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-outline uppercase">Included Free</span>
+<span class="font-title-md text-title-md text-on-surface">1 Used / 2 Left</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container">
+<span class="material-symbols-outlined text-secondary text-[20px]">tune</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-outline uppercase">Zero Platform Tax</span>
+<span class="font-title-md text-title-md text-on-surface">$0.00 Project Fee</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container">
+<span class="material-symbols-outlined text-primary text-[20px]">lock_open</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-outline uppercase">Continuity Lock</span>
+<span class="font-title-md text-title-md text-on-surface">Auto-Fallback ON</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Illustrated Canvas Teaser / Pipeline Status Card -->
+<div class="lg:w-80 flex-shrink-0 flex flex-col justify-between rounded-xl bg-surface-container p-space-md shadow-inner relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Current Chapter Draft</span>
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+</div>
+<div class="relative w-full h-36 rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center group">
+<img class="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500" data-alt="Cyberpunk high school classroom where a glowing blue quantum wave equation floats above the teacher's podium, manhwa webtoon vertical panel style with neon accents, rich dark background and violet outlines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ3AKGOgRRspk-1AWkkSKlZw6FYu4KdGZyky6iqn40z19598VQRVy49cEbTEJJuX4xpZM5fcq7v-tK04tf5I2jH50m1_Ojpjzz95kUnJBh_KQ-ClcGrzxR340cVJdFCFPJjrY-YhZqCM8rjdNGi597g9VEeAbNGVYMFRseUbhz2IuD8SysLqVNPIambqM8jctFGVHqRST-dHxp1Wvesb7zUQ2rNvGuDl86DEHt5Ur7"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface px-1.5 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur">Ch. 02: Particle Collapse</span>
+<span class="font-label-sm text-label-sm text-tertiary">96% Ready</span>
+</div>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>Allocation Remaining:</span>
+<span class="font-title-md text-title-md text-on-surface">66.7%</span>
+</div>
+</div>
+</div>
+<!-- SECTION 2: MULTI-PROVIDER USAGE ANALYTICS (TABLE + TOKEN VIZ) -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-space-lg">
+<!-- Main Providers Table (2 Cols) -->
+<div class="xl:col-span-2 rounded-xl bg-surface-container p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">BYOK Breakdown</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Multi-Provider Token &amp; Render Ledger</h2>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest p-1 rounded-lg">
+<button class="px-space-sm py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">This Month</button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm">All Time</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-lowest/50 text-outline font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-sm px-space-md rounded-l-lg">Engine Provider</th>
+<th class="py-space-sm px-space-md">Input / Context</th>
+<th class="py-space-sm px-space-md">Output / Completion</th>
+<th class="py-space-sm px-space-md">Visual Renders</th>
+<th class="py-space-sm px-space-md">Direct Spend</th>
+<th class="py-space-sm px-space-md rounded-r-lg">Channel State</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-transparent">
+<!-- Row 1: Gemini -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/30 text-tertiary flex items-center justify-center font-bold text-label-md">
+                  G
+                </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface leading-tight">Google Gemini</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Gemini 1.5 Pro &amp; Flash</span>
+</div>
+</td>
+<td class="py-space-md px-space-md text-on-surface">
+<span class="font-title-md text-title-md">1,420,500</span>
+<span class="block text-outline font-label-sm text-label-sm">82 calls</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface">
+<span class="font-title-md text-title-md">280,100</span>
+<span class="block text-outline font-label-sm text-label-sm">4.8k avg/gen</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface">
+<span class="font-title-md text-title-md text-tertiary">28</span>
+<span class="block text-outline font-label-sm text-label-sm">Imagen 3</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="font-title-md text-title-md text-on-surface">$1.85</span>
+<span class="block text-outline font-label-sm text-label-sm">Tier 1 billing</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Active
+                </span>
+</td>
+</tr>
+<!-- Row 2: OpenAI -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-container/30 text-primary flex items-center justify-center font-bold text-label-md">
+                  O
+                </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface leading-tight">OpenAI</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">GPT-4o &amp; Text Embedding 3</span>
+</div>
+</td>
+<td class="py-space-md px-space-md text-on-surface">
+<span class="font-title-md text-title-md">410,200</span>
+<span class="block text-outline font-label-sm text-label-sm">19 calls</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface">
+<span class="font-title-md text-title-md">92,000</span>
+<span class="block text-outline font-label-sm text-label-sm">Storyboard script</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">
+<span class="font-title-md text-title-md">0</span>
+<span class="block text-outline font-label-sm text-label-sm">DALL-E bypassed</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="font-title-md text-title-md text-on-surface">$1.57</span>
+<span class="block text-outline font-label-sm text-label-sm">Org default</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Active
+                </span>
+</td>
+</tr>
+<!-- Row 3: Anthropic -->
+<tr class="hover:bg-surface-container-high/40 transition-colors opacity-60">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest text-outline flex items-center justify-center font-bold text-label-md">
+                  A
+                </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface leading-tight">Anthropic Claude</span>
+<span class="font-body-sm text-body-sm text-outline">Claude 3.5 Sonnet</span>
+</div>
+</td>
+<td class="py-space-md px-space-md text-outline">0</td>
+<td class="py-space-md px-space-md text-outline">0</td>
+<td class="py-space-md px-space-md text-outline">0</td>
+<td class="py-space-md px-space-md text-outline">$0.00</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-outline font-label-sm text-label-sm uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Inactive
+                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Quick note -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-lowest/80 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary">info</span>
+<span>All tokens billed in direct relation to your independent provider credentials. Project Manga never adds hidden surcharge surcharges or proxy markups.</span>
+</div>
+</div>
+<!-- Token Distribution & Donut Chart (1 Col) -->
+<div class="rounded-xl bg-surface-container p-space-lg shadow-md flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Telemetry Share</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Token Pipeline Mix</h2>
+</div>
+<!-- Donut Visual (Inline SVG) -->
+<div class="relative flex items-center justify-center my-space-md">
+<svg class="w-48 h-48 transform -rotate-90" viewbox="0 0 100 100">
+<!-- Background track -->
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-width="10"></circle>
+<!-- Gemini Share (77.6% -> circumference ~ 238.7, length ~ 185) -->
+<circle class="text-tertiary transition-all duration-700" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-dasharray="185 238.7" stroke-dashoffset="0" stroke-width="10"></circle>
+<!-- OpenAI Share (22.4% -> length ~ 53.7) -->
+<circle class="text-primary transition-all duration-700" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-dasharray="53.7 238.7" stroke-dashoffset="-185" stroke-width="10"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center text-center">
+<span class="font-headline-lg text-headline-lg text-on-surface">2.2M</span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Total Tokens</span>
+</div>
+</div>
+<!-- Donut Legend -->
+<div class="flex flex-col gap-space-sm pt-2">
+<div class="flex items-center justify-between p-space-xs px-space-sm rounded bg-surface-container-lowest">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-body-sm text-body-sm text-on-surface">Google Gemini 1.5</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">77.6%</span>
+</div>
+<div class="flex items-center justify-between p-space-xs px-space-sm rounded bg-surface-container-lowest">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-body-sm text-body-sm text-on-surface">OpenAI GPT-4o</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">22.4%</span>
+</div>
+<div class="flex items-center justify-between p-space-xs px-space-sm rounded bg-surface-container-lowest opacity-40">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-outline">Anthropic Claude</span>
+</div>
+<span class="font-title-md text-title-md text-outline">0.0%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: RECENT GENERATION ACTIVITY LOG -->
+<div class="rounded-xl bg-surface-container p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Audit Trail</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Generation Engine Activity</h2>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline">Displaying last 4 tasks</span>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- Activity Item Cards -->
+<div class="flex flex-col gap-space-xs">
+<!-- Item 1 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface truncate">Ch. 03 Concept Boss Battle Validation</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-tertiary font-label-sm text-label-sm">gpt-4o</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Dialogue timing check &amp; panel narrative pacing script</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg sm:flex-shrink-0 justify-between sm:justify-end">
+<div class="flex flex-col sm:items-end">
+<span class="font-label-md text-label-md text-on-surface">1.2k tokens</span>
+<span class="font-body-sm text-body-sm text-outline">Today, 14:22</span>
+</div>
+<span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm uppercase">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Success
+          </span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/20 text-tertiary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">image</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface truncate">Panel 42 High-Energy Climax Render</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">Imagen 3</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4K Continuous vertical manhwa keyframe render</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg sm:flex-shrink-0 justify-between sm:justify-end">
+<div class="flex flex-col sm:items-end">
+<span class="font-label-md text-label-md text-on-surface">1 image (UHD)</span>
+<span class="font-body-sm text-body-sm text-outline">Today, 11:05</span>
+</div>
+<span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm uppercase">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Success
+          </span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest text-on-surface-variant flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface truncate">MIT 8.04 Lecture 4 Document Ingestion</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm">Gemini 1.5 Pro</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Parsed wavepacket dispersion notes into episodic lore anchors</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg sm:flex-shrink-0 justify-between sm:justify-end">
+<div class="flex flex-col sm:items-end">
+<span class="font-label-md text-label-md text-on-surface">42.4k tokens</span>
+<span class="font-body-sm text-body-sm text-outline">Yesterday, 19:40</span>
+</div>
+<span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm uppercase">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Success
+          </span>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">person_outline</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface truncate">Jin Woo-Hyun Character Rig Synthesis</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-tertiary font-label-sm text-label-sm">Gemini 1.5 Flash</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bible prompt conditioning &amp; expression variance seeds</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg sm:flex-shrink-0 justify-between sm:justify-end">
+<div class="flex flex-col sm:items-end">
+<span class="font-label-md text-label-md text-on-surface">8.1k tokens</span>
+<span class="font-body-sm text-body-sm text-outline">Oct 24, 09:14</span>
+</div>
+<span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm uppercase">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Success
+          </span>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM UTILITY ACTION BAR -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md flex flex-col md:flex-row items-center justify-between gap-space-md shadow-inner">
+<div class="flex items-center gap-space-md">
+<div class="p-2 rounded-lg bg-surface-container-high text-tertiary">
+<span class="material-symbols-outlined text-[22px]">notifications_active</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Proactive Billing Thresholds</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Receive automated in-app triggers when personal monthly API spend approaches designated limits.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-space-md py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-all" type="button">
+        Configure Billing Alerts
+      </button>
+<button class="flex-1 md:flex-none px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 shadow-sm transition-all" type="button">
+        Manage API Keys
+      </button>
+</div>
+</div>
+</div></main></div></body></html>

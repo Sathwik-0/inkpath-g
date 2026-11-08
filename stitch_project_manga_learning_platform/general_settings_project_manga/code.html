@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed-variant":"#2f2ebe","secondary":"#c0c1ff","outline-variant":"#494454","primary-fixed":"#e9ddff","inverse-primary":"#6d3bd7","on-tertiary-fixed":"#001f26","on-tertiary-fixed-variant":"#004e5c","on-surface-variant":"#cbc3d7","surface-tint":"#d0bcff","inverse-surface":"#e4e1ea","secondary-fixed-dim":"#c0c1ff","background":"#131319","tertiary-container":"#009eb9","primary-container":"#a078ff","surface-container-highest":"#35343b","outline":"#958ea0","surface-container-low":"#1b1b21","surface-bright":"#393840","on-secondary-fixed":"#07006c","inverse-on-surface":"#303037","on-surface":"#e4e1ea","on-error":"#690005","tertiary":"#4cd7f6","on-secondary":"#1000a9","secondary-container":"#3131c0","on-primary":"#3c0091","secondary-fixed":"#e1e0ff","on-primary-fixed":"#23005c","primary-fixed-dim":"#d0bcff","on-secondary-container":"#b0b2ff","surface-variant":"#35343b","tertiary-fixed-dim":"#4cd7f6","on-tertiary":"#003640","error":"#ffb4ab","on-primary-container":"#340080","surface-dim":"#131319","on-error-container":"#ffdad6","surface-container":"#1f1f26","surface-container-lowest":"#0e0e14","on-tertiary-container":"#002f38","surface":"#131319","on-primary-fixed-variant":"#5516be","primary":"#d0bcff","tertiary-fixed":"#acedff","on-background":"#e4e1ea","surface-container-high":"#2a2930","error-container":"#93000a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xl":"2.5rem","gutter":"1.5rem","gutter-mobile":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","margin":"2rem","space-xs":"0.25rem","space-md":"1rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Space Grotesk"],"body-sm":["Inter"],"title-md":["Inter"],"headline-lg":["Space Grotesk"],"body-lg":["Inter"],"body-md":["Inter"],"label-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"display-xl":["Space Grotesk"],"display-xl-mobile":["Space Grotesk"],"headline-md":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"]},fontSize:{"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"600"}],"display-xl":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"display-xl-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="p-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Project Manga Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAg5_xv5W6NRPUWFa0onjzkQpz6Hpu6swgVGG6BoqCCAz69siQgMa3JIoYRQzUYphh68oGaWnvyR6pfRoHVqkmcP6J_SkdY9EIKZ6ZXNN_Mu06q1UelNQPqy-9KpP1XTSFUYjaIqxRckEYOY7cKZRF36ciBCF_F_0Feu3yTfTWLeG8TPcxN-5co2sLXBKx-Rpd38_LPTAw0WQuy_DgRA5-qJjI033rOfSJk_o5N-2N3gQ"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary drop-shadow-[0_0_12px_rgba(208,188,255,0.4)]">PROJECT MANGA</span></div><span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase tracking-wider">BETA</span></div><div class="flex-1 overflow-y-auto px-space-md py-space-xs"><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(160,120,255,0.25)]"><div class="px-space-md pt-space-xs pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Workspace</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="my-library" href="#">My Library</a><div class="px-space-md pt-space-sm pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Series &amp; Studio</span></div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="the-quantum-hunter-manga-details-chapter-directory" href="#">Manga Overview</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="story-studio-chapter-management" href="#">Story Studio &amp; Chapters</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="character-bible" href="#">Character Bible</a><div class="px-space-md pt-space-sm pb-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Configuration</span></div><a aria-current="page" class="flex items-center px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(160,120,255,0.25)]" data-path="general-settings" href="#">General Settings</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="ai-providers-byok" href="#">AI Providers (BYOK)</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="usage-quota" href="#">Usage &amp; Quota</a></nav></div><div class="p-space-md bg-surface-container-low flex flex-col gap-space-sm"><div class="flex items-center justify-between px-space-sm py-space-xs rounded-full bg-surface-container-highest"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary">API ONLINE</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">3/3 FREE CHAPTERS</span></div><div class="flex items-center gap-space-sm p-space-xs rounded-lg hover:bg-surface-container-high transition-colors"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md truncate text-on-surface">Ren</span><span class="font-label-sm text-label-sm text-secondary truncate">Level 12 Lorekeeper</span></div></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="relative flex-1 max-w-lg"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 rounded-xl bg-surface-container-high text-on-surface placeholder:text-outline font-body-md text-body-md outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search manga, lore nodes, prompts, or characters..." type="text"/></div><div class="flex items-center gap-space-md"><div class="flex items-center p-1 rounded-lg bg-surface-container-high gap-1"><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Continuous Vertical Scroll" type="button"><span class="material-symbols-outlined text-[18px]">view_day</span></button><button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Spread View" type="button"><span class="material-symbols-outlined text-[18px]">menu_book</span></button></div><button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-90 shadow-[0_0_16px_rgba(208,188,255,0.35)] transition-all" type="button"><span class="material-symbols-outlined text-[18px]">bolt</span><span class="font-label-md text-label-md uppercase tracking-wider">Quick Create</span></button><button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="w-2 h-2 rounded-full bg-tertiary absolute top-2 right-2"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf61sid4Jf0dwxGpnj6KZXme728srRo0n_k9AWwHXz1TULuchOd-WlI6DopbvpuL6QPFmnAAgyJ4W7Ue7Dtew10FWXm1hhL8mVzMntG1ndcDyCtm9rFQpLLXvR9_mhxDs6Pmnj3ojXUbXSLXWRPjt_0SZtWXTCC0lHNJYUKAdJYm7XrttC6UkYm3-U8HNdGuCoaG7ow97zrO2U6eEtuZ3w1wzSD3HqPaO9sCGJRO4"/></div></header><main class="relative w-full pt-16 px-space-lg py-space-xl bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Orbs -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-48 right-10 w-80 h-80 bg-tertiary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Page Header & Quick Overview Strip -->
+<section class="flex flex-col gap-space-sm mb-space-xl">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs text-tertiary mb-1">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Configuration Node 07 // Core Engine</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Studio Settings &amp; Preferences</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-3xl">
+            Manage your account, reading preferences, appearance, notifications, privacy, and connected AI engines.
+          </p>
+</div>
+<!-- Live System Metric Pill -->
+<div class="flex items-center gap-space-md bg-surface-container-low px-space-md py-space-sm rounded-xl shadow-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Active Profile Sync</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">Quantum Core v4.1 Connected</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-highest"></div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">BYOK Vault Status</span>
+<span class="font-label-md text-label-md text-secondary">Hardware Enclave Encrypted</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs (Horizontal Scrollable Sub-Menu) -->
+<div class="mt-space-md overflow-x-auto pb-1 scrollbar-none">
+<nav class="flex items-center gap-2 min-w-max p-1 bg-surface-container-lowest rounded-xl shadow-inner" id="settings-tab-list">
+<button class="tab-button flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all bg-primary-container text-on-primary-container font-semibold shadow-md shadow-primary/20" data-target="tab-profile" type="button">
+<span class="material-symbols-outlined text-[18px]">account_circle</span>
+<span>Profile</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="tab-reading" type="button">
+<span class="material-symbols-outlined text-[18px]">auto_stories</span>
+<span>Reading Preferences</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="tab-appearance" type="button">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+<span>Appearance &amp; Theme</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="tab-notifications" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications_active</span>
+<span>Notifications</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="tab-security" type="button">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+<span>Account &amp; Security</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="tab-privacy" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Privacy &amp; Telemetry</span>
+</button>
+<a class="flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined text-[18px]">neurology</span>
+<span>Connected AI Providers (BYOK)</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">3 Active</span>
+</a>
+<a class="flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined text-[18px]">data_usage</span>
+<span>Usage &amp; Quotas</span>
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm">2/3 Free</span>
+</a>
+</nav>
+</div>
+</section>
+<!-- Master Form Shell -->
+<form class="space-y-space-xl pb-24" id="studio-settings-form" onsubmit="event.preventDefault(); showSavedToast();">
+<!-- 1. USER PROFILE SECTION -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-300" id="tab-profile">
+<div class="flex items-center justify-between pb-space-md mb-space-lg bg-surface-container/60 -mx-space-lg -mt-space-lg px-space-lg pt-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-[22px]">badge</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Creator Profile &amp; Studio Identity</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Public identity for shared webtoon co-pilots and lore node authoring.</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider bg-surface-container-highest px-space-sm py-1 rounded-full">Node 01 // ID</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+<!-- Avatar Zone -->
+<div class="lg:col-span-4 flex flex-col items-center justify-center p-space-lg bg-surface-container rounded-xl text-center shadow-inner relative group">
+<div class="relative w-32 h-32 mb-space-md">
+<img alt="Ren Jin Avatar" class="w-full h-full rounded-2xl object-cover shadow-2xl shadow-primary/30" data-alt="Cinematic digital portrait of Ren Jin, a young Korean webtoon artist and quantum researcher with glowing violet neon hair highlights, stylish dark studio coat, expressive focused gaze, high contrast moody dark studio backdrop with subtle holographic particle graphs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6kIsGjUbM8sJ-hN0eJYbh1CjmJIO3MpQVGtrqygkglhmJRX0BZqvKGaFMwhFzK5BnwfSUBmAPe08qtdqvtnvkNLqBpscBX3AXE1gEG295agmOWkRMhX0-k51HObGFgk8f_VF8kjrh8uwukQXovtXRM4j6Z0p27xK0vCwTwY8lE6DXqdndCf3UNmGgtJNHE_mPnZxaFofWTu2izZhtJTWLGuU0_V1m-YyDkeVTOOjl"/>
+<div class="absolute inset-0 bg-surface-container-lowest/70 backdrop-blur-sm rounded-2xl opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all cursor-pointer">
+<span class="material-symbols-outlined text-primary text-[28px]">photo_camera</span>
+<span class="font-label-sm text-label-sm text-on-surface mt-1">Replace Portrait</span>
+</div>
+<span class="absolute -bottom-2 -right-2 bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-label-sm text-label-sm shadow-md">
+                LVL 12
+              </span>
+</div>
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high text-tertiary mb-2">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Level 12 Lorekeeper</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Recommended size: 1024x1024 PNG, WebP or AI Vector Avatar.</p>
+<button class="mt-space-md px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-all shadow-sm" type="button">
+              Regenerate Neural Avatar
+            </button>
+</div>
+<!-- Profile Details Fields -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span>Display Name</span>
+<span class="text-tertiary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">person</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md focus:bg-surface-container-highest outline-none shadow-inner transition-all focus:ring-2 focus:ring-primary/40" type="text" value="Ren Jin"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span>Registered Studio Email</span>
+<span class="text-tertiary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">alternate_email</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md focus:bg-surface-container-highest outline-none shadow-inner transition-all focus:ring-2 focus:ring-primary/40" type="email" value="ren.lorekeeper@projectmanga.ai"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Lorekeeper Bio &amp; Research Focus</label>
+<textarea class="w-full p-3.5 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md focus:bg-surface-container-highest outline-none shadow-inner transition-all focus:ring-2 focus:ring-primary/40 resize-none" rows="3">Physics graduate researcher &amp; webtoon enthusiast exploring quantum electrodynamics through manhwa storytelling.</textarea>
+<div class="flex justify-between items-center text-outline font-label-sm text-label-sm px-1">
+<span>Integrated with Character Bible prompt injectors</span>
+<span>109 / 300 characters</span>
+</div>
+</div>
+<!-- Creator Role Selector -->
+<div class="flex flex-col gap-2 mt-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Preferred Creator Role &amp; Workflow Mode</label>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<label class="relative flex flex-col p-space-md bg-surface-container rounded-xl cursor-pointer hover:bg-surface-container-high transition-all shadow-sm">
+<input class="peer sr-only" name="creator-role" type="radio"/>
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-outline peer-checked:text-primary text-[22px]">brush</span>
+<div class="w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center peer-checked:bg-primary">
+<div class="w-1.5 h-1.5 rounded-full bg-surface-container peer-checked:bg-on-primary"></div>
+</div>
+</div>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Purist Manga Artist</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manual panel layout, dialog vectors, zero automated inking.</span>
+</label>
+<label class="relative flex flex-col p-space-md bg-surface-container rounded-xl cursor-pointer hover:bg-surface-container-high transition-all shadow-sm ring-2 ring-primary/60">
+<input checked="" class="peer sr-only" name="creator-role" type="radio"/>
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-primary text-[22px]">smart_toy</span>
+<div class="w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-on-primary"></div>
+</div>
+</div>
+<span class="font-title-md text-title-md text-primary font-semibold">Hybrid Creator</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">AI Co-pilot + Manual Editor. Balanced storyboard prompt orchestration.</span>
+</label>
+<label class="relative flex flex-col p-space-md bg-surface-container rounded-xl cursor-pointer hover:bg-surface-container-high transition-all shadow-sm">
+<input class="peer sr-only" name="creator-role" type="radio"/>
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-outline peer-checked:text-tertiary text-[22px]">bolt</span>
+<div class="w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center peer-checked:bg-tertiary">
+<div class="w-1.5 h-1.5 rounded-full bg-surface-container peer-checked:bg-on-tertiary"></div>
+</div>
+</div>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Director Mode</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">High-velocity chapter synthesis with autonomous story pacing.</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. READING PREFERENCES -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-300" id="tab-reading">
+<div class="flex items-center justify-between pb-space-md mb-space-lg bg-surface-container/60 -mx-space-lg -mt-space-lg px-space-lg pt-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold shadow-md shadow-secondary/20">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Reading Preferences &amp; Viewport Canvas</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configure vertical scroll cadence, gutter dimensions, and interactive manhwa features.</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider bg-surface-container-highest px-space-sm py-1 rounded-full">Node 02 // Engine</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+<!-- Reading Mode Switcher -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Default Reading Mode Architecture</label>
+<div class="grid grid-cols-2 gap-space-md">
+<!-- Mode 1: Continuous Webtoon -->
+<div class="p-space-md rounded-xl bg-surface-container cursor-pointer ring-2 ring-primary/80 flex flex-col justify-between h-44 shadow-lg shadow-primary/10">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">view_day</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Vertical Webtoon</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Continuous vertical manhwa scroll with adaptive gutter pacing and frictionless cut transitions.</p>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Active Standard</span>
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</div>
+</div>
+<!-- Mode 2: Traditional Page -->
+<div class="p-space-md rounded-xl bg-surface-container cursor-pointer hover:bg-surface-container-high flex flex-col justify-between h-44 opacity-80 transition-all">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[24px]">menu_book</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Page-by-Page</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Traditional Japanese Tankōbon double-spread flip mode with right-to-left orientation.</p>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Traditional Mode</span>
+<span class="material-symbols-outlined text-outline text-[18px]">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+<!-- Reading Width Slider -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col gap-space-sm mt-2">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Manhwa Canvas Frame Width</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold bg-surface-container-highest px-2 py-0.5 rounded-full" id="width-indicator">800px // Standard Webtoon</span>
+</div>
+<div class="relative py-2">
+<input class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none" id="reading-width-slider" max="4" min="1" type="range" value="2"/>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-outline px-1">
+<span>Compact (600px)</span>
+<span class="text-primary font-semibold">Standard (800px)</span>
+<span>Wide (1000px)</span>
+<span>Full-Bleed</span>
+</div>
+</div>
+</div>
+<!-- Feature Toggles & Live Mini Preview -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Interactive Reader Behaviors</label>
+<!-- Toggle 1: Concept Marker Overlays -->
+<div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between hover:bg-surface-container-high transition-all shadow-sm">
+<div class="flex items-start gap-space-md pr-space-md">
+<div class="w-9 h-9 rounded-lg bg-tertiary-container/30 text-tertiary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Concept Marker Overlays</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Display interactive educational markers while reading to explore quantum formulas and lore notes directly in panel dialogs.</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-primary after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+</label>
+</div>
+<!-- Toggle 2: Autoplay Sound Effects & Ambience -->
+<div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between hover:bg-surface-container-high transition-all shadow-sm">
+<div class="flex items-start gap-space-md pr-space-md">
+<div class="w-9 h-9 rounded-lg bg-primary-container/30 text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Autoplay Sound Effects &amp; Ambience</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Trigger atmospheric synth chords, particle hums, and episodic climax audio cues as scroll boundaries are crossed.</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-primary after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+</label>
+</div>
+<!-- Live Viewport Spec Visualizer Card -->
+<div class="p-space-md bg-surface-container-lowest rounded-xl flex items-center justify-between shadow-inner">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px]">aspect_ratio</span>
+<div>
+<span class="font-title-md text-title-md text-on-surface block">Dynamic Vertical Gutter Ratio</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Calculated at 2.4x golden manhwa reading tension</span>
+</div>
+</div>
+<div class="px-space-md py-1 bg-surface-container-high rounded-lg text-tertiary font-label-md text-label-md font-mono">
+                16:90 SCROLL-FRAME
+              </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. APPEARANCE & SYSTEM -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-300" id="tab-appearance">
+<div class="flex items-center justify-between pb-space-md mb-space-lg bg-surface-container/60 -mx-space-lg -mt-space-lg px-space-lg pt-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container text-on-tertiary flex items-center justify-center font-bold shadow-md shadow-tertiary/20">
+<span class="material-symbols-outlined text-[22px]">palette</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Appearance &amp; System Aesthetics</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Editorial studio styling, typography engines, and GPU particle rendering.</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider bg-surface-container-highest px-space-sm py-1 rounded-full">Node 03 // UI</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Theme Card -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col justify-between shadow-sm relative">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-outline uppercase">Theme Engine</span>
+<span class="material-symbols-outlined text-primary text-[18px]">lock</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-1">Dark Obsidian</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Calibrated for true black OLED contrast, reducing eye strain during multi-hour manhwa generation sprints.</p>
+</div>
+<div class="mt-space-md pt-space-sm bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-surface-container-lowest"></div>
+<div class="w-4 h-4 rounded-full bg-primary"></div>
+<div class="w-4 h-4 rounded-full bg-tertiary"></div>
+<span class="font-label-sm text-label-sm text-on-surface ml-1">Obsidian Neo</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">LOCKED FIDELITY</span>
+</div>
+</div>
+<!-- Typography Preset -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-outline uppercase">Dialogue Bubbles Font</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">font_download</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-1">Space Grotesk + Inter</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Optically tuned for high-legibility speech balloons, SFX soundword splatters, and technical footnotes.</p>
+</div>
+<div class="mt-space-md">
+<select class="w-full h-10 px-3 rounded-lg bg-surface-container-highest text-on-surface font-body-sm text-body-sm outline-none focus:ring-1 focus:ring-secondary cursor-pointer">
+<option selected="">Space Grotesk + Inter (Korean/English Dual)</option>
+<option>Cinematic Manga Sans + Gothic</option>
+<option>Quantum Serif + Monospace Physics</option>
+</select>
+</div>
+</div>
+<!-- Particle Effects -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-outline uppercase">GPU Shaders</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">grain</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-1">Particle Intensity</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Controls dynamic prompt light bleeding, canvas scroll aura, and episodic cut transition physics.</p>
+</div>
+<div class="mt-space-md">
+<div class="grid grid-cols-3 gap-1 bg-surface-container-highest p-1 rounded-lg">
+<button class="py-1.5 text-center font-label-sm text-label-sm rounded-md text-on-surface-variant hover:text-on-surface" type="button">Minimal</button>
+<button class="py-1.5 text-center font-label-sm text-label-sm rounded-md text-on-surface-variant hover:text-on-surface" type="button">Balanced</button>
+<button class="py-1.5 text-center font-label-sm text-label-sm rounded-md bg-tertiary text-on-tertiary font-bold shadow-sm" type="button">Full Aura</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. NOTIFICATIONS & ALERTS -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-300" id="tab-notifications">
+<div class="flex items-center justify-between pb-space-md mb-space-lg bg-surface-container/60 -mx-space-lg -mt-space-lg px-space-lg pt-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold shadow-md shadow-primary/25">
+<span class="material-symbols-outlined text-[22px]">notifications_active</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Studio Notifications &amp; Generation Triggers</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time alerts for asynchronous manhwa rendering batches and BYOK token depletion.</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider bg-surface-container-highest px-space-sm py-1 rounded-full">Node 04 // Alerts</span>
+</div>
+<div class="space-y-space-md">
+<!-- Notification item 1 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-space-md bg-surface-container rounded-xl gap-space-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container-highest text-tertiary mt-0.5">
+<span class="material-symbols-outlined text-[20px]">comic_bubble</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Chapter Synthesis Completion Alerts</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Receive in-app push and email notifications whenever a multi-panel chapter finish batch rendering completes.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0 self-end md:self-center">
+<div class="flex items-center gap-2">
+<label class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm cursor-pointer">
+<input checked="" class="rounded bg-surface-container-highest text-primary focus:ring-0" type="checkbox"/>
+<span>Email</span>
+</label>
+<label class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm cursor-pointer">
+<input checked="" class="rounded bg-surface-container-highest text-primary focus:ring-0" type="checkbox"/>
+<span>Push</span>
+</label>
+</div>
+<div class="w-px h-6 bg-surface-container-highest"></div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-primary after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+</label>
+</div>
+</div>
+<!-- Notification item 2 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-space-md bg-surface-container rounded-xl gap-space-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container-highest text-secondary mt-0.5">
+<span class="material-symbols-outlined text-[20px]">paid</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">BYOK API Balance Depletion Threshold</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Warn creator with urgent banner when Anthropic Claude, OpenAI, or Midjourney relay balances drop below safe thresholds.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0 self-end md:self-center">
+<div class="flex items-center gap-1.5 bg-surface-container-highest px-3 py-1.5 rounded-lg">
+<span class="font-label-sm text-label-sm text-outline">Notify below</span>
+<span class="font-label-md text-label-md text-primary font-bold">$2.00 USD</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-primary after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. PRIVACY & DATA HANDLING -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-300" id="tab-privacy">
+<div class="flex items-center justify-between pb-space-md mb-space-lg bg-surface-container/60 -mx-space-lg -mt-space-lg px-space-lg pt-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary text-on-secondary flex items-center justify-center font-bold shadow-md shadow-secondary/25">
+<span class="material-symbols-outlined text-[22px]">security</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Privacy, Vault Encryption &amp; Telemetry</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Zero-retention lore vaults and public community distribution permissions.</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider bg-surface-container-highest px-space-sm py-1 rounded-full">Node 05 // Security</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Privacy Guard 1 -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col justify-between gap-space-md shadow-sm">
+<div class="flex items-start gap-space-sm">
+<div class="p-2.5 rounded-xl bg-surface-container-highest text-tertiary">
+<span class="material-symbols-outlined text-[24px]">vpn_key</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Private Lore Vault</span>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold">AES-256</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Encrypt all uploaded physics PDFs, researcher notes, and novel manuscripts. Completely isolate documents from commercial LLM telemetry training pipelines.
+                </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Zero Telemetry Active</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-tertiary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-tertiary after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+</label>
+</div>
+</div>
+<!-- Privacy Guard 2 -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col justify-between gap-space-md shadow-sm">
+<div class="flex items-start gap-space-sm">
+<div class="p-2.5 rounded-xl bg-surface-container-highest text-primary">
+<span class="material-symbols-outlined text-[24px]">public</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Community Showcase</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold">EXPLORE HUB</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Allow your finished educational quantum manhwa episodes to be indexed and featured in the global reader library with creator tip attribution.
+                </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Public Attribution Enabled</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-primary after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Fixed Sticky Bottom Action Bar with Contrast and Depth -->
+<aside class="sticky bottom-4 z-30 w-full">
+<div class="flex flex-wrap items-center justify-between gap-space-md p-space-md bg-surface-container-lowest/90 backdrop-blur-2xl rounded-2xl shadow-2xl shadow-black/80 ring-1 ring-primary/20">
+<div class="flex items-center gap-space-md">
+<div class="w-3 h-3 rounded-full bg-tertiary animate-ping"></div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">All changes buffered locally</span>
+<span class="font-label-sm text-label-sm text-outline">Unsaved mutations will automatically sync upon confirmation.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-lg py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-label-md text-label-md uppercase tracking-wider transition-all shadow-sm" onclick="document.getElementById('studio-settings-form').reset(); showResetToast();" type="button">
+              Discard Changes
+            </button>
+<button class="flex items-center gap-2 px-space-xl py-2.5 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm hover:opacity-95 transition-all shadow-lg shadow-primary/30" type="submit">
+<span class="material-symbols-outlined text-[20px]">save</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Save All Preferences</span>
+</button>
+</div>
+</div>
+</aside>
+</form>
+</div>
+<!-- Interactive Client Behavior Toast Notifications -->
+<div class="fixed bottom-24 right-8 transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300 z-50 bg-surface-container-highest text-on-surface p-space-md rounded-xl shadow-2xl flex items-center gap-space-sm ring-1 ring-tertiary/40" id="toast-notification">
+<span class="material-symbols-outlined text-tertiary text-[24px]">verified</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-semibold text-on-surface">Configuration Saved</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">All preferences synced across Project Manga instances.</span>
+</div>
+</div>
+<script>
+    // Tab switching logic
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        tabButtons.forEach(btn => {
+          btn.classList.remove('bg-primary-container', 'text-on-primary-container', 'shadow-md', 'shadow-primary/20', 'font-semibold');
+          btn.classList.add('text-on-surface-variant');
+        });
+        button.classList.add('bg-primary-container', 'text-on-primary-container', 'shadow-md', 'shadow-primary/20', 'font-semibold');
+        button.classList.remove('text-on-surface-variant');
+
+        const targetId = button.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    // Reading width range label update
+    const slider = document.getElementById('reading-width-slider');
+    const widthIndicator = document.getElementById('width-indicator');
+    const labels = {
+      1: '600px // Compact Mode',
+      2: '800px // Standard Webtoon',
+      3: '1000px // Wide Cinematic',
+      4: '100% // Full-Bleed Scroll'
+    };
+    if (slider && widthIndicator) {
+      slider.addEventListener('input', (e) => {
+        widthIndicator.textContent = labels[e.target.value] || '800px // Standard Webtoon';
+      });
+    }
+
+    // Toast triggers
+    function showSavedToast() {
+      const toast = document.getElementById('toast-notification');
+      if (toast) {
+        toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
+        }, 3200);
+      }
+    }
+
+    function showResetToast() {
+      const toast = document.getElementById('toast-notification');
+      if (toast) {
+        toast.querySelector('.font-title-md').textContent = 'Changes Discarded';
+        toast.querySelector('.font-body-sm').textContent = 'Settings reverted to active cloud state.';
+        toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
+        }, 3000);
+      }
+    }
+  </script>
+</div></main></div></body></html>

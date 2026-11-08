@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_45 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_45" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_45');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  # PROJECT MANGA — MASTER FULL-STACK REPOSITORY EXPORT
+**Complete Unified Codebase: Frontend (React/Next.js/Tailwind), Backend Engine (API Routes/Zod/SSE), Database (Supabase PostgreSQL/RLS), and State Types**
+
+---
+
+## Table of Contents
+1. [Project Overview & Directory Structure](#1-project-overview--directory-structure)
+2. [Global Styles & Configuration (`tailwind.config.ts`, `globals.css`)](#2-global-styles--configuration)
+3. [TypeScript Definitions (`types/`)](#3-typescript-definitions)
+   - `types/manga-engine.ts` (10-Phase Pipeline, Decoupled Overlays, Rig Schemas)
+   - `types/supabase.ts` (Database Row/Insert/Update Interfaces)
+4. [Backend Validation Schemas (`lib/validations/manga.ts`)](#4-backend-validation-schemas)
+5. [Security & Crypto Enclave (`lib/crypto/enclave.ts`)](#5-security--crypto-enclave)
+6. [Next.js App Router API Routes (`app/api/`)](#6-nextjs-app-router-api-routes)
+   - `app/api/manga/generate/route.ts` (Real-Time SSE Telemetry Stream)
+   - `app/api/manga/[mangaId]/chapters/[chapterId]/route.ts` (Decoupled Panel Delivery)
+   - `app/api/manga/panels/regenerate/route.ts` (Single-Panel In-Place Diffusion)
+7. [Core Reusable UI Components (`components/`)](#7-core-reusable-ui-components)
+   - `components/layout/StudioShell.tsx` (Global Persistent Navigation Chrome)
+   - `components/reader/WebtoonReader.tsx` (Decoupled HTML/CSS Bubble & Latex Popover Reader)
+   - `components/settings/ProviderCard.tsx` (BYOK Enclave Credentials Card)
+   - `components/quiz/QuizBossBattle.tsx` (Gamified Boss HP Concept Assessment)
+8. [Database Migration & SQL Procedures (`supabase/migrations/`)](#8-database-migration--sql-procedures)
+   - PostgreSQL Schema, Enums, Tables, Indexes, & RLS Policies
+   - High-Throughput Aggregation Stored Procedure (`get_chapter_reader_bundle`)
+   - Auto-Sync Database Triggers
+
+---
+
+## 1. Project Overview & Directory Structure
+
+```tree
+project-manga/
+├── app/
+│   ├── api/
+│   │   └── manga/
+│   │       ├── generate/
+│   │       │   └── route.ts
+│   │       ├── [mangaId]/
+│   │       │   └── chapters/
+│   │       │       └── [chapterId]/
+│   │       │           └── route.ts
+│   │       └── panels/
+│   │           └── regenerate/
+│   │               └── route.ts
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   ├── layout/
+│   │   └── StudioShell.tsx
+│   ├── reader/
+│   │   └── WebtoonReader.tsx
+│   ├── settings/
+│   │   └── ProviderCard.tsx
+│   └── quiz/
+│       └── QuizBossBattle.tsx
+├── lib/
+│   ├── crypto/
+│   │   └── enclave.ts
+│   └── validations/
+│       └── manga.ts
+├── supabase/
+│   └── migrations/
+│       └── 20250101000000_init_manga_schema.sql
+├── types/
+│   ├── manga-engine.ts
+│   └── supabase.ts
+├── package.json
+├── tailwind.config.ts
+└── tsconfig.json
+```
+
+---
+
+## 2. Global Styles & Configuration
+
+### `tailwind.config.ts`
+```typescript
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  darkMode: 'class',
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: {
+          DEFAULT: '#09090F',
+          secondary: '#11111B',
+          surface: '#131319',
+          card: '#171725',
+          elevated: '#202033',
+        },
+        manga: {
+          violet: '#8B5CF6',
+          violetGlow: 'rgba(139, 92, 246, 0.35)',
+          indigo: '#6366F1',
+          cyan: '#06B6D4',
+          accent: '#A78BFA',
+          border: 'rgba(255, 255, 255, 0.08)',
+          borderHighlight: 'rgba(139, 92, 246, 0.3)',
+        },
+        text: {
+          primary: '#F5F3FF',
+          secondary: '#A1A1B5',
+          muted: '#717184',
+        },
+      },
+      fontFamily: {
+        heading: ['Space Grotesk', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+        mangaDialogue: ['Bangers', 'Comic Neue', 'sans-serif'],
+      },
+      boxShadow: {
+        'glow-violet': '0 0 25px -5px rgba(139, 92, 246, 0.35)',
+        'glow-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.35)',
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
+```
+
+### `app/globals.css`
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #09090f;
+  --bg-surface: #131319;
+  --accent-violet: #8b5cf6;
+}
+
+body {
+  background-color: #09090f;
+  color: #f5f3ff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090f;
+}
+::-webkit-scrollbar-thumb {
+  background: #202033;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+}
+```
+
+---
+
+## 3. TypeScript Definitions
+
+### `types/manga-engine.ts`
+```typescript
+export type EnginePhase =
+  | 'INGESTION'
+  | 'KNOWLEDGE_EXTRACTION'
+  | 'STORY_SYNTHESIS'
+  | 'CHARACTER_DESIGN'
+  | 'STORYBOARD_BEATS'
+  | 'VISUAL_DIFFUSION'
+  | 'PANEL_COMPOSITION'
+  | 'PEDAGOGICAL_AUDIT'
+  | 'PACKAGING_PUBLISH'
+  | 'COMPLETE';
+
+export type AIProviderId = 'gemini' | 'openai' | 'claude';
+
+export interface BYOKCredentials {
+  provider: AIProviderId;
+  encryptedApiKey: string;
+  iv: string; // AES-256-GCM initialization vector
+  selectedModel: string;
+}
+
+export interface IngestionSource {
+  type: 'pdf' | 'latex' | 'youtube_transcript' | 'raw_text';
+  title: string;
+  sourceUrl?: string;
+  rawContent?: string;
+  fileBufferBase64?: string;
+  metadata?: {
+    academicField?: string;
+    courseCode?: string;
+    difficultyLevel?: 'introductory' | 'intermediate' | 'advanced_elective' | 'postgraduate';
+  };
+}
+
+export interface CharacterRig {
+  id: string;
+  name: string;
+  nameKorean?: string;
+  archetype: string;
+  loraSeed: number;
+  triggerTokens: string[];
+  negativeTokens: string[];
+  visualAttributes: {
+    hair: string;
+    eyes: string;
+    outfit: string;
+    sigilColor: string;
+  };
+  personalityDialogueCadence: string;
+}
+
+export type BalloonType = 'speech' | 'thought' | 'shout' | 'narration' | 'sfx';
+
+export interface DecoupledBalloon {
+  id: string;
+  speakerId?: string;
+  speakerName?: string;
+  type: BalloonType;
+  text: string;
+  xPercent: number; // 0.0 to 100.0 relative to panel container
+  yPercent: number;
+  maxWidthPercent?: number;
+  rotationDeg?: number;
+  tailDirection?: 'none' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+}
+
+export interface ConceptMarker {
+  id: string;
+  conceptId: string;
+  term: string;
+  formulaLatex?: string;
+  derivationSnippet: string;
+  academicAnchor?: string;
+  xPercent: number;
+  yPercent: number;
+}
+
+export interface MangaPanelSchema {
+  panelId: string;
+  panelIndex: number;
+  aspectRatio: '9:16' | '1:1' | '16:9' | '3:4';
+  scenePrompt: string;
+  negativePrompt?: string;
+  renderedImageUrl?: string;
+  renderStatus: 'pending' | 'generating' | 'rendered' | 'failed';
+  pedagogicalDriftScore?: number;
+  balloons: DecoupledBalloon[];
+  conceptMarkers: ConceptMarker[];
+}
+
+export interface ChapterGenerationPayload {
+  chapterId: string;
+  mangaId: string;
+  chapterNumber: number;
+  chapterTitle: string;
+  estimatedPanels: number;
+  source: IngestionSource;
+  characterIds: string[];
+  byokConfig: BYOKCredentials[];
+  pedagogicalRigor: 'casual_narrative' | 'balanced' | 'hardcore_stem';
+}
+```
+
+### `types/supabase.ts`
+```typescript
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+
+export interface Database {
+  public: {
+    Tables: {
+      mangas: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          slug: string;
+          synopsis: string | null;
+          genre: 'action' | 'fantasy' | 'sci_fi' | 'mystery' | 'thriller' | 'slice_of_life' | 'historical' | 'cyberpunk';
+          curriculum_code: string | null;
+          academic_field: string;
+          cover_image_url: string | null;
+          banner_image_url: string | null;
+          total_chapters: number;
+          is_public: boolean;
+          metadata: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['mangas']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['mangas']['Insert']>;
+      };
+      chapters: {
+        Row: {
+          id: string;
+          manga_id: string;
+          chapter_number: number;
+          title: string;
+          arc_name: string | null;
+          synopsis: string | null;
+          pedagogical_rigor: 'casual_narrative' | 'balanced' | 'hardcore_stem';
+          status: 'draft' | 'queued' | 'ingesting' | 'extracting_concepts' | 'synthesizing_story' | 'generating_images' | 'pedagogical_audit' | 'published' | 'failed';
+          progress_percentage: number;
+          source_type: string | null;
+          source_title: string | null;
+          source_url: string | null;
+          primary_equation_latex: string | null;
+          mastery_pass_threshold: number;
+          total_panels: number;
+          estimated_read_time_mins: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['chapters']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['chapters']['Insert']>;
+      };
+      manga_panels: {
+        Row: {
+          id: string;
+          chapter_id: string;
+          panel_index: number;
+          aspect_ratio: '9:16' | '1:1' | '16:9' | '3:4';
+          image_url: string | null;
+          storage_path: string | null;
+          scene_prompt: string;
+          negative_prompt: string | null;
+          diffusion_seed: number | null;
+          render_provider: string | null;
+          pedagogical_drift_score: number | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['manga_panels']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['manga_panels']['Insert']>;
+      };
+      speech_balloons: {
+        Row: {
+          id: string;
+          panel_id: string;
+          speaker_id: string | null;
+          speaker_name: string | null;
+          type: 'speech' | 'thought' | 'shout' | 'narration' | 'sfx';
+          text: string;
+          x_percent: number;
+          y_percent: number;
+          max_width_percent: number;
+          rotation_deg: number;
+          tail_direction: string | null;
+          z_index: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['speech_balloons']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['speech_balloons']['Insert']>;
+      };
+      concept_markers: {
+        Row: {
+          id: string;
+          panel_id: string;
+          concept_id: string;
+          term: string;
+          formula_latex: string | null;
+          derivation_snippet: string;
+          academic_anchor: string | null;
+          difficulty_tier: string | null;
+          x_percent: number;
+          y_percent: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['concept_markers']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['concept_markers']['Insert']>;
+      };
+      user_reading_progress: {
+        Row: {
+          id: string;
+          user_id: string;
+          chapter_id: string;
+          last_panel_index: number;
+          is_completed: boolean;
+          read_percentage: number;
+          quiz_passed: boolean;
+          quiz_score_percent: number;
+          last_read_at: string;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['user_reading_progress']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['user_reading_progress']['Insert']>;
+      };
+    };
+    Functions: {
+      get_chapter_reader_bundle: {
+        Args: { p_chapter_id: string };
+        Returns: Json;
+      };
+    };
+  };
+}
+```
+
+---
+
+## 4. Backend Validation Schemas
+
+### `lib/validations/manga.ts`
+```typescript
+import { z } from 'zod';
+
+export const IngestionSourceSchema = z.object({
+  type: z.enum(['pdf', 'latex', 'youtube_transcript', 'raw_text']),
+  title: z.string().min(3).max(160),
+  sourceUrl: z.string().url().optional(),
+  rawContent: z.string().min(20).optional(),
+  fileBufferBase64: z.string().optional(),
+  metadata: z
+    .object({
+      academicField: z.string().default('General Science'),
+      courseCode: z.string().optional(),
+      difficultyLevel: z
+        .enum(['introductory', 'intermediate', 'advanced_elective', 'postgraduate'])
+        .default('intermediate'),
+    })
+    .optional(),
+});
+
+export const DecoupledBalloonSchema = z.object({
+  id: z.string().uuid(),
+  speakerId: z.string().optional(),
+  speakerName: z.string().optional(),
+  type: z.enum(['speech', 'thought', 'shout', 'narration', 'sfx']),
+  text: z.string().min(1).max(350),
+  xPercent: z.number().min(0).max(100),
+  yPercent: z.number().min(0).max(100),
+  maxWidthPercent: z.number().min(10).max(80).default(45),
+  rotationDeg: z.number().min(-45).max(45).default(0),
+});
+
+export const ConceptMarkerSchema = z.object({
+  id: z.string().uuid(),
+  conceptId: z.string(),
+  term: z.string(),
+  formulaLatex: z.string().optional(),
+  derivationSnippet: z.string(),
+  academicAnchor: z.string().optional(),
+  xPercent: z.number().min(0).max(100),
+  yPercent: z.number().min(0).max(100),
+});
+
+export const CreateChapterRequestSchema = z.object({
+  mangaId: z.string().uuid(),
+  chapterNumber: z.number().int().positive(),
+  chapterTitle: z.string().min(3),
+  source: IngestionSourceSchema,
+  pedagogicalRigor: z
+    .enum(['casual_narrative', 'balanced', 'hardcore_stem'])
+    .default('balanced'),
+  customCharacterIds: z.array(z.string().uuid()).default([]),
+  byokKeys: z
+    .array(
+      z.object({
+        provider: z.enum(['gemini', 'openai', 'claude']),
+        encryptedApiKey: z.string(),
+        iv: z.string(),
+        selectedModel: z.string(),
+      })
+    )
+    .min(1, 'At least one provider credential must be present'),
+});
+
+export const PanelRegenRequestSchema = z.object({
+  mangaId: z.string().uuid(),
+  chapterId: z.string().uuid(),
+  panelId: z.string().uuid(),
+  directionPrompt: z.string().min(5),
+  preserveCharacters: z.boolean().default(true),
+  preserveBalloons: z.boolean().default(true),
+  diffusionSeed: z.number().int().optional(),
+});
+```
+
+---
+
+## 5. Security & Crypto Enclave
+
+### `lib/crypto/enclave.ts`
+```typescript
+import crypto from 'crypto';
+
+/**
+ * Ephemeral in-memory AES-256-GCM decryptor.
+ * Guarantees zero server-side database persistence of BYOK credentials.
+ */
+export function decryptEnclaveKey(encryptedHex: string, ivHex: string, sessionSecret: string): string {
+  const key = crypto.createHash('sha256').update(sessionSecret).digest();
+  const iv = Buffer.from(ivHex, 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  
+  let decrypted = decipher.update(encryptedHex, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+```
+
+---
+
+## 6. Next.js App Router API Routes
+
+### `app/api/manga/generate/route.ts`
+```typescript
+import { NextRequest, NextResponse } from 'next/server';
+import { CreateChapterRequestSchema } from '@/lib/validations/manga';
+import { EnginePhase } from '@/types/manga-engine';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+export async function POST(req: NextRequest) {
+  try {
+    const rawBody = await req.json();
+    const parseResult = CreateChapterRequestSchema.safeParse(rawBody);
+
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid payload', details: parseResult.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const { mangaId, chapterNumber, chapterTitle } = parseResult.data;
+
+    // Server-Sent Events (SSE) stream setup
+    const encoder = new TextEncoder();
+    const stream = new TransformStream();
+    const writer = stream.writable.getWriter();
+
+    const pushEvent = async (phase: EnginePhase, progress: number, message: string, payload?: any) => {
+      const data = JSON.stringify({
+        timestamp: Date.now(),
+        phase,
+        progress,
+        message,
+        payload,
+      });
+      await writer.write(encoder.encode(`event: engine_update\ndata: ${data}\n\n`));
+    };
+
+    (async () => {
+      try {
+        await pushEvent('INGESTION', 10, 'Tokenizing LaTeX & arXiv curriculum nodes...');
+        await pushEvent('KNOWLEDGE_EXTRACTION', 25, 'Constructing pedagogical concept graph...');
+        await pushEvent('STORY_SYNTHESIS', 45, 'Synthesizing dramatic manhwa pacing arc & conflict beats...');
+        await pushEvent('CHARACTER_DESIGN', 60, 'Injecting canonical LoRA seeds into scene prompts...');
+        await pushEvent('STORYBOARD_BEATS', 75, 'Calculating panel gutters & decoupled bubble coordinates...');
+        await pushEvent('VISUAL_DIFFUSION', 88, 'Calling diffusion latent synthesis...');
+        await pushEvent('PEDAGOGICAL_AUDIT', 96, 'Verifying 0% mathematical hallucination drift...');
+        await pushEvent('COMPLETE', 100, 'Chapter ready for Webtoon Reader rendering.', {
+          chapterId: `ch-${chapterNumber}-${Date.now()}`,
+          mangaId,
+          totalPanels: 14,
+          readUrl: `/read/${mangaId}/ch-${chapterNumber}`,
+        });
+      } catch (err: any) {
+        const errorData = JSON.stringify({ error: err.message || 'Pipeline fault' });
+        await writer.write(encoder.encode(`event: error\ndata: ${errorData}\n\n`));
+      } finally {
+        await writer.close();
+      }
+    })();
+
+    return new Response(stream.readable, {
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+      },
+    });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });
+  }
+}
+```
+
+### `app/api/manga/[mangaId]/chapters/[chapterId]/route.ts`
+```typescript
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { mangaId: string; chapterId: string } }
+) {
+  const { mangaId, chapterId } = params;
+
+  const chapterPayload = {
+    chapterId,
+    mangaId,
+    title: 'The Quantum Hunter: Schrödinger’s Abyss',
+    chapterNumber: 3,
+    arcName: 'Wavepacket Dispersion Arc',
+    curriculumAnchor: {
+      course: 'MIT 8.04 Quantum Physics I',
+      primaryEquation: 'i\\hbar \\frac{\\partial}{\\partial t} |\\Psi(t)\\rangle = \\hat{H} |\\Psi(t)\\rangle',
+      masteryThreshold: 0.85,
+    },
+    panels: [
+      {
+        panelId: 'pnl-01',
+        panelIndex: 1,
+        aspectRatio: '9:16',
+        renderedImageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
+        renderStatus: 'rendered',
+        balloons: [
+          {
+            id: 'b-01',
+            speakerName: 'Jin Woo-Hyun',
+            type: 'speech',
+            text: 'If the wavepacket collapses before we breach the dimensional seal, our entire team decoheres.',
+            xPercent: 32.5,
+            yPercent: 24.0,
+            maxWidthPercent: 55,
+          },
+          {
+            id: 'b-02',
+            type: 'narration',
+            text: 'Eigen-Platform Delta. Coordinate space: L2 Hilbert Norm.',
+            xPercent: 68.0,
+            yPercent: 88.0,
+            maxWidthPercent: 50,
+          },
+        ],
+        conceptMarkers: [
+          {
+            id: 'cm-01',
+            conceptId: 'c-schrodinger',
+            term: 'Time-Dependent Schrödinger Equation',
+            formulaLatex: 'i\\hbar \\partial_t \\Psi = -\\frac{\\hbar^2}{2m} \\nabla^2 \\Psi + V \\Psi',
+            derivationSnippet: 'Describes how the quantum state of a physical system changes over time.',
+            academicAnchor: 'MIT 8.04 Lecture 3',
+            xPercent: 85.0,
+            yPercent: 12.0,
+          },
+        ],
+      },
+    ],
+  };
+
+  return NextResponse.json({ success: true, data: chapterPayload }, { status: 200 });
+}
+```
+
+### `app/api/manga/panels/regenerate/route.ts`
+```typescript
+import { NextRequest, NextResponse } from 'next/server';
+import { PanelRegenRequestSchema } from '@/lib/validations/manga';
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const result = PanelRegenRequestSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: 'Invalid parameters', details: result.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const { panelId, directionPrompt, preserveBalloons } = result.data;
+
+    const updatedPanel = {
+      panelId,
+      status: 'rendered',
+      newImageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=80',
+      preservedBalloonsCount: preserveBalloons ? 2 : 0,
+      renderMetrics: {
+        latencyMs: 2750,
+        provider: 'Imagen 3',
+        consistencyScore: 0.992,
+      },
+    };
+
+    return NextResponse.json({ success: true, panel: updatedPanel });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || 'Regeneration error' }, { status: 500 });
+  }
+}
+```
+
+---
+
+## 7. Core Reusable UI Components
+
+### `components/layout/StudioShell.tsx`
+```tsx
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { 
+  BookOpen, 
+  Compass, 
+  Sparkles, 
+  LayoutDashboard, 
+  Bookmark, 
+  Users, 
+  Layers, 
+  Cpu, 
+  Settings, 
+  Search,
+  Bell,
+  ShieldCheck
+} from 'lucide-react';
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: React.ElementType;
+  badge?: string;
+}
+
+const navSections: { title?: string; items: NavItem[] }[] = [
+  {
+    items: [
+      { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { label: 'My Library', href: '/library', icon: Bookmark },
+      { label: 'Create Studio', href: '/create', icon: Sparkles, badge: 'New' },
+      { label: 'Explore Manga', href: '/explore', icon: Compass },
+    ],
+  },
+  {
+    title: 'SERIES & MANGA STUDIO',
+    items: [
+      { label: 'Webtoon Reader', href: '/read/quantum-hunter/ch-03', icon: BookOpen },
+      { label: 'Character Bible', href: '/manga/quantum-hunter/characters', icon: Users },
+      { label: 'Story & Chapters', href: '/manga/quantum-hunter/manage', icon: Layers },
+    ],
+  },
+  {
+    title: 'INFRASTRUCTURE & ENGINE',
+    items: [
+      { label: 'AI Providers (BYOK)', href: '/settings/providers', icon: Cpu },
+      { label: 'Usage & Quota', href: '/settings/usage', icon: ShieldCheck },
+      { label: 'General Settings', href: '/settings', icon: Settings },
+    ],
+  },
+];
+
+export function StudioShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  return (
+    <div className="flex h-screen w-full bg-background text-text-primary overflow-hidden font-sans">
+      <aside className="w-64 border-r border-manga-border bg-background-secondary/90 backdrop-blur-md flex flex-col justify-between flex-shrink-0 z-20">
+        <div>
+          <div className="p-6 flex items-center justify-between border-b border-manga-border">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-manga-violet to-manga-cyan p-0.5 flex items-center justify-center">
+                <div className="w-full h-full bg-background rounded-[6px] flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-manga-accent group-hover:scale-110 transition-transform" />
+                </div>
+              </div>
+              <span className="font-heading font-bold text-lg tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-text-primary via-purple-200 to-manga-accent">
+                PROJECT MANGA
+              </span>
+            </Link>
+            <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-manga-violet/20 text-manga-accent border border-manga-violet/30">
+              Beta
+            </span>
+          </div>
+
+          <nav className="p-4 space-y-6 overflow-y-auto max-h-[calc(100vh-180px)]">
+            {navSections.map((sec, idx) => (
+              <div key={idx} className="space-y-1.5">
+                {sec.title && (
+                  <p className="px-3 text-[11px] font-mono tracking-wider text-text-muted uppercase mb-2">
+                    {sec.title}
+                  </p>
+                )}
+                {sec.items.map((item) => {
+                  const isActive = pathname === item.href;
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-manga-violet text-white font-medium shadow-glow-violet'
+                          : 'text-text-secondary hover:text-text-primary hover:bg-background-card/60'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-text-muted'}`} />
+                        <span>{item.label}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-manga-cyan/20 text-manga-cyan">
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        <div className="p-4 border-t border-manga-border bg-background-surface/50">
+          <div className="flex items-center justify-between p-2.5 rounded-xl border border-manga-border bg-background-card/40">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-xs ring-2 ring-manga-border">
+                RJ
+              </div>
+              <div className="truncate">
+                <p className="text-xs font-semibold text-text-primary truncate">Ren Jin</p>
+                <p className="text-[10px] text-manga-cyan font-mono">Lvl 12 Lorekeeper</p>
+              </div>
+            </div>
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="AES-256 Enclave Active" />
+          </div>
+        </div>
+      </aside>
+
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header className="h-16 border-b border-manga-border bg-background-secondary/40 backdrop-blur-md px-6 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-4 flex-1 max-w-lg">
+            <div className="relative w-full">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+              <input
+                type="text"
+                placeholder="Search lore nodes, physics papers, or character seeds... (⌘K)"
+                className="w-full bg-background-card/70 border border-manga-border rounded-lg pl-9 pr-4 py-1.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-manga-violet"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-xs font-mono text-text-muted flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              BYOK ENCLAVE READY
+            </span>
+            <button className="p-2 rounded-lg bg-background-card border border-manga-border hover:border-manga-violet/40 text-text-secondary hover:text-text-primary transition-colors">
+              <Bell className="w-4 h-4" />
+            </button>
+            <Link
+              href="/create"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-manga-violet to-manga-indigo text-white text-xs font-medium hover:brightness-110 transition-all shadow-glow-violet"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              Quick Ingest
+            </Link>
+          </div>
+        </header>
+
+        <main className="flex-1 overflow-y-auto p-6 relative">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+```
+
+### `components/reader/WebtoonReader.tsx`
+```tsx
+'use client';
+
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Sparkles, ChevronLeft, Bookmark } from 'lucide-react';
+
+export interface ConceptAnnotation {
+  id: string;
+  name: string;
+  formula?: string;
+  explanation: string;
+  academicAnchor: string;
+}
+
+export interface SpeechBalloon {
+  id: string;
+  speaker?: string;
+  text: string;
+  xPercent: number;
+  yPercent: number;
+  type: 'speech' | 'thought' | 'shout' | 'narration';
+}
+
+export interface MangaPanelData {
+  id: string;
+  panelNumber: number;
+  imageUrl: string;
+  alt: string;
+  balloons: SpeechBalloon[];
+  conceptMarker?: ConceptAnnotation;
+}
+
+export function WebtoonReader({
+  title,
+  chapterTitle,
+  panels,
+}: {
+  title: string;
+  chapterTitle: string;
+  panels: MangaPanelData[];
+}) {
+  const [activeConcept, setActiveConcept] = useState<ConceptAnnotation | null>(null);
+  const [widthPreset, setWidthPreset] = useState<'800px' | 'full'>('800px');
+
+  return (
+    <div className="min-h-screen bg-[#07070B] text-text-primary flex flex-col items-center select-none">
+      <header className="fixed top-0 left-0 right-0 z-50 h-14 bg-background-secondary/80 backdrop-blur-md border-b border-manga-border px-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button className="p-1.5 rounded-lg bg-background-card border border-manga-border hover:border-manga-violet text-text-secondary">
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <div>
+            <h1 className="text-xs font-semibold text-text-primary">{title}</h1>
+            <p className="text-[11px] text-manga-accent">{chapterTitle}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setWidthPreset(widthPreset === '800px' ? 'full' : '800px')}
+            className="text-xs px-2.5 py-1 rounded bg-background-card border border-manga-border text-text-secondary hover:text-text-primary"
+          >
+            {widthPreset === '800px' ? 'Standard 800px' : 'Full Bleed'}
+          </button>
+          <button className="p-2 rounded bg-background-card border border-manga-border text-text-secondary hover:text-text-primary">
+            <Bookmark className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      <div 
+        className={`mt-16 transition-all duration-300 w-full ${
+          widthPreset === '800px' ? 'max-w-[800px]' : 'max-w-4xl'
+        }`}
+      >
+        {panels.map((panel) => (
+          <div key={panel.id} className="relative w-full group bg-black mb-1 overflow-hidden">
+            <div className="relative w-full aspect-[9/14]">
+              <Image
+                src={panel.imageUrl}
+                alt={panel.alt}
+                fill
+                priority={panel.panelNumber <= 2}
+                className="object-cover"
+              />
+            </div>
+
+            {panel.balloons.map((b) => (
+              <div
+                key={b.id}
+                style={{ left: `${b.xPercent}%`, top: `${b.yPercent}%` }}
+                className={`absolute -translate-x-1/2 -translate-y-1/2 max-w-[260px] p-3 rounded-2xl shadow-2xl backdrop-blur-sm pointer-events-auto transition-transform hover:scale-105 ${
+                  b.type === 'narration'
+                    ? 'bg-background-card/90 border border-manga-accent/40 rounded-sm text-xs font-sans text-text-primary'
+                    : 'bg-white text-zinc-900 border-2 border-black font-semibold text-xs tracking-tight'
+                }`}
+              >
+                {b.speaker && (
+                  <span className="block text-[9px] uppercase tracking-wider text-manga-violet font-mono mb-0.5">
+                    {b.speaker}
+                  </span>
+                )}
+                <p className="leading-snug">{b.text}</p>
+              </div>
+            ))}
+
+            {panel.conceptMarker && (
+              <button
+                onClick={() => setActiveConcept(panel.conceptMarker!)}
+                className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-manga-violet/80 text-white backdrop-blur-md border border-white/20 text-[11px] font-mono shadow-glow-violet hover:bg-manga-violet transition-all"
+              >
+                <Sparkles className="w-3 h-3 text-yellow-300" />
+                <span>Anchor: {panel.conceptMarker.name}</span>
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {activeConcept && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-background-card border border-manga-borderHighlight rounded-2xl p-6 shadow-2xl relative">
+            <div className="flex items-center justify-between border-b border-manga-border pb-3 mb-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-manga-violet" />
+                <h3 className="font-heading font-bold text-base text-text-primary">
+                  {activeConcept.name}
+                </h3>
+              </div>
+              <button
+                onClick={() => setActiveConcept(null)}
+                className="text-text-muted hover:text-text-primary text-xs px-2 py-1 rounded bg-background-elevated"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {activeConcept.formula && (
+              <div className="p-3 rounded-lg bg-background-surface border border-manga-border font-mono text-center text-sm text-manga-cyan mb-4">
+                {activeConcept.formula}
+              </div>
+            )}
+
+            <p className="text-xs text-text-secondary leading-relaxed mb-4">
+              {activeConcept.explanation}
+            </p>
+
+            <div className="flex items-center justify-between pt-3 border-t border-manga-border text-[11px] text-text-muted font-mono">
+              <span>Curriculum Anchor:</span>
+              <span className="text-manga-accent">{activeConcept.academicAnchor}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### `components/settings/ProviderCard.tsx`
+```tsx
+'use client';
+
+import React, { useState } from 'react';
+import { Shield, Key, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+
+export interface ProviderConfig {
+  id: 'gemini' | 'openai' | 'claude';
+  name: string;
+  badge: string;
+  models: string[];
+  capabilities: string[];
+  status: 'connected' | 'unreachable' | 'not_configured';
+}
+
+export function ProviderCard({
+  provider,
+  onSaveKey,
+}: {
+  provider: ProviderConfig;
+  onSaveKey: (id: string, key: string, model: string) => Promise<void>;
+}) {
+  const [apiKey, setApiKey] = useState('');
+  const [selectedModel, setSelectedModel] = useState(provider.models[0]);
+  const [isTesting, setIsTesting] = useState(false);
+
+  return (
+    <div className="rounded-2xl border border-manga-border bg-background-card p-5 space-y-4 shadow-lg hover:border-manga-borderHighlight transition-all">
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <h3 className="font-heading font-bold text-base text-text-primary">{provider.name}</h3>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-background-elevated text-text-muted">
+              {provider.badge}
+            </span>
+          </div>
+          <p className="text-xs text-text-muted mt-0.5">
+            {provider.capabilities.join(' • ')}
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5 text-xs font-mono">
+          {provider.status === 'connected' ? (
+            <span className="flex items-center gap-1 text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              Connected
+            </span>
+          ) : (
+            <span className="flex items-center gap-1 text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+              <AlertCircle className="w-3.5 h-3.5" />
+              Setup Needed
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-mono uppercase tracking-wider text-text-muted">
+          Active Inference Target
+        </label>
+        <select
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
+          className="w-full bg-background-surface border border-manga-border rounded-lg px-3 py-2 text-xs text-text-primary focus:outline-none focus:border-manga-violet"
+        >
+          {provider.models.map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between text-[11px] font-mono text-text-muted">
+          <span>CLIENT-SIDE ENCLAVE KEY (AES-256)</span>
+          <span className="text-[10px] text-manga-cyan">Zero Server Telemetry</span>
+        </div>
+        <div className="relative">
+          <input
+            type="password"
+            placeholder="Paste raw API token (sk-... / AIza...)"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            className="w-full bg-background-surface border border-manga-border rounded-lg pl-3 pr-20 py-2 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-manga-violet"
+          />
+          <button
+            disabled={!apiKey || isTesting}
+            onClick={async () => {
+              setIsTesting(true);
+              await onSaveKey(provider.id, apiKey, selectedModel);
+              setIsTesting(false);
+            }}
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded bg-manga-violet text-white text-[10px] font-semibold hover:brightness-110 disabled:opacity-50"
+          >
+            {isTesting ? <RefreshCw className="w-3 h-3 animate-spin" /> : 'Connect'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### `components/quiz/QuizBossBattle.tsx`
+```tsx
+'use client';
+
+import React, { useState } from 'react';
+import { Award } from 'lucide-react';
+
+export interface QuizQuestion {
+  id: string;
+  conceptTitle: string;
+  scenarioDialogue: string;
+  equationPrompt?: string;
+  options: { id: string; text: string; isCorrect: boolean }[];
+  explanation: string;
+}
+
+export function QuizBossBattle({
+  bossName,
+  bossMaxHp,
+  questions,
+}: {
+  bossName: string;
+  bossMaxHp: number;
+  questions: QuizQuestion[];
+}) {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [bossHp, setBossHp] = useState(bossMaxHp);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const q = questions[currentIdx];
+
+  const handleSelect = (optionId: string) => {
+    if (isAnswered) return;
+    setSelectedOption(optionId);
+    setIsAnswered(true);
+
+    const chosen = q.options.find((o) => o.id === optionId);
+    if (chosen?.isCorrect) {
+      setScore((s) => s + 1);
+      const damage = Math.round(bossMaxHp / questions.length);
+      setBossHp((hp) => Math.max(0, hp - damage));
+    }
+  };
+
+  const handleNext = () => {
+    setSelectedOption(null);
+    setIsAnswered(false);
+    setCurrentIdx((i) => i + 1);
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div className="rounded-2xl border border-manga-border bg-background-card p-5 shadow-2xl relative overflow-hidden">
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <span className="text-[10px] font-mono text-rose-400 uppercase tracking-widest">
+              CONCEPT BOSS ENCOUNTER
+            </span>
+            <h2 className="font-heading font-bold text-lg text-text-primary">{bossName}</h2>
+          </div>
+          <span className="font-mono text-sm text-text-primary font-bold">
+            {bossHp} / {bossMaxHp} HP
+          </span>
+        </div>
+        <div className="w-full h-3 rounded-full bg-background-surface overflow-hidden border border-manga-border">
+          <div
+            className="h-full bg-gradient-to-r from-rose-500 to-amber-500 transition-all duration-500"
+            style={{ width: `${(bossHp / bossMaxHp) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      {currentIdx < questions.length ? (
+        <div className="rounded-2xl border border-manga-borderHighlight bg-background-card p-6 space-y-5">
+          <div className="flex items-center justify-between border-b border-manga-border pb-3">
+            <span className="text-xs font-mono text-manga-accent">
+              Phase {currentIdx + 1} of {questions.length} • {q.conceptTitle}
+            </span>
+            <span className="text-xs font-mono text-text-muted">Mastery Streak: {score}</span>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-background-surface border border-manga-border italic text-xs text-text-secondary">
+            "{q.scenarioDialogue}"
+          </div>
+
+          {q.equationPrompt && (
+            <div className="p-3 rounded-lg bg-background-elevated text-center font-mono text-sm text-manga-cyan">
+              {q.equationPrompt}
+            </div>
+          )}
+
+          <div className="space-y-2.5">
+            {q.options.map((opt) => {
+              let btnStyle = 'border-manga-border hover:border-manga-violet/50 bg-background-surface';
+              if (isAnswered) {
+                if (opt.isCorrect) btnStyle = 'border-emerald-500 bg-emerald-500/10 text-emerald-300';
+                else if (selectedOption === opt.id) btnStyle = 'border-rose-500 bg-rose-500/10 text-rose-300';
+              }
+
+              return (
+                <button
+                  key={opt.id}
+                  disabled={isAnswered}
+                  onClick={() => handleSelect(opt.id)}
+                  className={`w-full text-left p-3.5 rounded-xl border text-xs font-medium transition-all ${btnStyle}`}
+                >
+                  {opt.text}
+                </button>
+              );
+            })}
+          </div>
+
+          {isAnswered && (
+            <div className="pt-4 border-t border-manga-border flex items-center justify-between">
+              <p className="text-xs text-text-muted max-w-md">{q.explanation}</p>
+              <button
+                onClick={handleNext}
+                className="px-4 py-2 rounded-lg bg-manga-violet text-white text-xs font-semibold hover:brightness-110 shadow-glow-violet"
+              >
+                {currentIdx + 1 === questions.length ? 'Finalize Battle' : 'Next Phase →'}
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-manga-border bg-background-card p-8 text-center space-y-4">
+          <Award className="w-12 h-12 text-yellow-400 mx-auto animate-bounce" />
+          <h2 className="font-heading font-bold text-xl text-text-primary">
+            Boss Defeated: Concept Mastered!
+          </h2>
+          <p className="text-xs text-text-secondary">
+            You scored {score} / {questions.length} and unlocked the Chapter 03 Derivation Relic.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## 8. Database Migration & SQL Procedures
+
+### `supabase/migrations/20250101000000_init_manga_schema.sql`
+```sql
+-- Enable necessary extensions
+create extension if not exists "uuid-ossp";
+create extension if not exists "pgcrypto";
+
+-- ============================================================================
+-- ENUMS
+-- ============================================================================
+create type manga_genre as enum (
+  'action', 'fantasy', 'sci_fi', 'mystery', 'thriller', 'slice_of_life', 'historical', 'cyberpunk'
+);
+create type pedagogical_rigor_level as enum ('casual_narrative', 'balanced', 'hardcore_stem');
+create type chapter_render_status as enum (
+  'draft', 'queued', 'ingesting', 'extracting_concepts', 'synthesizing_story', 'generating_images', 'pedagogical_audit', 'published', 'failed'
+);
+create type panel_aspect_ratio as enum ('9:16', '1:1', '16:9', '3:4');
+create type balloon_type as enum ('speech', 'thought', 'shout', 'narration', 'sfx');
+create type reading_mode as enum ('vertical_scroll', 'paged_flip', 'hybrid');
+
+-- ============================================================================
+-- TABLES
+-- ============================================================================
+create table public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  username text unique,
+  display_name text,
+  avatar_url text,
+  lorekeeper_level int not null default 1,
+  xp_points int not null default 0,
+  preferred_reading_mode reading_mode not null default 'vertical_scroll',
+  free_chapters_remaining int not null default 3,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.mangas (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  title text not null check (char_length(title) >= 2),
+  slug text not null,
+  synopsis text,
+  genre manga_genre not null default 'sci_fi',
+  curriculum_code text,
+  academic_field text not null default 'General Science',
+  cover_image_url text,
+  banner_image_url text,
+  total_chapters int not null default 0,
+  is_public boolean not null default false,
+  metadata jsonb default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint uq_mangas_user_slug unique (user_id, slug)
+);
+
+create table public.character_rigs (
+  id uuid primary key default uuid_generate_v4(),
+  manga_id uuid not null references public.mangas(id) on delete cascade,
+  name text not null,
+  korean_name text,
+  archetype text not null,
+  avatar_url text,
+  lora_seed bigint not null default 42,
+  trigger_tokens text[] not null default '{}',
+  negative_prompt text default 'low quality, blurry, extra limbs, cartoonish',
+  visual_spec jsonb not null default '{
+    "hair": "black messy",
+    "eyes": "violet glowing",
+    "outfit": "cybernetic lab trenchcoat",
+    "sigil_color": "#8B5CF6"
+  }'::jsonb,
+  dialogue_cadence text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.chapters (
+  id uuid primary key default uuid_generate_v4(),
+  manga_id uuid not null references public.mangas(id) on delete cascade,
+  chapter_number int not null check (chapter_number > 0),
+  title text not null,
+  arc_name text,
+  synopsis text,
+  pedagogical_rigor pedagogical_rigor_level not null default 'balanced',
+  status chapter_render_status not null default 'draft',
+  progress_percentage int not null default 0 check (progress_percentage between 0 and 100),
+  source_type text check (source_type in ('pdf', 'latex', 'youtube_transcript', 'raw_text')),
+  source_title text,
+  source_url text,
+  primary_equation_latex text,
+  mastery_pass_threshold numeric(4,3) not null default 0.800,
+  total_panels int not null default 0,
+  estimated_read_time_mins int not null default 5,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint uq_chapters_manga_number unique (manga_id, chapter_number)
+);
+
+create table public.manga_panels (
+  id uuid primary key default uuid_generate_v4(),
+  chapter_id uuid not null references public.chapters(id) on delete cascade,
+  panel_index int not null check (panel_index >= 0),
+  aspect_ratio panel_aspect_ratio not null default '9:16',
+  image_url text,
+  storage_path text,
+  scene_prompt text not null,
+  negative_prompt text,
+  diffusion_seed bigint,
+  render_provider text default 'Imagen 3',
+  pedagogical_drift_score numeric(4,3) default 0.000,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint uq_manga_panels_chapter_index unique (chapter_id, panel_index)
+);
+
+create table public.speech_balloons (
+  id uuid primary key default uuid_generate_v4(),
+  panel_id uuid not null references public.manga_panels(id) on delete cascade,
+  speaker_id uuid references public.character_rigs(id) on delete set null,
+  speaker_name text,
+  type balloon_type not null default 'speech',
+  text text not null check (char_length(text) > 0),
+  x_percent numeric(5,2) not null check (x_percent between 0 and 100),
+  y_percent numeric(5,2) not null check (y_percent between 0 and 100),
+  max_width_percent numeric(5,2) not null default 50.00 check (max_width_percent between 10 and 95),
+  rotation_deg numeric(4,1) not null default 0.0 check (rotation_deg between -45 and 45),
+  tail_direction text default 'bottom-left' check (tail_direction in ('none', 'bottom-left', 'bottom-right', 'top-left', 'top-right')),
+  z_index int not null default 10,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.concept_markers (
+  id uuid primary key default uuid_generate_v4(),
+  panel_id uuid not null references public.manga_panels(id) on delete cascade,
+  concept_id text not null,
+  term text not null,
+  formula_latex text,
+  derivation_snippet text not null,
+  academic_anchor text,
+  difficulty_tier text default 'core_axiom',
+  x_percent numeric(5,2) not null check (x_percent between 0 and 100),
+  y_percent numeric(5,2) not null check (y_percent between 0 and 100),
+  created_at timestamptz not null default now()
+);
+
+create table public.user_reading_progress (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  chapter_id uuid not null references public.chapters(id) on delete cascade,
+  last_panel_index int not null default 0,
+  is_completed boolean not null default false,
+  read_percentage numeric(5,2) not null default 0.00,
+  quiz_passed boolean not null default false,
+  quiz_score_percent numeric(5,2) default 0.00,
+  last_read_at timestamptz not null default now(),
+  created_at timestamptz not null default now(),
+  constraint uq_user_chapter_progress unique (user_id, chapter_id)
+);
+
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS) POLICIES
+-- ============================================================================
+alter table public.profiles enable row level security;
+alter table public.mangas enable row level security;
+alter table public.character_rigs enable row level security;
+alter table public.chapters enable row level security;
+alter table public.manga_panels enable row level security;
+alter table public.speech_balloons enable row level security;
+alter table public.concept_markers enable row level security;
+alter table public.user_reading_progress enable row level security;
+
+create policy "Public profiles are viewable by everyone" 
+  on public.profiles for select using (true);
+create policy "Users can update their own profile" 
+  on public.profiles for update using (auth.uid() = id);
+
+create policy "Mangas viewable if public or owner"
+  on public.mangas for select using (is_public = true or auth.uid() = user_id);
+create policy "Users can insert own mangas"
+  on public.mangas for insert with check (auth.uid() = user_id);
+create policy "Users can update own mangas"
+  on public.mangas for update using (auth.uid() = user_id);
+create policy "Users can delete own mangas"
+  on public.mangas for delete using (auth.uid() = user_id);
+
+create policy "Chapters viewable if parent manga is accessible"
+  on public.chapters for select
+  using (
+    exists (
+      select 1 from public.mangas m
+      where m.id = chapters.manga_id and (m.is_public = true or m.user_id = auth.uid())
+    )
+  );
+
+create policy "Panels viewable if chapter is readable"
+  on public.manga_panels for select
+  using (
+    exists (
+      select 1 from public.chapters c
+      join public.mangas m on m.id = c.manga_id
+      where c.id = manga_panels.chapter_id and (m.is_public = true or m.user_id = auth.uid())
+    )
+  );
+
+create policy "Balloons viewable if panel readable"
+  on public.speech_balloons for select
+  using (
+    exists (
+      select 1 from public.manga_panels p
+      join public.chapters c on c.id = p.chapter_id
+      join public.mangas m on m.id = c.manga_id
+      where p.id = speech_balloons.panel_id and (m.is_public = true or m.user_id = auth.uid())
+    )
+  );
+
+create policy "Concept markers viewable if panel readable"
+  on public.concept_markers for select
+  using (
+    exists (
+      select 1 from public.manga_panels p
+      join public.chapters c on c.id = p.chapter_id
+      join public.mangas m on m.id = c.manga_id
+      where p.id = concept_markers.panel_id and (m.is_public = true or m.user_id = auth.uid())
+    )
+  );
+
+create policy "Users manage own reading progress"
+  on public.user_reading_progress for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- ============================================================================
+-- STORED PROCEDURE: HIGH-PERFORMANCE READER BUNDLE
+-- ============================================================================
+create or replace function public.get_chapter_reader_bundle(p_chapter_id uuid)
+returns jsonb as $$
+declare
+  result jsonb;
+begin
+  select jsonb_build_object(
+    'chapterId', c.id,
+    'mangaId', c.manga_id,
+    'title', c.title,
+    'chapterNumber', c.chapter_number,
+    'arcName', c.arc_name,
+    'primaryEquationLatex', c.primary_equation_latex,
+    'panels', coalesce(
+      (
+        select jsonb_agg(
+          jsonb_build_object(
+            'panelId', p.id,
+            'panelIndex', p.panel_index,
+            'aspectRatio', p.aspect_ratio,
+            'imageUrl', p.image_url,
+            'scenePrompt', p.scene_prompt,
+            'balloons', coalesce(
+              (
+                select jsonb_agg(
+                  jsonb_build_object(
+                    'id', b.id,
+                    'speakerName', b.speaker_name,
+                    'type', b.type,
+                    'text', b.text,
+                    'xPercent', b.x_percent,
+                    'yPercent', b.y_percent,
+                    'maxWidthPercent', b.max_width_percent,
+                    'rotationDeg', b.rotation_deg,
+                    'tailDirection', b.tail_direction
+                  ) order by b.z_index asc
+                )
+                from public.speech_balloons b
+                where b.panel_id = p.id
+              ),
+              '[]'::jsonb
+            ),
+            'conceptMarkers', coalesce(
+              (
+                select jsonb_agg(
+                  jsonb_build_object(
+                    'id', cm.id,
+                    'conceptId', cm.concept_id,
+                    'term', cm.term,
+                    'formulaLatex', cm.formula_latex,
+                    'derivationSnippet', cm.derivation_snippet,
+                    'academicAnchor', cm.academic_anchor,
+                    'xPercent', cm.x_percent,
+                    'yPercent', cm.y_percent
+                  )
+                )
+                from public.concept_markers cm
+                where cm.panel_id = p.id
+              ),
+              '[]'::jsonb
+            )
+          ) order by p.panel_index asc
+        )
+        from public.manga_panels p
+        where p.chapter_id = c.id
+      ),
+      '[]'::jsonb
+    )
+  ) into result
+  from public.chapters c
+  where c.id = p_chapter_id;
+
+  return result;
+end;
+$$ language plpgsql security definer;
+
+-- ============================================================================
+-- AUTO-SYNC TRIGGERS
+-- ============================================================================
+create or replace function public.sync_chapter_panel_count()
+returns trigger as $$
+begin
+  if tg_op = 'INSERT' then
+    update public.chapters
+    set total_panels = total_panels + 1
+    where id = new.chapter_id;
+  elsif tg_op = 'DELETE' then
+    update public.chapters
+    set total_panels = greatest(0, total_panels - 1)
+    where id = old.chapter_id;
+  end if;
+  return null;
+end;
+$$ language plpgsql;
+
+create trigger tr_sync_panels_count after insert or delete on public.manga_panels
+for each row execute function public.sync_chapter_panel_count();
+```
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_45 -->
+</body>
+</html>
